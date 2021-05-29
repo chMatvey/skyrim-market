@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "03b2100a-4007-4f1a-a464-b2d485bef469"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -8,25 +11,32 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "skipTests": true
+          "skipTests": true,
+          "path": "src/app/modules"
         },
         "@schematics/angular:class": {
-          "skipTests": true
+          "skipTests": true,
+          "path": "src/app/utils"
         },
         "@schematics/angular:directive": {
-          "skipTests": true
+          "skipTests": true,
+          "path": "src/app/modules/shared"
         },
         "@schematics/angular:guard": {
-          "skipTests": true
+          "skipTests": true,
+          "path": "src/app/guards"
         },
         "@schematics/angular:interceptor": {
+          "path": "src/app/interceptors",
           "skipTests": true
         },
         "@schematics/angular:pipe": {
-          "skipTests": true
+          "skipTests": true,
+          "path": "src/app/modules/shared"
         },
         "@schematics/angular:service": {
-          "skipTests": true
+          "skipTests": true,
+          "path": "src/app/services"
         },
         "@schematics/angular:application": {
           "strict": true
