@@ -1,13 +1,13 @@
 <div class="toolbar">
   <div class="left">
-    <a routerLink="/client" class="toolbar__logo">
+    <a [routerLink]="''" class="toolbar__logo">
       Skyrim Market
     </a>
 
     <div class="toolbar__links">
-      <a routerLink="order">Make an Order</a>
-
-      <a routerLink="order">My Orders</a>
+      <a *ngFor="let link of toolbarLinks$ | async" [routerLink]="link.ref">
+        {{link.name}}
+      </a>
     </div>
   </div>
 
