@@ -8,6 +8,9 @@ import { BackgroundComponent } from './background/background.component';
     BackgroundComponent
   ],
   exports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     BackgroundComponent
   ],
   imports: [

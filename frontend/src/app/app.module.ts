@@ -8,6 +8,7 @@ import { AppState } from './state/app.state';
 import { NgxsModule } from '@ngxs/store';
 import { isDev } from './app.const';
 import { RouterState } from './state/router.state';
+import { HttpClientModule } from '@angular/common/http';
 
 const states = [
   AppState,
@@ -21,6 +22,7 @@ const states = [
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     NgxsModule.forRoot(states, {
       developmentMode: isDev
     })

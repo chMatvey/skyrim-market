@@ -1,20 +1,39 @@
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { User } from '../../../models/user';
-import { filter } from 'rxjs/operators';
+import { FormGroup } from '@angular/forms';
+import { createLoginForm, getUrlByUserRole } from './login';
+import { AuthService } from '../../../services/auth.service';
+import { SetUser } from '../../../state/app.actions';
+import { Navigate } from '../../../state/router.state';
+import { withLoading } from '../../../utils/observable';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
-  state$: Observable<User>
+  form: FormGroup
 
-  constructor(private store: Store) {
-    this.state$ = this.store.select(state => state.app)
-      .pipe(filter(appState => appState.user))
+  loading = false
+
+  constructor(private store: Store, private authService: AuthService) {
+  }
+
+  ngOnInit(): void {
+    this.form = createLoginForm()
+  }
+
+  submit() {
+    this.authService.login(this.form.value)
+      .pipe(
+        withLoading(this)
+      )
+      .subscribe(user => this.store.dispatch([
+        new SetUser(user),
+        new Navigate(getUrlByUserRole(user.role))
+      ]))
+
   }
 }
