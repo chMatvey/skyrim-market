@@ -5,7 +5,7 @@ import { createLoginForm, getUrlByUserRole } from './login';
 import { AuthService } from '../../../services/auth.service';
 import { SetUser } from '../../../state/app.actions';
 import { Navigate } from '../../../state/router.state';
-import { withLoading } from '../../../utils/observable';
+import { withLoading } from '../../../utils/stream-pipe-operators';
 
 @Component({
   selector: 'app-login',

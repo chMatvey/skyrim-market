@@ -4,11 +4,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { AppState } from './state/app.state';
 import { NgxsModule } from '@ngxs/store';
 import { isDev } from './app.const';
-import { RouterState } from './state/router.state';
 import { HttpClientModule } from '@angular/common/http';
+import { AppState } from './state/app.state';
+import { RouterState } from './state/router.state';
 
 const states = [
   AppState,
