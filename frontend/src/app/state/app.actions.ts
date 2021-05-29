@@ -1,4 +1,6 @@
-export class SetUsername {
-  static readonly type = '[app] set username'
-  constructor(public payload: string) {}
+import { User } from '../models/user';
+
+export class SetUser {
+  static readonly type = '[app] set user'
+  constructor(public payload: User) {}
 }

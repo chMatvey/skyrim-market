@@ -1,1 +1,75 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~normalize.css";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: #fff;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus, {
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: #fff;
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 36px;
+
+  label {
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: 300;
+    color: #cccccc
+  }
+
+  input {
+    font-size: 16px;
+    height: 30px;
+    line-height: 14px;
+    color: #fff;
+    border: 0;
+    border-bottom: 1px solid #fff;
+    background: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+button {
+  background: #505050;
+  border-radius: 40px;
+  font-size: 14px;
+  line-height: 16px;
+  color: #fff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+}
+
+a {
+  text-decoration: none;
+}

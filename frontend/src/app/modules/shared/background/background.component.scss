@@ -1,0 +1,23 @@
+.skyrim-market {
+  background-color: #000;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__image {
+    background-image: url("/assets/images/background.png");
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  &__content {
+    z-index: 1;
+  }
+}

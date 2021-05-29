@@ -1,5 +1,6 @@
 import { Action, State, StateContext } from '@ngxs/store';
 import { Router } from '@angular/router';
+import { Injectable } from '@angular/core';
 
 export class Navigate {
   static readonly type = '[router] navigate'
@@ -10,6 +11,7 @@ export class Navigate {
   name: 'router',
   defaults: ''
 })
+@Injectable()
 export class RouterState {
   constructor(private router: Router) {
   }
