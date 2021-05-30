@@ -7,8 +7,8 @@ import { AppComponent } from './app.component';
 import { NgxsModule } from '@ngxs/store';
 import { isDev } from './app.const';
 import { HttpClientModule } from '@angular/common/http';
-import { AppState } from './state/app.state';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
+import { AppState } from '@state/app.state';
 
 const states = [
   AppState

@@ -1,9 +1,9 @@
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { SetToolbar, SetUser } from './app.actions';
-import { User } from '../models/user';
+import { User } from '@models/user';
 import { Injectable } from '@angular/core';
 import { getInitialState } from './initial-state';
-import { Toolbar } from '../models/toolbar';
+import { Toolbar } from '@models/toolbar';
 
 export interface AppStateModel {
   user: User

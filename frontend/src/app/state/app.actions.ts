@@ -1,5 +1,5 @@
-import { User } from '../models/user';
-import { Toolbar } from '../models/toolbar';
+import { User } from '@models/user';
+import { Toolbar } from '@models/toolbar';
 
 export class SetUser {
   static readonly type = '[app] set user'

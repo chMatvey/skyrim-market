@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { FormGroup } from '@angular/forms';
 import { createLoginForm } from './login';
-import { AuthService } from '../../../services/auth.service';
-import { SetToolbar, SetUser } from '../../../state/app.actions';
-import { withLoading } from '../../../utils/stream-pipe-operators';
-import { getUrlByUserRole } from '../../../utils/user';
-import { getToolbarStateByUserRole } from '../../../utils/toolbar';
+import { AuthService } from '@services/auth.service';
+import { withLoading } from '@utils/stream-pipe-operators';
+import { getUrlByUserRole } from '@utils/user';
+import { getToolbarStateByUserRole } from '@utils/toolbar';
 import { Navigate } from '@ngxs/router-plugin';
+import { SetToolbar, SetUser } from '@state/app.actions';
 
 @Component({
   selector: 'app-login',

@@ -1,0 +1,7 @@
+@import "mixins";
+
+.client-order {
+  @include card();
+  width: 1059px;
+  height: 730px;
+}

@@ -1,4 +1,4 @@
-import { UserRole } from '../models/user-role';
+import { UserRole } from '@models/user-role';
 
 export function getUrlByUserRole(role: UserRole): string {
   switch (role) {
