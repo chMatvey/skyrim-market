@@ -28,7 +28,7 @@ export class AppState {
   }
 
   @Selector()
-  static username(state: AppStateModel) {
-    return state.user.username
+  static user(state: AppStateModel) {
+    return state.user
   }
 }

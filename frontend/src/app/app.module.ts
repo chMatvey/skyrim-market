@@ -9,6 +9,7 @@ import { isDev } from './app.const';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 import { AppState } from '@state/app.state';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const states = [
   AppState
@@ -25,7 +26,8 @@ const states = [
     NgxsModule.forRoot(states, {
       developmentMode: isDev
     }),
-    NgxsRouterPluginModule.forRoot()
+    NgxsRouterPluginModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

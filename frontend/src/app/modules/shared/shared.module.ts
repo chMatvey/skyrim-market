@@ -1,31 +1,36 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BackgroundComponent } from './background/background.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { RouterModule } from '@angular/router';
 import { RxSubscribeModule } from '@soundng/rx-subscribe';
+import { MaterialModule } from '@shared/material/material.module';
+import { UsernamePipe } from './username/username.pipe';
+import { RequiredDirective } from './required/required.directive';
 
 @NgModule({
   declarations: [
-    BackgroundComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    UsernamePipe,
+    RequiredDirective
   ],
   exports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    BackgroundComponent,
     ToolbarComponent,
     RouterModule,
-    RxSubscribeModule
+    RxSubscribeModule,
+    MaterialModule,
+    RequiredDirective
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    RxSubscribeModule
+    RxSubscribeModule,
+    MaterialModule
   ]
 })
 export class SharedModule { }

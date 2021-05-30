@@ -1,0 +1,8 @@
+@import "mixins";
+
+.pickpocketing-form {
+  @include form();
+  width: 687px;
+  height: 550px;
+  padding: 24px 32px;
+}

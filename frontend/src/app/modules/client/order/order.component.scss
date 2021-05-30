@@ -4,4 +4,9 @@
   @include card();
   width: 1059px;
   height: 730px;
+  padding: 46px 76px;
+
+  &__select-service {
+    width: 200px;
+  }
 }

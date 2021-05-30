@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { getOrderTypes } from '@utils/order';
+import { Select } from '@models/select';
+import { Store } from '@ngxs/store';
+import { Navigate } from '@ngxs/router-plugin';
 
 @Component({
   selector: 'app-order',
@@ -7,9 +11,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrderComponent implements OnInit {
 
-  constructor() { }
+  orderTypes: Select<string>[] = getOrderTypes()
+
+  constructor(private store: Store) {
+  }
 
   ngOnInit(): void {
   }
 
+  onOrderTypeChange(value: string) {
+    this.store.dispatch([new Navigate([`/client/order/${value}`])])
+  }
 }

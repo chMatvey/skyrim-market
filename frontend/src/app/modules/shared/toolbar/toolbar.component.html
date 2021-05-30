@@ -13,11 +13,15 @@
     </div>
 
     <div class="right">
-      <div class="toolbar__username">
-        {{state.user?.username}}
+      <div class="toolbar__username" [matMenuTriggerFor]="menu">
+        {{state.user?.username | username}}
       </div>
 
       <div class="toolbar__icon"></div>
+
+      <mat-menu #menu>
+        <button mat-menu-item (click)="onLogout()">Logout</button>
+      </mat-menu>
     </div>
   </ng-container>
 </div>

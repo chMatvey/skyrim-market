@@ -18,4 +18,8 @@ export class AuthService {
         tap(user => localStorage.setItem(localStorageUserField, JSON.stringify(user)))
       )
   }
+
+  logout(user: User) {
+    return this.http.post<User>(`${apiUrl}/logout`, user)
+  }
 }

@@ -14,3 +14,8 @@
   line-height: 28px;
   color: #fff;
 }
+
+@mixin form() {
+  background: #1c1c1c;
+  border-radius: 10px;
+}
