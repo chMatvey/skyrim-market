@@ -1,13 +1,13 @@
 import { User } from '../models/user';
-import { ToolbarLink } from '../models/toolbar-link';
+import { Toolbar } from '../models/toolbar';
 
 export class SetUser {
   static readonly type = '[app] set user'
   constructor(public payload: User) {}
 }
 
-export class SetToolbarLinks {
-  static readonly type = '[app] set toolbar links'
-  constructor(public payload: ToolbarLink[]) {
+export class SetToolbar {
+  static readonly type = '[app] set toolbar'
+  constructor(public payload: Toolbar) {
   }
 }

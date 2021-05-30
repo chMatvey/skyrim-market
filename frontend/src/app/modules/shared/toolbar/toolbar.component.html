@@ -1,23 +1,23 @@
 <div class="toolbar">
-  <div class="left">
-    <a [routerLink]="''" class="toolbar__logo">
-      Skyrim Market
-    </a>
-
-    <div class="toolbar__links">
-      <a *ngFor="let link of toolbarLinks$ | async" [routerLink]="link.ref">
-        {{link.name}}
+  <ng-container *rxSubscribe="state$ let state">
+    <div class="left">
+      <a [routerLink]="state.toolbar?.logoRef" class="toolbar__logo">
+        Skyrim Market
       </a>
-    </div>
-  </div>
 
-  <div class="right">
-    <div class="toolbar__username">
-      {{username$ | async}}
+      <div class="toolbar__links">
+        <a *ngFor="let link of state.toolbar?.links" [routerLink]="link.ref">
+          {{link.name}}
+        </a>
+      </div>
     </div>
 
-    <div class="toolbar__icon">
+    <div class="right">
+      <div class="toolbar__username">
+        {{state.user?.username}}
+      </div>
 
+      <div class="toolbar__icon"></div>
     </div>
-  </div>
+  </ng-container>
 </div>

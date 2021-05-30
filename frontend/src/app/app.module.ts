@@ -8,11 +8,10 @@ import { NgxsModule } from '@ngxs/store';
 import { isDev } from './app.const';
 import { HttpClientModule } from '@angular/common/http';
 import { AppState } from './state/app.state';
-import { RouterState } from './state/router.state';
+import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 
 const states = [
-  AppState,
-  RouterState
+  AppState
 ]
 
 @NgModule({
@@ -25,7 +24,8 @@ const states = [
     HttpClientModule,
     NgxsModule.forRoot(states, {
       developmentMode: isDev
-    })
+    }),
+    NgxsRouterPluginModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

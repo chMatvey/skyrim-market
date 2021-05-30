@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BackgroundComponent } from './background/background.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { RouterModule } from '@angular/router';
+import { RxSubscribeModule } from '@soundng/rx-subscribe';
 
 @NgModule({
   declarations: [
@@ -16,13 +17,15 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     BackgroundComponent,
     ToolbarComponent,
-    RouterModule
+    RouterModule,
+    RxSubscribeModule
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    RxSubscribeModule
   ]
 })
 export class SharedModule { }

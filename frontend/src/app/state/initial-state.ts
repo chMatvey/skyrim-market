@@ -1,7 +1,11 @@
 import { AppStateModel } from './app.state';
-import { getToolbarLinksByUserRole } from '../utils/toolbar';
+import { getToolbarStateByUserRole } from '../utils/toolbar';
+import { localStorageUserField } from '../app.const';
 
 export function getInitialState(): AppStateModel {
-  const user = JSON.parse(localStorage.getItem('current-user'))
-  return !!user ? {user, toolbarLinks: getToolbarLinksByUserRole(user.role)} : {}
+  const user = JSON.parse(localStorage.getItem(localStorageUserField))
+  return {
+    user,
+    toolbar: getToolbarStateByUserRole(user?.role)
+  }
 }

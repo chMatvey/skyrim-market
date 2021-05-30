@@ -1,20 +1,23 @@
 import { UserRole } from '../models/user-role';
-import { ToolbarLink } from '../models/toolbar-link';
+import { Toolbar } from '../models/toolbar';
 
-export function getToolbarLinksByUserRole(role: UserRole): ToolbarLink[] {
+export function getToolbarStateByUserRole(role: UserRole): Toolbar {
   switch (role) {
     case UserRole.CLIENT:
-      return [
-        {
-          name: 'Make an Order',
-          ref: 'order'
-        },
-        {
-          name: 'My Orders',
-          ref: 'orders'
-        }
-      ]
+      return {
+        logoRef: '/client',
+        links: [
+          {
+            name: 'Make an Order',
+            ref: 'order'
+          },
+          {
+            name: 'My Orders',
+            ref: 'orders'
+          }
+        ]
+      }
     default:
-      throw new Error('Unknown Role')
+      return null
   }
 }

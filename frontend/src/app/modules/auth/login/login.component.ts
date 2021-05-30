@@ -3,11 +3,11 @@ import { Store } from '@ngxs/store';
 import { FormGroup } from '@angular/forms';
 import { createLoginForm } from './login';
 import { AuthService } from '../../../services/auth.service';
-import { SetToolbarLinks, SetUser } from '../../../state/app.actions';
-import { Navigate } from '../../../state/router.state';
+import { SetToolbar, SetUser } from '../../../state/app.actions';
 import { withLoading } from '../../../utils/stream-pipe-operators';
 import { getUrlByUserRole } from '../../../utils/user';
-import { getToolbarLinksByUserRole } from '../../../utils/toolbar';
+import { getToolbarStateByUserRole } from '../../../utils/toolbar';
+import { Navigate } from '@ngxs/router-plugin';
 
 @Component({
   selector: 'app-login',
@@ -34,8 +34,8 @@ export class LoginComponent implements OnInit {
       )
       .subscribe(user => this.store.dispatch([
         new SetUser(user),
-        new Navigate(getUrlByUserRole(user.role)),
-        new SetToolbarLinks(getToolbarLinksByUserRole(user.role))
+        new SetToolbar(getToolbarStateByUserRole(user.role)),
+        new Navigate([getUrlByUserRole(user.role)])
       ]))
 
   }

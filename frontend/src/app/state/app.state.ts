@@ -1,13 +1,13 @@
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { SetToolbarLinks, SetUser } from './app.actions';
+import { SetToolbar, SetUser } from './app.actions';
 import { User } from '../models/user';
 import { Injectable } from '@angular/core';
 import { getInitialState } from './initial-state';
-import { ToolbarLink } from '../models/toolbar-link';
+import { Toolbar } from '../models/toolbar';
 
 export interface AppStateModel {
-  user?: User
-  toolbarLinks?: ToolbarLink[]
+  user: User
+  toolbar: Toolbar
 }
 
 @State<AppStateModel>({
@@ -22,18 +22,13 @@ export class AppState {
     patchState({user: payload})
   }
 
-  @Action(SetToolbarLinks)
-  setToolbarLinks({patchState}: StateContext<AppStateModel>, {payload}: SetToolbarLinks) {
-    patchState({toolbarLinks: payload})
+  @Action(SetToolbar)
+  setToolbar({patchState}: StateContext<AppStateModel>, {payload}: SetToolbar) {
+    patchState({toolbar: payload})
   }
 
   @Selector()
   static username(state: AppStateModel) {
     return state.user.username
-  }
-
-  @Selector()
-  static toolbarLinks(state: AppStateModel) {
-    return state.toolbarLinks
   }
 }

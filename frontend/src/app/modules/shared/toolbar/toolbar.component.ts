@@ -1,25 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { AppState } from '../../../state/app.state';
-import { ToolbarLink } from '../../../models/toolbar-link';
+import { AppState, AppStateModel } from '../../../state/app.state';
 
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.scss']
+  styleUrls: ['./toolbar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ToolbarComponent implements OnInit {
+export class ToolbarComponent {
 
-  @Select(AppState.username)
-  username$: Observable<string>
-
-  @Select(AppState.toolbarLinks)
-  toolbarLinks$: Observable<ToolbarLink[]>
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  @Select(AppState)
+  state$: Observable<AppStateModel>
 }
