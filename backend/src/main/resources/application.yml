@@ -11,3 +11,6 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
+
+  aop:
+    proxy-target-class: false
