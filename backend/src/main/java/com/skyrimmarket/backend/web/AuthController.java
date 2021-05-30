@@ -4,10 +4,12 @@ import com.skyrimmarket.backend.dto.UserDto;
 import com.skyrimmarket.backend.model.User;
 import com.skyrimmarket.backend.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static com.skyrimmarket.backend.util.TokenUtil.generateRandomToken;
 import static com.skyrimmarket.backend.util.UserUtil.asTo;
 import static com.skyrimmarket.backend.util.UserUtil.fromTo;
 
@@ -18,9 +20,18 @@ public class AuthController {
 
     private final UserService userService;
 
-    @RequestMapping("/login")
+    private final Map<String, String> tokens = new ConcurrentHashMap<>();
+
+    @PostMapping("/login")
     public UserDto login(@RequestBody UserDto dto) {
         User user = userService.login(fromTo(dto));
-        return asTo(user);
+        String token = generateRandomToken();
+        this.tokens.put(user.getUsername(), token);
+        return asTo(user, token);
+    }
+
+    @PostMapping("/logout")
+    public void logout(@RequestBody UserDto dto) {
+        this.tokens.remove(dto.getUsername());
     }
 }

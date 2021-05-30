@@ -12,12 +12,12 @@ public class UserUtil {
         );
     }
 
-    public static UserDto asTo(User user) {
+    public static UserDto asTo(User user, String token) {
         return UserDto.create(
                 user.getUsername(),
                 null,
                 user.getRole(),
-                "swgdrfehrtjtyjtyukyue23t54hj5667"
+                token
         );
     }
 }
