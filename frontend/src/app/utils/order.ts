@@ -4,7 +4,7 @@ export function getOrderTypes(): Select<string>[] {
   return [
     {
       name: 'Pickpocketing',
-      value: 'pickpocketing'
+      value: 'PICKPOCKETING'
     }
   ]
 }

@@ -2,26 +2,21 @@ package com.skyrimmarket.backend.util;
 
 import com.skyrimmarket.backend.dto.OrderDto;
 import com.skyrimmarket.backend.model.Order;
-import com.skyrimmarket.backend.model.Title;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Arrays;
+import com.skyrimmarket.backend.model.user.Client;
+import com.skyrimmarket.backend.model.user.Employee;
 
 public class OrderUtil {
     public static Order fromTo(OrderDto dto) {
-        Title title = Arrays.stream(Title.values())
-                .filter(it -> it.getName().equals(dto.getTitle()))
-                .findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect title"));
-
         return Order.of(
                 dto.getId(),
                 dto.getType(),
                 dto.getPerson(),
-                title,
+                dto.getTitle(),
                 dto.getItem(),
-                dto.getDescription()
+                dto.getDescription(),
+                new Client(dto.getClient().getId()),
+                dto.getContractor() != null ? new Employee(dto.getContractor().getId()) : null,
+                dto.getCommentDto() != null ? CommentUtil.fromTo(dto.getCommentDto()) : null
         );
     }
 
@@ -30,9 +25,12 @@ public class OrderUtil {
                 order.getId(),
                 order.getType(),
                 order.getPerson(),
-                order.getTitle().getName(),
+                order.getTitle(),
                 order.getItem(),
-                order.getDescription()
+                order.getDescription(),
+                UserUtil.asTo(order.getClient()),
+                order.getContractor() != null ? UserUtil.asTo(order.getContractor()) : null,
+                order.getComment() != null ? CommentUtil.asTo(order.getComment()) : null
         );
     }
 }

@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum Title {
-    COURT_MAGICIAN("Court Magician");
+    COURT_MAGICIAN("COURT MAGICIAN");
 
     private final String name;
 }

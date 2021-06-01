@@ -22,10 +22,7 @@ export class ToolbarComponent {
   }
 
   onLogout() {
-    this.store.selectOnce(AppState.user)
-      .pipe(
-        switchMap(user => this.authService.logout(user))
-      )
+    this.authService.logout()
       .subscribe(() => this.store.dispatch([
         new Navigate(['/login'])
       ]))

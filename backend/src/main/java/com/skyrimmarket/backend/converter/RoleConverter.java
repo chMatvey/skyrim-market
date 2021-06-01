@@ -17,7 +17,7 @@ public class RoleConverter implements AttributeConverter<Role, String> {
     @Override
     public Role convertToEntityAttribute(String role) {
         return Stream.of(Role.values())
-                .filter(r -> r.getName().equals(role))
+                .filter(r -> r.getName().equalsIgnoreCase(role))
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new);
     }

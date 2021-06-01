@@ -19,7 +19,7 @@ export class AuthService {
       )
   }
 
-  logout(user: User) {
-    return this.http.post<User>(`${apiUrl}/logout`, user)
+  logout() {
+    return this.http.get<void>(`${apiUrl}/logout`)
   }
 }
