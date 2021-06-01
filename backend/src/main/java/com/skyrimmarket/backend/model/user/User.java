@@ -9,9 +9,10 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor(staticName = "of")
+@RequiredArgsConstructor
 @Entity(name = "users")
 @Table(name = "users")
+@DiscriminatorColumn(name="role", discriminatorType = DiscriminatorType.STRING)
 public class User {
 
     @Id
@@ -26,7 +27,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, insertable = false, updatable = false)
+    @NonNull
     private Role role;
 
     public User(long id) {

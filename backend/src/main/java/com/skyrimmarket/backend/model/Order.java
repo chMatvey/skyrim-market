@@ -36,6 +36,10 @@ public class Order {
 
     private String description;
 
+    @NonNull
+    @Column(nullable = false)
+    private OrderStatus status;
+
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;

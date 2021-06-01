@@ -17,6 +17,11 @@ export interface AppStateModel {
 @Injectable()
 export class AppState {
 
+  @Selector()
+  static user(state: AppStateModel) {
+    return state.user
+  }
+
   @Action(SetUser)
   setUser({patchState}: StateContext<AppStateModel>, {payload}: SetUser) {
     patchState({user: payload})
@@ -25,10 +30,5 @@ export class AppState {
   @Action(SetToolbar)
   setToolbar({patchState}: StateContext<AppStateModel>, {payload}: SetToolbar) {
     patchState({toolbar: payload})
-  }
-
-  @Selector()
-  static user(state: AppStateModel) {
-    return state.user
   }
 }

@@ -1,19 +1,18 @@
 package com.skyrimmarket.backend.model.user;
 
 import com.skyrimmarket.backend.model.Order;
+import com.skyrimmarket.backend.model.Role;
 import lombok.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true, exclude = "orders")
 @Table(name = "users")
 @Entity(name = "clients")
-@EqualsAndHashCode(callSuper = true, exclude = "orders")
+@DiscriminatorValue("client")
 public class Client extends User {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "client")
@@ -21,5 +20,9 @@ public class Client extends User {
 
     public Client(long id) {
         super(id);
+    }
+
+    public Client(@NonNull String username, @NonNull String password, @NonNull Role role) {
+        super(username, password, role);
     }
 }

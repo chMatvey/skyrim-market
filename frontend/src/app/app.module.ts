@@ -11,23 +11,19 @@ import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 import { AppState } from '@state/app.state';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-const states = [
-  AppState
-]
-
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    NgxsModule.forRoot(states, {
+    NgxsModule.forRoot([AppState], {
       developmentMode: isDev
     }),
-    NgxsRouterPluginModule.forRoot(),
-    BrowserAnimationsModule
+    NgxsRouterPluginModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

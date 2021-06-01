@@ -6,17 +6,15 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true, exclude = "tasks")
 @Table(name = "users")
 @Entity(name = "employees")
-@EqualsAndHashCode(callSuper = true, exclude = "tasks")
+@DiscriminatorValue("employee")
 public class Employee extends User {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "contractor")

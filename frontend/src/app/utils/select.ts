@@ -1,6 +1,6 @@
-import { Select } from '@models/select';
+import { Dropdown } from '@models/dropdown';
 
-export function withEmptySelect<T>(values: Select<T>[]): Select<T>[] {
+export function withEmptySelect<T>(values: Dropdown<T>[]): Dropdown<T>[] {
   return [
     {name: '-', value: null},
     ...values

@@ -1,13 +1,12 @@
 package com.skyrimmarket.backend.dto;
 
+import com.skyrimmarket.backend.model.OrderStatus;
 import com.skyrimmarket.backend.model.OrderType;
 import com.skyrimmarket.backend.model.Title;
 import lombok.Data;
 
 @Data(staticConstructor = "create")
 public class OrderDto {
-    private final Long id;
-
     private final OrderType type;
 
     private final String person;
@@ -17,6 +16,8 @@ public class OrderDto {
     private final String item;
 
     private final String description;
+
+    private final OrderStatus status;
 
     private final UserDto client;
 

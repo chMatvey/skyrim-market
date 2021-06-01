@@ -1,23 +1,31 @@
-<div class="pickpocketing-form">
+<form class="pickpocketing-form" [formGroup]="form">
   <div class="form-control">
     <label for="person" appRequired>Person</label>
-    <input id="person" type="text">
+    <input id="person" type="text" formControlName="person">
   </div>
 
   <div class="form-control">
-    <label for="title" appRequired>The title of the robbed person</label>
-    <input id="title" type="text">
+    <label appRequired>The title of the robbed person</label>
+    <mat-select formControlName="title">
+      <mat-option *ngFor="let title of (titles$ | async)" [value]="title">
+        {{title}}
+      </mat-option>
+    </mat-select>
   </div>
 
   <div class="form-control">
-    <label for="title" appRequired>What we must steal?</label>
-    <input id="steal" type="text">
+    <label for="item" appRequired>What we must steal?</label>
+    <input id="item" type="text" formControlName="item">
   </div>
 
   <div class="form-control">
     <label for="description">Description of stealing object</label>
-    <textarea id="description"></textarea>
+    <textarea id="description" formControlName="description"></textarea>
   </div>
 
-  <app-order-form-footer></app-order-form-footer>
-</div>
+  <div class="order-form-footer">
+    <button class="cancel" (click)="onCancel()">Cancel</button>
+
+    <button class="create" [disabled]="form.invalid" (click)="onCreateOrder()">Create Order</button>
+  </div>
+</form>

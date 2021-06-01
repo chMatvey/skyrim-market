@@ -5,4 +5,23 @@
   width: 687px;
   height: 550px;
   padding: 24px 32px;
+
+  .order-form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    button {
+      height: 35px;
+
+      &.cancel {
+        width: 95px;
+      }
+
+      &.create {
+        width: 110px;
+      }
+    }
+  }
+
 }
