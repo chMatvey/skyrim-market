@@ -7,12 +7,14 @@ import { RxSubscribeModule } from '@soundng/rx-subscribe';
 import { MaterialModule } from '@shared/material/material.module';
 import { UsernamePipe } from './username/username.pipe';
 import { RequiredDirective } from './required/required.directive';
+import { BaseComponent } from '@shared/base/base.component';
 
 @NgModule({
   declarations: [
     ToolbarComponent,
     UsernamePipe,
-    RequiredDirective
+    RequiredDirective,
+    BaseComponent
   ],
   exports: [
     CommonModule,
@@ -22,7 +24,8 @@ import { RequiredDirective } from './required/required.directive';
     RouterModule,
     RxSubscribeModule,
     MaterialModule,
-    RequiredDirective
+    RequiredDirective,
+    BaseComponent
   ],
   imports: [
     CommonModule,

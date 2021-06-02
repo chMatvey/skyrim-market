@@ -3,9 +3,12 @@ package com.skyrimmarket.backend.dto;
 import com.skyrimmarket.backend.model.OrderStatus;
 import com.skyrimmarket.backend.model.OrderType;
 import com.skyrimmarket.backend.model.Title;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 
-@Data(staticConstructor = "create")
+@AllArgsConstructor
+@Getter
 public class OrderDto {
     private final OrderType type;
 

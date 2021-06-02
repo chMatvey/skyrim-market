@@ -1,4 +1,6 @@
 import { UserRole } from '@models/user-role';
+import { Store } from '@ngxs/store';
+import { User } from '@models/user';
 
 export function getUrlByUserRole(role: UserRole): string {
   switch (role) {
@@ -11,4 +13,9 @@ export function getUrlByUserRole(role: UserRole): string {
     default:
       throw new Error('Unknown Role')
   }
+}
+
+export function userFromStore(store: Store): User {
+  const state = store.snapshot()
+  return state.app.user
 }

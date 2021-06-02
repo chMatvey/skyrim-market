@@ -1,39 +1,10 @@
-
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
-@use '~@angular/material' as mat;
-// Plus imports for other components in your app.
-
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
-@include mat.core();
-
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$frontend-primary: mat.define-palette(mat.$indigo-palette);
-$frontend-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
-
-// The warn palette is optional (defaults to red).
-$frontend-warn: mat.define-palette(mat.$red-palette);
-
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
-$frontend-theme: mat.define-light-theme((
-  color: (
-    primary: $frontend-primary,
-    accent: $frontend-accent,
-    warn: $frontend-warn,
-  )
-));
-
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include mat.all-component-themes($frontend-theme);
-
 @import "~normalize.css";
+@import "material";
+@import "variables";
+@import "mixins";
+@import "loading";
+@import "autofill";
+@import "form";
 
 * {
   margin: 0;
@@ -51,64 +22,6 @@ body {
   font-family: 'Roboto', "Helvetica Neue", sans-serif;
   font-size: 14px;
   color: #fff;
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover,
-textarea:-webkit-autofill:focus, {
-  transition: background-color 5000s ease-in-out 0s;
-  -webkit-text-fill-color: #fff;
-}
-
-.form-control {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 36px;
-
-  label {
-    font-size: 14px;
-    line-height: 16px;
-    font-weight: 300;
-    color: #cccccc
-  }
-
-  input, .mat-select, textarea {
-    font-size: 16px;
-    height: 30px;
-    line-height: 14px;
-    color: #fff;
-    background: none;
-
-    &:focus {
-      outline: none;
-    }
-  }
-
-  input, .mat-select {
-    border: 0;
-    border-bottom: 1px solid #fff;
-  }
-
-  textarea {
-    border: 1px solid #fff;
-    border-radius: 10px;
-    margin-top: 15px;
-    resize: none;
-    padding: 8px;
-    height: 150px;
-  }
-
-  .mat-select {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    margin-top: 4px;
-    padding-bottom: 2px;
-  }
 }
 
 button {
@@ -129,26 +42,6 @@ button {
 
 a {
   text-decoration: none;
-}
-
-@keyframes loading {
-  to {transform: rotate(360deg);}
-}
-
-.loading:before {
-  content: '';
-  box-sizing: border-box;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 20px;
-  height: 20px;
-  margin-top: -10px;
-  margin-left: -10px;
-  border-radius: 50%;
-  border: 2px solid #ffffff;
-  border-top-color: #000000;
-  animation: loading .8s linear infinite;
 }
 
 .mat-select-arrow, .mat-select-value {

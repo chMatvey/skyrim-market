@@ -1,13 +1,13 @@
 <div class="client-order">
-  <div class="form-control client-order__select-service">
+  <form class="form-control client-order__select-service" [class.disabled]="disabled$ | async">
     <label>Select service</label>
 
-    <mat-select (valueChange)="onOrderTypeChange($event)">
+    <mat-select (valueChange)="onOrderTypeChange($event)" [disabled]="disabled$ | async">
       <mat-option *ngFor="let type of orderTypes" [value]="type.value">
         {{type.name}}
       </mat-option>
     </mat-select>
-  </div>
+  </form>
 
   <router-outlet></router-outlet>
 

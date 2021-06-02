@@ -1,5 +1,5 @@
 import { Order } from '@models/order';
-import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { CreateOrder, SetOrder, SetOrderType } from '@state/client/client.actions';
 import { OrderService } from '@services/order.service';
@@ -26,7 +26,7 @@ const defaults: ClientStateModel = {
 @Injectable()
 export class ClientState {
 
-  constructor(private orderService: OrderService) {
+  constructor(private orderService: OrderService, private store: Store) {
   }
 
   @Selector()
@@ -50,10 +50,10 @@ export class ClientState {
   }
 
   @Action(CreateOrder, {cancelUncompleted: true})
-  createOrder({patchState}: StateContext<ClientStateModel>, {payload}: CreateOrder) {
+  createOrder({dispatch}: StateContext<ClientStateModel>, {payload}: CreateOrder) {
     return this.orderService.create(payload)
       .pipe(
-        tap(order => patchState({order}))
+        tap(order => dispatch(new SetOrder(order)))
       )
   }
 

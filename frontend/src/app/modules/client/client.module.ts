@@ -9,6 +9,8 @@ import { PickpocketingFormComponent } from './order/pickpocketing-form/pickpocke
 import { NgxsModule } from '@ngxs/store';
 import { ClientState } from '@state/client/client.state';
 import { OrderService } from '@services/order.service';
+import { TitleService } from '@services/title.service';
+import { OrderGuard } from '@guards/order.guard';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { OrderService } from '@services/order.service';
     NgxsModule.forFeature([ClientState])
   ],
   providers: [
-    OrderService
+    OrderService,
+    TitleService,
+    OrderGuard
   ]
 })
 export class ClientModule { }

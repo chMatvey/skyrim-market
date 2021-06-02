@@ -29,7 +29,7 @@ public class OrderUtil {
     }
 
     public static OrderDto asTo(Order order) {
-       return OrderDto.create(
+       return new OrderDto(
                 order.getType(),
                 order.getPerson(),
                 order.getTitle(),

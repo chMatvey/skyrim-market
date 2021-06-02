@@ -10,7 +10,7 @@ public class UserUtil {
     }
 
     public static UserDto asTo(User user) {
-        return UserDto.create(
+        return new UserDto(
                 user.getId()
         );
     }

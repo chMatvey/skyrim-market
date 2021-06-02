@@ -4,6 +4,7 @@ import { ClientComponent } from './client.component';
 import { TopProductsComponent } from './top-products/top-products.component';
 import { OrderComponent } from './order/order.component';
 import { PickpocketingFormComponent } from '@modules/client/order/pickpocketing-form/pickpocketing-form.component';
+import { OrderGuard } from '@guards/order.guard';
 
 const routes: Routes = [
   {
@@ -23,7 +24,8 @@ const routes: Routes = [
           },
           {
             path: 'pickpocketing',
-            component: PickpocketingFormComponent
+            component: PickpocketingFormComponent,
+            canActivate: [OrderGuard],
           }
         ]
       }
