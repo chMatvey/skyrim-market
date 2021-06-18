@@ -1,10 +1,10 @@
 package com.skyrimmarket.backend.model.user;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.skyrimmarket.backend.model.Order;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import com.skyrimmarket.backend.model.Role;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -18,9 +18,14 @@ import java.util.Set;
 public class Employee extends User {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "contractor")
+    @JsonManagedReference
     private Set<Order> tasks;
 
     public Employee(long id) {
         super(id);
+    }
+
+    public Employee(@NonNull String username, @NonNull String password, @NonNull Role role) {
+        super(username, password, role);
     }
 }
