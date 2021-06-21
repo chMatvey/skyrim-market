@@ -10,6 +10,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class OrderDto {
+
+    private final long id;
+
     private final OrderType type;
 
     private final String person;

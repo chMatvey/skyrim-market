@@ -1,10 +1,7 @@
 package com.skyrimmarket.backend.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.Employee;
-import com.skyrimmarket.backend.model.user.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -42,14 +39,12 @@ public class Order {
     @Column(nullable = false)
     private OrderStatus status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)
-    @JsonBackReference
     private Client client;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
-    @JsonBackReference
     private Employee contractor;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)

@@ -1,11 +1,16 @@
 package com.skyrimmarket.backend.service;
 
+import com.skyrimmarket.backend.dto.EmployeeDto;
 import com.skyrimmarket.backend.model.Role;
 import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.Employee;
 import com.skyrimmarket.backend.model.user.Master;
 import com.skyrimmarket.backend.model.user.User;
 import com.skyrimmarket.backend.repository.UserRepository;
+import com.skyrimmarket.backend.util.ClientUtil;
+import com.skyrimmarket.backend.util.EmployeeUtil;
+import com.skyrimmarket.backend.util.MasterUtil;
+import com.skyrimmarket.backend.util.UserUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.data.util.Streamable;
 import org.springframework.http.HttpStatus;
@@ -15,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.annotation.PostConstruct;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -45,14 +51,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
-        if (!usernameExist(user.getUsername())) {
+        if (!userRepository.findById(user.getId()).isPresent()) {
             switch (user.getRole()) {
                 case EMPLOYEE:
-                    return userRepository.save(new Employee(user.getUsername(), user.getPassword(), user.getRole()));
+                    return userRepository.save(EmployeeUtil.fromUserTo(user));
                 case CLIENT:
-                    return userRepository.save(new Client(user.getUsername(), user.getPassword(), user.getRole()));
+                    return userRepository.save(ClientUtil.fromUserTo(user));
                 case MASTER:
-                    return userRepository.save(new Master(user.getUsername(), user.getPassword(), user.getRole()));
+                    return userRepository.save(MasterUtil.fromUserTo(user));
                 default:
                     return userRepository.save(user);
             }
@@ -63,13 +69,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(User user) {
-        if (usernameExist(user.getUsername())) {
-            return userRepository.save(user);
+        User rpUser = userRepository.findById(user.getId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        rpUser.setUsername(user.getUsername());
+        rpUser.setPassword(user.getPassword());
+        rpUser.setRole(user.getRole());
+        return userRepository.save(rpUser);
         }
-        else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-    }
 
     @Override
     public void delete(long id) {
@@ -80,9 +86,5 @@ public class UserServiceImpl implements UserService {
     public User login(String username, String password) {
         return userRepository.getUserByUsernameAndPassword(username, password)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-    }
-
-    private boolean usernameExist(String username) {
-        return userRepository.findUserByUsername(username) != null;
     }
 }

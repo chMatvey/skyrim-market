@@ -30,6 +30,7 @@ public class OrderUtil {
 
     public static OrderDto asTo(Order order) {
        return new OrderDto(
+                order.getId(),
                 order.getType(),
                 order.getPerson(),
                 order.getTitle(),
