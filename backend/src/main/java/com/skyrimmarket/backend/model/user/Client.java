@@ -13,7 +13,7 @@ import static com.skyrimmarket.backend.model.Role.CLIENT;
 
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, exclude = "orders")
 @Table(name = "users")
 @Entity(name = "clients")
 @DiscriminatorValue("client")
