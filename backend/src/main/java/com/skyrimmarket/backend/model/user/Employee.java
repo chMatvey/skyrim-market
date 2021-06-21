@@ -15,13 +15,13 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "of")
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, exclude = "tasks")
 @Table(name = "users")
 @Entity(name = "employees")
 @DiscriminatorValue("employee")
 public class Employee extends User {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "contractor", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "contractor")
     private Set<Order> tasks;
 
     public Employee(long id) {

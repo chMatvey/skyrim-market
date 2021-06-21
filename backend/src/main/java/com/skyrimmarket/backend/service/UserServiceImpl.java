@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
-        if (!userRepository.findById(user.getId()).isPresent()) {
+        if (!userRepository.findUserByUsername(user.getUsername()).isPresent()) {
             switch (user.getRole()) {
                 case EMPLOYEE:
                     return userRepository.save(EmployeeUtil.fromUserTo(user));
@@ -79,6 +79,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(long id) {
+        userRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         userRepository.deleteById(id);
     }
 
