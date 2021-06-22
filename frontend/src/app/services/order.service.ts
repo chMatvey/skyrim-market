@@ -12,4 +12,8 @@ export class OrderService {
   public create(order: Order): Observable<Order> {
     return this.http.post<Order>(`${apiUrl}/order`, order)
   }
+
+  public delete(order: Order): Observable<Order> {
+    return this.http.put<Order>(`${apiUrl}/order`, order)
+  }
 }

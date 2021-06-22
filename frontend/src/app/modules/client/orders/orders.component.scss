@@ -1,0 +1,68 @@
+@import "mixins";
+
+.client-order {
+  @include card();
+  width: 1059px;
+  height: 730px;
+  padding: 46px 76px;
+
+  &__select-service {
+    width: 200px;
+    margin-left: 24px;
+  }
+
+  &__order {
+    background: rgba(43, 43, 43, .7);
+    border-style: solid;
+    border-color: #000000;
+    border-radius: 10px;
+    border-width: 1px;
+    width: 750px;
+    height: 80px;
+    margin-bottom: 20px;
+  }
+}
+
+.order-description {
+  font-size: 14px;
+  font-family: Roboto;
+  padding: 20px 10px 10px 20px;
+
+  &__name {
+    position: relative;
+    left: 5px;
+    width: 120px;
+    text-decoration: none;
+  }
+
+  &__date {
+    position: relative;
+    left: 80px;
+    width: 165px;
+  }
+
+  &__status {
+    position: relative;
+    left: 200px;
+    top: 15px;
+    width: 180px;
+  }
+
+  &__text {
+    position: relative;
+    left: 15px;
+    top: 5px;
+    width: 500px;
+  }
+}
+
+a.order-description__name {
+  color: white;
+}
+
+.orders-list {
+  height: 600px;
+  overflow-y: auto;
+  scrollbar-color: blue orange; /* плашка скролла и дорожка */
+}
+

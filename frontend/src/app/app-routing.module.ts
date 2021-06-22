@@ -13,6 +13,11 @@ const routes: Routes = [
       .then(module => module.ClientModule)
   },
   {
+    path: 'employee',
+    loadChildren: () => import('./modules/employee/employee.module')
+      .then(module => module.EmployeeModule)
+  },
+  {
     path: '**',
     redirectTo: ''
   }
