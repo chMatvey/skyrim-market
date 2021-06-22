@@ -41,6 +41,11 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/{id}")
+    public UserDto getuser(@PathVariable("id") Long id) {
+        return  UserUtil.asTo(this.userService.get(id));
+    }
+
     @PostMapping
     public UserDto createUser(@RequestBody User user) {
         return UserUtil.asTo(this.userService.create(user));

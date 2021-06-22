@@ -25,9 +25,9 @@ public class OrderDto {
 
     private final OrderStatus status;
 
-    private final UserDto client;
+    private final Long client;
 
-    private final UserDto contractor;
+    private final Long contractor;
 
     private final CommentDto commentDto;
 }

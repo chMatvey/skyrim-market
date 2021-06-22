@@ -13,7 +13,9 @@ public class UserUtil {
 
     public static UserDto asTo(User user) {
         return new UserDto(
-                user.getId()
+                user.getId(),
+                user.getUsername(),
+                user.getRole()
         );
     }
 }
