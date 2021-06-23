@@ -4,7 +4,9 @@ import { Order } from '@models/order';
 import { apiUrl } from '@app/app.const';
 import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class OrderService {
 
   constructor(private http: HttpClient) { }

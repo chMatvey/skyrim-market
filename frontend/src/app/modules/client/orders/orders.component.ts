@@ -11,5 +11,4 @@ export class OrdersComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }
