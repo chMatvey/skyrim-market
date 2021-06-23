@@ -8,8 +8,6 @@ import { TopProductsComponent } from './top-products/top-products.component';
 import { PickpocketingFormComponent } from './order/pickpocketing-form/pickpocketing-form.component';
 import { NgxsModule } from '@ngxs/store';
 import { ClientState } from '@state/client/client.state';
-import { OrderService } from '@services/order.service';
-import { TitleService } from '@services/title.service';
 import { OrderGuard } from '@guards/order.guard';
 
 @NgModule({
@@ -26,8 +24,6 @@ import { OrderGuard } from '@guards/order.guard';
     NgxsModule.forFeature([ClientState])
   ],
   providers: [
-    OrderService,
-    TitleService,
     OrderGuard
   ]
 })

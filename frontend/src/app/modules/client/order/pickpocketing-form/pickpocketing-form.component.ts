@@ -61,7 +61,6 @@ export class PickpocketingFormComponent extends BaseComponent implements OnInit 
   }
 
   onDeclineOrder() {
-
   }
 
   onUpdateOrder() {

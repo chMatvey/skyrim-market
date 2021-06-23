@@ -3,7 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { apiUrl } from '@app/app.const';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class TitleService {
 
   constructor(private http: HttpClient) { }
