@@ -36,6 +36,10 @@ public class Order {
 
     private String description;
 
+    private Float price;
+
+    private Payment payment;
+
     @NonNull
     @Column(nullable = false)
     private OrderStatus status;

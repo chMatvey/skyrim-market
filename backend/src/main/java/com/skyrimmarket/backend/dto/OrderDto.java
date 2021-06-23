@@ -2,6 +2,7 @@ package com.skyrimmarket.backend.dto;
 
 import com.skyrimmarket.backend.model.OrderStatus;
 import com.skyrimmarket.backend.model.OrderType;
+import com.skyrimmarket.backend.model.Payment;
 import com.skyrimmarket.backend.model.Title;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +25,10 @@ public class OrderDto {
     private final String address;
 
     private final String description;
+
+    private final Float price;
+
+    private final Payment payment;
 
     private final OrderStatus status;
 
