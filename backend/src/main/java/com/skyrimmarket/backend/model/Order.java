@@ -25,13 +25,14 @@ public class Order {
     @Column(nullable = false)
     private String person;
 
-    @NonNull
-    @Column(nullable = false)
+    @Column
     private Title title;
 
     @NonNull
     @Column(nullable = false)
     private String item;
+
+    private String address;
 
     private String description;
 

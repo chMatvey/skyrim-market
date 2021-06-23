@@ -6,7 +6,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum OrderType {
-    PICKPOCKETING("PICKPOCKETING");
+    PICKPOCKETING("PICKPOCKETING"),
+    SWEEP("SWEEP"),
+    FORGERY("FORGERY");
 
     private final String name;
 }
