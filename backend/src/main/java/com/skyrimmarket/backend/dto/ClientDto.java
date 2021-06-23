@@ -1,24 +1,23 @@
 package com.skyrimmarket.backend.dto;
 
-import com.skyrimmarket.backend.model.Role;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @AllArgsConstructor
 @Getter
-public class UserDto {
+public class ClientDto {
 
     private final Long id;
 
     private final String username;
 
-    private final Role role;
+    private final Set<OrderDto> orders;
 
-    public UserDto() {
+    public ClientDto() {
         this.id = null;
         this.username = null;
-        this.role = null;
+        this.orders = null;
     }
 }

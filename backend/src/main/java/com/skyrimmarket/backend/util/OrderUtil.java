@@ -22,22 +22,23 @@ public class OrderUtil {
                 dto.getItem(),
                 dto.getDescription(),
                 status,
-                new Client(dto.getClient().getId()),
-                dto.getContractor() != null ? new Employee(dto.getContractor().getId()) : null,
+                new Client(dto.getClient()),
+                dto.getContractor() != null ? new Employee(dto.getContractor()) : null,
                 dto.getCommentDto() != null ? CommentUtil.fromTo(dto.getCommentDto()) : null
         );
     }
 
     public static OrderDto asTo(Order order) {
        return new OrderDto(
+                order.getId(),
                 order.getType(),
                 order.getPerson(),
                 order.getTitle(),
                 order.getItem(),
                 order.getDescription(),
                 order.getStatus(),
-                UserUtil.asTo(order.getClient()),
-                order.getContractor() != null ? UserUtil.asTo(order.getContractor()) : null,
+                UserUtil.asTo(order.getClient()).getId(),
+                order.getContractor() != null ? UserUtil.asTo(order.getContractor()).getId() : null,
                 order.getComment() != null ? CommentUtil.asTo(order.getComment()) : null
         );
     }

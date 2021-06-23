@@ -2,7 +2,6 @@ package com.skyrimmarket.backend.model;
 
 import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.Employee;
-import com.skyrimmarket.backend.model.user.User;
 import lombok.*;
 
 import javax.persistence.*;

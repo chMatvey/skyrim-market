@@ -1,11 +1,15 @@
 package com.skyrimmarket.backend.model.user;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.skyrimmarket.backend.model.Order;
 import com.skyrimmarket.backend.model.Role;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
+
+import static com.skyrimmarket.backend.model.Role.CLIENT;
 
 @Data
 @NoArgsConstructor
@@ -15,7 +19,7 @@ import java.util.Set;
 @DiscriminatorValue("client")
 public class Client extends User {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "client")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "client", fetch = FetchType.LAZY)
     private Set<Order> orders;
 
     public Client(long id) {
