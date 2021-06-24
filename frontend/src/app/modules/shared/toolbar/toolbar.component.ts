@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { AppState, AppStateModel } from '@state/app.state';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AuthService } from '@services/auth.service';
-import { Navigate } from '@ngxs/router-plugin';
-import { switchMap } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { Toolbar } from '@models/toolbar';
+import { getToolbarStateByUserRole } from '@utils/toolbar';
+import { User } from '@models/user';
 
 @Component({
   selector: 'app-toolbar',
@@ -12,19 +11,25 @@ import { switchMap } from 'rxjs/operators';
   styleUrls: ['./toolbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ToolbarComponent {
+export class ToolbarComponent implements OnInit {
 
-  @Select(AppState)
-  state$: Observable<AppStateModel>
+  toolbar: Toolbar
 
-  constructor(private store: Store,
-              private authService: AuthService) {
+  constructor(private authService: AuthService,
+              private router: Router) {
+  }
+
+  get user(): User {
+    return this.authService.user
+  }
+
+
+  ngOnInit() {
+    this.toolbar = getToolbarStateByUserRole(this.user.role)
   }
 
   onLogout() {
     this.authService.logout()
-      .subscribe(() => this.store.dispatch([
-        new Navigate(['/login'])
-      ]))
+      .subscribe(() => this.router.navigate(['/login']))
   }
 }

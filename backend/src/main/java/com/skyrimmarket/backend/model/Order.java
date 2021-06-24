@@ -2,7 +2,6 @@ package com.skyrimmarket.backend.model;
 
 import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.Employee;
-import com.skyrimmarket.backend.model.user.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,13 +25,14 @@ public class Order {
     @Column(nullable = false)
     private String person;
 
-    @NonNull
-    @Column(nullable = false)
+    @Column
     private Title title;
 
     @NonNull
     @Column(nullable = false)
     private String item;
+
+    private String address;
 
     private String description;
 

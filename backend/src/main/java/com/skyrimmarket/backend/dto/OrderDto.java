@@ -10,6 +10,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class OrderDto {
+
+    private final long id;
+
     private final OrderType type;
 
     private final String person;
@@ -18,13 +21,15 @@ public class OrderDto {
 
     private final String item;
 
+    private final String address;
+
     private final String description;
 
     private final OrderStatus status;
 
-    private final UserDto client;
+    private final Long client;
 
-    private final UserDto contractor;
+    private final Long contractor;
 
     private final CommentDto commentDto;
 }

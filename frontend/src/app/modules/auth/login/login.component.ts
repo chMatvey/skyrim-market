@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngxs/store';
 import { FormGroup } from '@angular/forms';
 import { createLoginForm } from './login';
 import { AuthService } from '@services/auth.service';
 import { withLoading } from '@utils/stream-pipe-operators';
 import { getUrlByUserRole } from '@utils/user';
-import { getToolbarStateByUserRole } from '@utils/toolbar';
-import { Navigate } from '@ngxs/router-plugin';
-import { SetToolbar, SetUser } from '@state/app.actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +17,8 @@ export class LoginComponent implements OnInit {
 
   loading = false
 
-  constructor(private store: Store, private authService: AuthService) {
+  constructor(private router: Router,
+              private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -32,11 +30,6 @@ export class LoginComponent implements OnInit {
       .pipe(
         withLoading(this)
       )
-      .subscribe(user => this.store.dispatch([
-        new SetUser(user),
-        new SetToolbar(getToolbarStateByUserRole(user.role)),
-        new Navigate([getUrlByUserRole(user.role)])
-      ]))
-
+      .subscribe(user => this.router.navigate([getUrlByUserRole(user.role)]))
   }
 }
