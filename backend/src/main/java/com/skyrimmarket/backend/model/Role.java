@@ -6,9 +6,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum Role {
-    CLIENT("CLIENT"),
-    EMPLOYEE("EMPLOYEE"),
-    MASTER("MASTER");
+    client("client"),
+    employee("employee"),
+    master("master");
 
     private final String name;
 }

@@ -15,6 +15,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     Optional<User> findUserByUsername(String username);
 
-    @Query("SELECT u FROM users u WHERE u.role = ?1")
-    List<User> findAllByRole(Role role);
+    @Query("SELECT u FROM users u WHERE u.role = :role")
+    List<User> findAllByRole(@Param("role") Role role);
 }
