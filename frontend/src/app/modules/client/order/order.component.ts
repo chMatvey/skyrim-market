@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { getOrderTypes } from '@utils/order';
+import { disabledStatuses, getOrderTypes } from '@utils/order';
 import { Dropdown } from '@models/dropdown';
 import { BaseComponent } from '@shared/base/base.component';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,7 +19,7 @@ import { OrderService } from '@services/order.service';
 })
 export class OrderComponent extends BaseComponent implements OnInit {
 
-  orderTypes: Dropdown<string>[] = getOrderTypes()
+  orderTypes: Dropdown<OrderType>[] = getOrderTypes()
 
   constructor(private router: Router,
               private orderStateService: OrderStateService,
@@ -37,18 +37,26 @@ export class OrderComponent extends BaseComponent implements OnInit {
   }
 
   get showPayForm(): boolean {
-    return this.order?.status === OrderStatus.APPROVED || true
+    return this.order?.status === OrderStatus.APPROVED
   }
 
   get orderStatus(): string {
     return orderStatusToString(this.order.status)
   }
 
+  get formDisabled(): boolean {
+    return disabledStatuses.includes(this.order.status)
+  }
+
+  get loading(): boolean {
+    return !this.order
+  }
+
   ngOnInit(): void {
     this.activateRoute.params
       .pipe(
         map(params => params['id']),
-        switchMap(id => id ? this.orderService.get(id) : of(null)),
+        switchMap(id => id ? this.orderService.get(id) : of({})),
       )
       .subscribe(
         order => this.orderStateService.order = order,

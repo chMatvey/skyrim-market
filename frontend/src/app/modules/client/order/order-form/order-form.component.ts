@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable, ReplaySubject } from 'rxjs';
-import { createOrderForm } from '@utils/order';
+import { createOrderForm, disabledStatuses } from '@utils/order';
 import { OrderStatus } from '@models/order-status';
 import { tap } from 'rxjs/operators';
 import { TitleService } from '@services/title.service';
@@ -55,10 +55,11 @@ export class OrderFormComponent extends BaseComponent implements OnInit {
   }
 
   get formDisabled(): boolean {
-    const disabledStatuses = [
-      OrderStatus.CREATED, OrderStatus.DECLINED, OrderStatus.PAYED, OrderStatus.APPROVED
-    ]
     return disabledStatuses.includes(this.orderStatus)
+  }
+
+  get itemLabel(): string {
+    return this.orderType === 'FORGERY' ? 'What we must throw' : 'What we must steal?'
   }
 
   ngOnInit(): void {

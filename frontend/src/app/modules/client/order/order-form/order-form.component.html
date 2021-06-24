@@ -1,12 +1,17 @@
 <form *ngIf="form" class="pickpocketing-form"
       [formGroup]="form"
       [class.loading]="loading">
-  <div class="form-control" [class.disabled]="form.disabled">
+  <div *ngIf="form.get('person')" class="form-control" [class.disabled]="form.disabled">
     <label for="person" appRequired>Person</label>
     <input id="person" type="text" formControlName="person">
   </div>
 
-  <div class="form-control" [class.disabled]="form.disabled">
+  <div *ngIf="form.get('address')" class="form-control" [class.disabled]="form.disabled">
+    <label for="address" appRequired>Address</label>
+    <input id="address" type="text" formControlName="address">
+  </div>
+
+  <div *ngIf="form.get('title')" class="form-control" [class.disabled]="form.disabled">
     <label appRequired>The title of the robbed person</label>
     <mat-select formControlName="title">
       <mat-option *ngFor="let title of (titles$ | async)" [value]="title">
@@ -16,7 +21,7 @@
   </div>
 
   <div class="form-control" [class.disabled]="form.disabled">
-    <label for="item" appRequired>What we must steal?</label>
+    <label for="item" appRequired>{{itemLabel}}</label>
     <input id="item" type="text" formControlName="item">
   </div>
 
