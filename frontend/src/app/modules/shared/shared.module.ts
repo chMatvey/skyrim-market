@@ -8,13 +8,19 @@ import { MaterialModule } from '@shared/material/material.module';
 import { UsernamePipe } from './username/username.pipe';
 import { RequiredDirective } from './required/required.directive';
 import { BaseComponent } from '@shared/base/base.component';
+import { ErrorPopupComponent } from './error-popup/error-popup.component';
+import { NotificationPopupComponent } from './notification-popup/notification-popup.component';
+import { ClosePopupComponent } from './close-popup/close-popup.component';
 
 @NgModule({
   declarations: [
     ToolbarComponent,
     UsernamePipe,
     RequiredDirective,
-    BaseComponent
+    BaseComponent,
+    ErrorPopupComponent,
+    NotificationPopupComponent,
+    ClosePopupComponent
   ],
   exports: [
     CommonModule,

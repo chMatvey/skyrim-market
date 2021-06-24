@@ -5,10 +5,8 @@ import { ClientRoutingModule } from './client-routing.module';
 import { OrderComponent } from './order/order.component';
 import { OrdersComponent } from './orders/orders.component';
 import { TopProductsComponent } from './top-products/top-products.component';
-import { PickpocketingFormComponent } from './order/pickpocketing-form/pickpocketing-form.component';
-import { NgxsModule } from '@ngxs/store';
-import { ClientState } from '@state/client/client.state';
-import { OrderGuard } from '@guards/order.guard';
+import { OrderFormComponent } from './order/order-form/order-form.component';
+import { PayFormComponent } from './order/pay-form/pay-form.component';
 
 @NgModule({
   declarations: [
@@ -16,15 +14,12 @@ import { OrderGuard } from '@guards/order.guard';
     OrderComponent,
     OrdersComponent,
     TopProductsComponent,
-    PickpocketingFormComponent
+    OrderFormComponent,
+    PayFormComponent
   ],
   imports: [
     SharedModule,
-    ClientRoutingModule,
-    NgxsModule.forFeature([ClientState])
-  ],
-  providers: [
-    OrderGuard
+    ClientRoutingModule
   ]
 })
 export class ClientModule { }

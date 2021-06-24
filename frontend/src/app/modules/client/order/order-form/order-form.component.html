@@ -1,4 +1,6 @@
-<form class="pickpocketing-form" [formGroup]="form">
+<form *ngIf="form" class="pickpocketing-form"
+      [formGroup]="form"
+      [class.loading]="loading">
   <div class="form-control" [class.disabled]="form.disabled">
     <label for="person" appRequired>Person</label>
     <input id="person" type="text" formControlName="person">
@@ -23,19 +25,25 @@
     <textarea id="description" formControlName="description"></textarea>
   </div>
 
-  <div class="order-form-footer" [ngSwitch]="orderStatus$ | async">
+  <div class="order-form-footer" [ngSwitch]="orderStatus">
     <ng-template ngSwitchCase="CREATED">
       <button class="cancel" (click)="onCancel()">Close</button>
 
       <button class="create" (click)="onDeclineOrder()">Decline Order</button>
     </ng-template>
 
-    <ng-template ngSwitchCase="'NEED_CHANGES'">
+    <ng-template ngSwitchCase="NEED_CHANGES">
       <button class="cancel" (click)="onCancel()">Close</button>
 
       <button class="create" (click)="onDeclineOrder()">Decline Order</button>
 
       <button class="create" (click)="onUpdateOrder()">Apply</button>
+    </ng-template>
+
+    <ng-template ngSwitchCase="APPROVED">
+    </ng-template>
+
+    <ng-template ngSwitchCase="PAYED">
     </ng-template>
 
     <ng-template ngSwitchDefault>

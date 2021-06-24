@@ -7,14 +7,22 @@ export function getOrderTypes(): Dropdown<string>[] {
   return [
     {
       name: 'Pickpocketing',
-      value: 'pickpocketing'
+      value: 'PICKPOCKETING'
     }
   ]
 }
 
 export function createOrderForm(order: Order): FormGroup {
-  return new FormGroup({
+  switch (order.type) {
+    case 'PICKPOCKETING':
+      return createOrderFormForPickpocketing(order)
+    default:
+      throw new Error('Unsupported order type')
+  }
+}
 
+export function createOrderFormForPickpocketing(order: Order): FormGroup {
+  return new FormGroup({
     person: new FormControl(order?.person, [Validators.required]),
     title: new FormControl(order?.title, [Validators.required]),
     item: new FormControl(order?.item, [Validators.required]),

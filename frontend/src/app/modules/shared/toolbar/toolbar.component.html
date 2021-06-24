@@ -1,12 +1,12 @@
 <div class="toolbar">
-  <ng-container *rxSubscribe="state$ let state">
+  <ng-container *ngIf="toolbar">
     <div class="left">
-      <a [routerLink]="state.toolbar?.logoRef" class="toolbar__logo">
+      <a [routerLink]="toolbar?.logoRef" class="toolbar__logo">
         Skyrim Market
       </a>
 
       <div class="toolbar__links">
-        <a *ngFor="let link of state.toolbar?.links" [routerLink]="link.ref">
+        <a *ngFor="let link of toolbar?.links" [routerLink]="link.ref">
           {{link.name}}
         </a>
       </div>
@@ -14,7 +14,7 @@
 
     <div class="right">
       <div class="toolbar__username" [matMenuTriggerFor]="menu">
-        {{state.user?.username | username}}
+        {{user.username | username}}
       </div>
 
       <div class="toolbar__icon"></div>
