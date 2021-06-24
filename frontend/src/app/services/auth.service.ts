@@ -32,6 +32,9 @@ export class AuthService {
 
   logout() {
     return this.http.get<void>(`${apiUrl}/logout`)
+      .pipe(
+        tap(() => localStorage.removeItem(localStorageUserField))
+      )
   }
 
   register(user: User): Observable<User> {
