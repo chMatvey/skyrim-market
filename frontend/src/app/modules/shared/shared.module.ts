@@ -11,6 +11,9 @@ import { BaseComponent } from '@shared/base/base.component';
 import { ErrorPopupComponent } from './error-popup/error-popup.component';
 import { NotificationPopupComponent } from './notification-popup/notification-popup.component';
 import { ClosePopupComponent } from './close-popup/close-popup.component';
+import { OrderListComponent } from './order-list/order-list.component';
+import { WelcomeComponent } from './welcome/welcome.component';
+import { OrderInfoComponent } from './order-info/order-info.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,10 @@ import { ClosePopupComponent } from './close-popup/close-popup.component';
     BaseComponent,
     ErrorPopupComponent,
     NotificationPopupComponent,
-    ClosePopupComponent
+    ClosePopupComponent,
+    OrderListComponent,
+    WelcomeComponent,
+    OrderInfoComponent
   ],
   exports: [
     CommonModule,
@@ -31,7 +37,9 @@ import { ClosePopupComponent } from './close-popup/close-popup.component';
     RxSubscribeModule,
     MaterialModule,
     RequiredDirective,
-    BaseComponent
+    BaseComponent,
+    OrderListComponent,
+    OrderInfoComponent
   ],
   imports: [
     CommonModule,

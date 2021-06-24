@@ -13,6 +13,7 @@ import { OrderType } from '@models/order-type';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationPopupComponent } from '@shared/notification-popup/notification-popup.component';
 import { Router } from '@angular/router';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'app-order-form',
@@ -29,11 +30,16 @@ export class OrderFormComponent extends BaseComponent implements OnInit {
 
   loading = false
 
+  get userId() {
+    return this.authService.user.id
+  }
+
   constructor(private titleService: TitleService,
               private orderService: OrderService,
               private orderStateService: OrderStateService,
               private dialogService: MatDialog,
-              private router: Router) {
+              private router: Router,
+              private authService: AuthService) {
     super()
   }
 
@@ -79,7 +85,7 @@ export class OrderFormComponent extends BaseComponent implements OnInit {
   }
 
   onCreateOrder() {
-    this.orderService.create({...this.form.value, type: this.orderType})
+    this.orderService.create({...this.form.value, type: this.orderType, client: this.userId})
       .pipe(
         tap(() => this.showNotification('Order successfully created!'))
       )
@@ -93,7 +99,13 @@ export class OrderFormComponent extends BaseComponent implements OnInit {
   }
 
   onUpdateOrder() {
-    this.orderService.create({...this.form.value, type: this.orderType, status: OrderStatus.CREATED})
+    const order = {
+      ...this.form.value,
+      type: this.orderType,
+      status: OrderStatus.CREATED,
+      client: this.userId
+    }
+    this.orderService.create(order)
       .pipe(
         tap(() => this.showNotification('Order successfully updated!'))
       )

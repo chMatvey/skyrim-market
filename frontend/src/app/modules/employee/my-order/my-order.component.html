@@ -1,0 +1,9 @@
+<div class="my-order" [class.loading]="loading">
+  <app-order-info [order]="order$ | async">
+    <div class="my-order__control actions">
+      <button (click)="close()">Close</button>
+      <button (click)="decline()">Decline</button>
+      <button (click)="complete()">Complete</button>
+    </div>
+  </app-order-info>
+</div>

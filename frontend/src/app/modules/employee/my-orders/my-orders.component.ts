@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderService } from '@services/order.service';
 import { Order } from '@models/order';
+import { OrderService } from '@services/order.service';
 import { Router } from '@angular/router';
 import { withLoading } from '@utils/stream-pipe-operators';
 import { AuthService } from '@services/auth.service';
 
 @Component({
-  selector: 'app-orders',
-  templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.scss']
+  selector: 'app-my-orders',
+  templateUrl: './my-orders.component.html',
+  styleUrls: ['./my-orders.component.scss']
 })
-export class OrdersComponent implements OnInit {
+export class MyOrdersComponent implements OnInit {
 
   orders: Order[]
 
@@ -26,7 +26,7 @@ export class OrdersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.orderService.getClientOrder(this.userId)
+    this.orderService.getEmployeeOrders(this.userId)
       .pipe(withLoading(this))
       .subscribe(
         orders => this.orders = orders,
@@ -35,6 +35,6 @@ export class OrdersComponent implements OnInit {
   }
 
   openOrder(id: number) {
-    this.router.navigate([`/client/order/${id}`])
+    this.router.navigate([`/employee/my-order/${id}`])
   }
 }

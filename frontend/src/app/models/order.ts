@@ -15,5 +15,6 @@ export interface Order {
   address?: string,
   date?: string,
   payment?: Payment,
-  price?: number
+  price?: number,
+  contractor?: number
 }

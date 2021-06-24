@@ -1,4 +1,4 @@
-<form *ngIf="form" class="pickpocketing-form"
+<form *ngIf="form" class="order-form"
       [formGroup]="form"
       [class.loading]="loading">
   <div *ngIf="form.get('person')" class="form-control" [class.disabled]="form.disabled">
@@ -30,7 +30,7 @@
     <textarea id="description" formControlName="description"></textarea>
   </div>
 
-  <div class="order-form-footer" [ngSwitch]="orderStatus">
+  <div class="order-form__footer" [ngSwitch]="orderStatus">
     <ng-template ngSwitchCase="CREATED">
       <button class="cancel" (click)="onCancel()">Close</button>
 

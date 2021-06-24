@@ -74,3 +74,16 @@ export function isEditableStatus(status: OrderStatus) {
 export const disabledStatuses = [
   OrderStatus.CREATED, OrderStatus.DECLINED, OrderStatus.PAYED, OrderStatus.APPROVED
 ]
+
+export function orderTypeToString(type: OrderType): string {
+  switch (type) {
+    case 'PICKPOCKETING':
+      return 'Pickpocketing'
+    case 'SWEEP':
+      return 'Sweep'
+    case 'FORGERY':
+      return 'Forgery'
+    default:
+      throw new Error('Unsupported order type')
+  }
+}

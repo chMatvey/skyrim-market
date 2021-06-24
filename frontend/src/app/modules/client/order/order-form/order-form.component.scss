@@ -1,12 +1,12 @@
 @import "mixins";
 
-.pickpocketing-form {
+.order-form {
   @include form();
   width: 687px;
   height: 550px;
   padding: 24px 32px;
 
-  .order-form-footer {
+  &__footer {
     display: flex;
     align-items: center;
     justify-content: space-between;

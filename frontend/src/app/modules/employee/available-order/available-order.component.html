@@ -1,0 +1,8 @@
+<div class="available-order" [class.loading]="loading">
+  <app-order-info [order]="order$ | async">
+    <div class="available-order__control actions">
+      <button (click)="close()">Close</button>
+      <button (click)="assignToMe()">Assign to me</button>
+    </div>
+  </app-order-info>
+</div>
