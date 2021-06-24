@@ -17,6 +17,20 @@ export function getToolbarStateByUserRole(role: UserRole): Toolbar {
           }
         ]
       }
+    case UserRole.EMPLOYEE:
+      return {
+        logoRef: '/employee',
+        links: [
+          {
+            name: 'My Orders',
+            ref: 'my-orders'
+          },
+          {
+            name: 'Available Orders',
+            ref: 'available-orders'
+          }
+        ]
+      }
     default:
       return null
   }

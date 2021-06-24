@@ -10,55 +10,18 @@
     width: 200px;
     margin-left: 24px;
   }
-}
 
-.service{
-  margin-left: 10px;
-  margin-bottom: 30px;
+  &__control {
+    &.actions {
+      margin-top: 110px;
+      display: flex;
+      justify-content: space-between;
 
-  &__description{
-    margin-left: 10px;
-    margin-bottom: 10px;
-  }
-
-  &__text{
-    border-width: 1px;
-    border-radius: 10px;
-    border-style: solid;
-    border-color: white;
-    width: 600px;
-    height: 100px;
-    padding: 5px;
-    margin-left: 20px;
-  }
-
-  &__type{
-    margin-bottom: 40px;
-  }
-}
-
-.available-order-form {
-  @include form();
-  width: 687px;
-  height: 550px;
-  padding: 24px 32px;
-
-}
-
-.buttons{
-  margin-top: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  button {
-    height: 35px;
-
-    &.cancel {
-      width: 95px;
-    }
-
-    &.apply {
-      width: 110px;
+      button {
+        width: 100px;
+        height: 35px;
+      }
     }
   }
 }
+

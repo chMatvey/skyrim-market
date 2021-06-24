@@ -1,0 +1,21 @@
+@import "mixins";
+
+.order-info {
+  @include form();
+  width: 687px;
+  height: 610px;
+  padding: 24px 32px;
+
+  &__value {
+    margin-top: 8px;
+
+    &.description {
+      height: 70px;
+      border: 1px solid #fff;
+      border-radius: 10px;
+      box-sizing: border-box;
+      padding: 8px;
+      overflow-y: auto;
+    }
+  }
+}

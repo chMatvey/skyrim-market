@@ -1,54 +1,12 @@
 @import "mixins";
 
-.client-order {
+.available-orders {
   @include card();
-  width: 1059px;
-  height: 730px;
-  padding: 46px 76px;
+  @include order-list();
 
-  &__list {
-    height: 600px;
-    overflow-y: auto;
-  }
-
-  &__order {
-    background: rgba(43, 43, 43, .7);
-    border-radius: 10px;
-    width: 880px;
-    height: 80px;
-    margin-bottom: 20px;
-
-    .order-description {
-      font-size: 14px;
-      padding: 20px 10px 10px 20px;
-      cursor: pointer;
-
-      &__name {
-        position: relative;
-        left: 5px;
-        width: 120px;
-      }
-
-      &__date {
-        position: relative;
-        left: 140px;
-        width: 165px;
-      }
-
-      &__status {
-        position: relative;
-        left: 320px;
-        top: 11px;
-        width: 180px;
-      }
-
-      &__text {
-        position: relative;
-        left: 18px;
-        top: 8px;
-        width: 500px;
-      }
-    }
+  &__header {
+    margin-bottom: 16px;
+    font-size: 18px;
   }
 }
 
