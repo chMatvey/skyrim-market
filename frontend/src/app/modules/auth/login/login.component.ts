@@ -5,6 +5,7 @@ import { AuthService } from '@services/auth.service';
 import { withLoading } from '@utils/stream-pipe-operators';
 import { getUrlByUserRole } from '@utils/user';
 import { Router } from '@angular/router';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,8 @@ export class LoginComponent implements OnInit {
 
   loading = false
 
+  error: boolean
+
   constructor(private router: Router,
               private authService: AuthService) {
   }
@@ -28,7 +31,11 @@ export class LoginComponent implements OnInit {
   submit() {
     this.authService.login(this.form.value)
       .pipe(
-        withLoading(this)
+        withLoading(this),
+        catchError(err => {
+          this.error = true
+          throw err
+        })
       )
       .subscribe(user => this.router.navigate([getUrlByUserRole(user.role)]))
   }
