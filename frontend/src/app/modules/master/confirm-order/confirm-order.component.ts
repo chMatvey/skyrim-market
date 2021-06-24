@@ -4,19 +4,22 @@ import { Order } from '@models/order';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from '@services/order.service';
 import { map, switchMap, tap } from 'rxjs/operators';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { OrderStatus } from '@models/order-status';
 import { withLoading } from '@utils/stream-pipe-operators';
 
 @Component({
-  selector: 'app-my-order',
-  templateUrl: './my-order.component.html',
-  styleUrls: ['./my-order.component.scss']
+  selector: 'app-confirm-order',
+  templateUrl: './confirm-order.component.html',
+  styleUrls: ['./confirm-order.component.scss']
 })
-export class MyOrderComponent implements OnInit {
+export class ConfirmOrderComponent implements OnInit {
 
   order$: Observable<Order>
 
   loading: boolean
+
+  form: FormGroup
 
   private order: Order
 
@@ -32,19 +35,19 @@ export class MyOrderComponent implements OnInit {
         switchMap(id => this.orderService.get(id)),
         tap(order => this.order = order)
       )
+
+    this.form = new FormGroup({
+      price: new FormControl(null, [Validators.required])
+    })
   }
 
   close() {
-    this.router.navigate(['/employee/my-orders'])
+    this.router.navigate(['/master/orders'])
   }
 
   decline() {
     this.orderService.update({...this.order, status: OrderStatus.DECLINED})
       .pipe(withLoading(this))
-  }
-
-  complete() {
-    this.orderService.update({...this.order, status: OrderStatus.COMPLETED})
-      .pipe(withLoading(this))
+      .subscribe()
   }
 }

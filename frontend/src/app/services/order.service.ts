@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Order } from '@models/order';
 import { apiUrl } from '@app/app.const';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { OrderStatus } from '@models/order-status';
 
 @Injectable({
   providedIn: 'root'
@@ -29,9 +31,19 @@ export class OrderService {
 
   getAvailableOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(`${apiUrl}/order/all`)
+      .pipe(
+        map(orders => orders.filter(order => order.status === OrderStatus.PAYED))
+      )
   }
 
   getEmployeeOrders(id: number): Observable<Order[]> {
     return this.http.get<Order[]>(`${apiUrl}/order/all/contractor/${id}`)
+  }
+
+  getMasterOrders() {
+    return this.http.get<Order[]>(`${apiUrl}/order/all`)
+      .pipe(
+        map(orders => orders.filter(order => order.status === OrderStatus.CREATED))
+      )
   }
 }

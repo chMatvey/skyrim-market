@@ -1,8 +1,9 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import {OrdersComponent} from "@modules/client/orders/orders.component";
-import {ConfirmedOrderComponent} from "@modules/master/confirmed-order/confirmed-order.component";
-import {MasterComponent} from "@modules/master/master.component";
+import { ConfirmOrderComponent } from "@modules/master/confirm-order/confirm-order.component";
+import { MasterComponent } from "@modules/master/master.component";
+import { OrdersForMasterComponent } from '@modules/master/orders-for-master/orders-for-master.component';
+import { WelcomeComponent } from '@shared/welcome/welcome.component';
 
 const routes: Routes = [
   {
@@ -10,12 +11,16 @@ const routes: Routes = [
     component: MasterComponent,
     children: [
       {
-        path: 'orders',
-        component: OrdersComponent
+        path: '',
+        component: WelcomeComponent
       },
       {
-        path: 'confirmed-order',
-        component: ConfirmedOrderComponent
+        path: 'orders',
+        component: OrdersForMasterComponent
+      },
+      {
+        path: 'confirm-order/:id',
+        component: ConfirmOrderComponent
       }
     ]
   },
@@ -25,4 +30,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class MasterRoutingModule { }
+export class MasterRoutingModule {
+}

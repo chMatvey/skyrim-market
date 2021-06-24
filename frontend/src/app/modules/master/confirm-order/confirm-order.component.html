@@ -1,0 +1,16 @@
+<div class="confirm-order" [class.loading]="loading">
+  <app-order-info [order]="order$ | async">
+    <div class="confirm-order__actions">
+      <button (click)="close()">Close</button>
+
+      <form class="price" [formGroup]="form">
+        <label for="price">Price:</label>
+        <input type="number" id="price" formControlName="price">
+      </form>
+
+      <button (click)="decline()">Decline</button>
+
+      <button [disabled]="form.invalid">Approve</button>
+    </div>
+  </app-order-info>
+</div>
