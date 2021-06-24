@@ -1,9 +1,15 @@
 <div class="my-order" [class.loading]="loading">
   <app-order-info [order]="order$ | async">
-    <div class="my-order__control actions">
+    <form class="my_order__control form-control" [formGroup]="form">
+      <label for="droppoint">Where is the stolen item hidden</label>
+      <input type="text" id="droppoint" formControlName="droppoint">
+    </form>
+
+    <div class="my-order__actions">
       <button (click)="close()">Close</button>
       <button (click)="decline()">Decline</button>
-      <button (click)="complete()">Complete</button>
+      <button [disabled]="form.invalid"
+              (click)="complete()">Complete</button>
     </div>
   </app-order-info>
 </div>

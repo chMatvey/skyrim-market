@@ -39,7 +39,7 @@ public class OrderUtil {
     }
 
     public static OrderDto asTo(Order order) {
-       return new OrderDto(
+        return new OrderDto(
                 order.getId(),
                 order.getType(),
                 order.getPerson(),
@@ -54,7 +54,7 @@ public class OrderUtil {
                 order.getContractor() != null ? UserUtil.asTo(order.getContractor()).getId() : null,
                 order.getComment() != null ? order.getComment() : null,
                 order.getDroppoint(),
-                order.getDate().format(DateTimeFormatter.ISO_DATE)
+                order.getDate() != null ? order.getDate().format(DateTimeFormatter.ISO_DATE) : null
         );
     }
 }

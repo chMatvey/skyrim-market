@@ -6,6 +6,9 @@ import { OrderService } from '@services/order.service';
 import { Order } from '@models/order';
 import { AuthService } from '@services/auth.service';
 import { withLoading } from '@utils/stream-pipe-operators';
+import { OrderStatus } from '@models/order-status';
+import { MatDialog } from '@angular/material/dialog';
+import { NotificationPopupComponent } from '@shared/notification-popup/notification-popup.component';
 
 @Component({
   selector: 'app-available-order',
@@ -23,7 +26,8 @@ export class AvailableOrderComponent implements OnInit {
   constructor(private activateRoute: ActivatedRoute,
               private orderService: OrderService,
               private router: Router,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private dialogService: MatDialog) {
   }
 
   get userId() {
@@ -44,11 +48,19 @@ export class AvailableOrderComponent implements OnInit {
   }
 
   assignToMe() {
-    this.orderService.update({...this.order, contractor: this.userId})
+    this.orderService.update({...this.order, contractor: this.userId, status: OrderStatus.IN_PROGRESS})
       .pipe(
         withLoading(this),
-        map(order => order.id)
+        map(order => order.id),
+        tap(() => this.showNotification('Order assigned to you!'))
       )
       .subscribe(id => this.router.navigate([`/employee/my-order/${id}`]))
+  }
+
+  private showNotification(data: string) {
+    this.dialogService.open(NotificationPopupComponent, {
+      data,
+      panelClass: 'skyrim-popup'
+    })
   }
 }

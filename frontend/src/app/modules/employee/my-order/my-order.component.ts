@@ -6,6 +6,9 @@ import { OrderService } from '@services/order.service';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { OrderStatus } from '@models/order-status';
 import { withLoading } from '@utils/stream-pipe-operators';
+import { NotificationPopupComponent } from '@shared/notification-popup/notification-popup.component';
+import { MatDialog } from '@angular/material/dialog';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-my-order',
@@ -18,11 +21,14 @@ export class MyOrderComponent implements OnInit {
 
   loading: boolean
 
+  form: FormGroup;
+
   private order: Order
 
   constructor(private activateRoute: ActivatedRoute,
               private orderService: OrderService,
-              private router: Router) {
+              private router: Router,
+              private dialogService: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -32,6 +38,10 @@ export class MyOrderComponent implements OnInit {
         switchMap(id => this.orderService.get(id)),
         tap(order => this.order = order)
       )
+
+    this.form = new FormGroup({
+      droppoint: new FormControl(null, [Validators.required])
+    })
   }
 
   close() {
@@ -40,11 +50,26 @@ export class MyOrderComponent implements OnInit {
 
   decline() {
     this.orderService.update({...this.order, status: OrderStatus.DECLINED})
-      .pipe(withLoading(this))
+      .pipe(
+        withLoading(this),
+        tap(() => this.showNotification('Order successfully declined!'))
+      )
+      .subscribe(() => this.router.navigate(['/employee/my-orders']))
   }
 
   complete() {
-    this.orderService.update({...this.order, status: OrderStatus.COMPLETED})
-      .pipe(withLoading(this))
+    this.orderService.update({...this.order, ...this.form.value, status: OrderStatus.COMPLETED})
+      .pipe(
+        withLoading(this),
+        tap(() => this.showNotification('Order status successfully changed to Completed!'))
+      )
+      .subscribe(() => this.router.navigate(['/employee/my-orders']))
+  }
+
+  private showNotification(data: string) {
+    this.dialogService.open(NotificationPopupComponent, {
+      data,
+      panelClass: 'skyrim-popup'
+    })
   }
 }

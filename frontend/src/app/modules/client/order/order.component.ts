@@ -52,6 +52,10 @@ export class OrderComponent extends BaseComponent implements OnInit, OnDestroy {
     return !this.order
   }
 
+  get showItemLocation(): boolean {
+    return this.order?.status === OrderStatus.COMPLETED
+  }
+
   ngOnInit(): void {
     this.activateRoute.params
       .pipe(

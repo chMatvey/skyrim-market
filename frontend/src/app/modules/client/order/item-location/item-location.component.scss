@@ -1,0 +1,17 @@
+.item-location {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin-top: 80px;
+  width: 200px;
+
+  label {
+    font-weight: 300;
+  }
+
+  &__place {
+    margin-top: 8px;
+    margin-left: 12px;
+    word-break: break-word;
+  }
+}

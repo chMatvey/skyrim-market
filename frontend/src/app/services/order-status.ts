@@ -12,6 +12,10 @@ export function orderStatusToString(status: OrderStatus): string {
       return 'Being executed'
     case OrderStatus.DECLINED:
       return 'Declined'
+    case OrderStatus.IN_PROGRESS:
+      return 'In Progress'
+    case OrderStatus.COMPLETED:
+      return 'Completed'
     default:
       throw new Error('Unsupported order status')
   }

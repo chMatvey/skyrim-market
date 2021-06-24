@@ -7,6 +7,7 @@ import { OrdersComponent } from './orders/orders.component';
 import { TopProductsComponent } from './top-products/top-products.component';
 import { OrderFormComponent } from './order/order-form/order-form.component';
 import { PayFormComponent } from './order/pay-form/pay-form.component';
+import { ItemLocationComponent } from './order/item-location/item-location.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { PayFormComponent } from './order/pay-form/pay-form.component';
     OrdersComponent,
     TopProductsComponent,
     OrderFormComponent,
-    PayFormComponent
+    PayFormComponent,
+    ItemLocationComponent
   ],
   imports: [
     SharedModule,

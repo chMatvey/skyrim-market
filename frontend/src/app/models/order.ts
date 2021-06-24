@@ -17,4 +17,5 @@ export interface Order {
   payment?: Payment,
   price?: number,
   contractor?: number
+  droppoint?: string
 }

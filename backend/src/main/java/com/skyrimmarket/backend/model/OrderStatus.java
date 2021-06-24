@@ -11,6 +11,7 @@ public enum OrderStatus {
     APPROVED("APPROVED"),
     PAYED("PAYED"),
     COMPLETED("COMPLETED"),
+    IN_PROGRESS("IN_PROGRESS"),
     DECLINED("DECLINED");
 
     private final String name;

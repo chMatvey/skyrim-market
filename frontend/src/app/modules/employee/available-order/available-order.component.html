@@ -2,7 +2,7 @@
   <app-order-info [order]="order$ | async">
     <div class="available-order__control actions">
       <button (click)="close()">Close</button>
-      <button (click)="assignToMe()">Assign to me</button>
+      <button class="assign" (click)="assignToMe()">Assign to me</button>
     </div>
   </app-order-info>
 </div>

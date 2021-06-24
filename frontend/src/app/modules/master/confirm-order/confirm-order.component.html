@@ -10,7 +10,8 @@
 
       <button (click)="decline()">Decline</button>
 
-      <button [disabled]="form.invalid">Approve</button>
+      <button [disabled]="form.invalid"
+              (click)="approve()">Approve</button>
     </div>
   </app-order-info>
 </div>

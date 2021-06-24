@@ -38,6 +38,9 @@ export class OrderService {
 
   getEmployeeOrders(id: number): Observable<Order[]> {
     return this.http.get<Order[]>(`${apiUrl}/order/all/contractor/${id}`)
+      .pipe(
+        map(orders => orders.filter(order => order.status === OrderStatus.PAYED))
+      )
   }
 
   getMasterOrders() {

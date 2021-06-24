@@ -25,7 +25,6 @@ public class Order {
     private OrderType type;
 
     @NonNull
-    @Column(nullable = false)
     private String person;
 
     @Column

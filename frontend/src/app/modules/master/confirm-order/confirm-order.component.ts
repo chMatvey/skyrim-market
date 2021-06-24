@@ -7,6 +7,8 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { OrderStatus } from '@models/order-status';
 import { withLoading } from '@utils/stream-pipe-operators';
+import { MatDialog } from '@angular/material/dialog';
+import { NotificationPopupComponent } from '@shared/notification-popup/notification-popup.component';
 
 @Component({
   selector: 'app-confirm-order',
@@ -25,7 +27,8 @@ export class ConfirmOrderComponent implements OnInit {
 
   constructor(private activateRoute: ActivatedRoute,
               private orderService: OrderService,
-              private router: Router) {
+              private router: Router,
+              private dialogService: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -47,7 +50,26 @@ export class ConfirmOrderComponent implements OnInit {
 
   decline() {
     this.orderService.update({...this.order, status: OrderStatus.DECLINED})
-      .pipe(withLoading(this))
-      .subscribe()
+      .pipe(
+        withLoading(this),
+        tap(() => this.showNotification('Order successfully declined!'))
+      )
+      .subscribe(() => this.router.navigate(['/master/orders']))
+  }
+
+  approve() {
+    this.orderService.update({...this.order, ...this.form.value, status: OrderStatus.APPROVED})
+      .pipe(
+        withLoading(this),
+        tap(() => this.showNotification('Order successfully approved!'))
+      )
+      .subscribe(() => this.router.navigate(['/master/orders']))
+  }
+
+  private showNotification(data: string) {
+    this.dialogService.open(NotificationPopupComponent, {
+      data,
+      panelClass: 'skyrim-popup'
+    })
   }
 }
