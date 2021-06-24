@@ -1,0 +1,31 @@
+@import "mixins";
+
+.confirm-order {
+  @include card();
+  width: 1059px;
+  height: 730px;
+  padding: 46px 76px;
+
+  &__actions {
+    margin-top: 120px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    button {
+      width: 100px;
+      height: 35px;
+    }
+
+    .price {
+      label {
+        margin-right: 10px;
+      }
+
+      input {
+        @include input();
+        width: 80px;
+      }
+    }
+  }
+}

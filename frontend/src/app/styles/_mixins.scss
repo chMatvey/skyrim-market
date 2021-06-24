@@ -34,3 +34,17 @@
   background: #1c1c1c;
   border-radius: 10px;
 }
+
+@mixin input() {
+  font-size: 16px;
+  height: 30px;
+  line-height: 14px;
+  color: #fff;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid #fff;
+
+  &:focus {
+    outline: none;
+  }
+}

@@ -18,6 +18,11 @@ const routes: Routes = [
       .then(module => module.EmployeeModule)
   },
   {
+    path: 'master',
+    loadChildren: () => import('./modules/master/master.module')
+      .then(module => module.MasterModule)
+  },
+  {
     path: '**',
     redirectTo: ''
   }

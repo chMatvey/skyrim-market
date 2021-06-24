@@ -31,6 +31,16 @@ export function getToolbarStateByUserRole(role: UserRole): Toolbar {
           }
         ]
       }
+    case UserRole.MASTER:
+      return {
+        logoRef: '/master',
+        links: [
+          {
+            name: 'Orders',
+            ref: 'orders'
+          }
+        ]
+      }
     default:
       return null
   }
