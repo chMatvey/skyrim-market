@@ -1,15 +1,11 @@
 package com.skyrimmarket.backend.model.user;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.skyrimmarket.backend.model.Order;
 import com.skyrimmarket.backend.model.Role;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
-
-import static com.skyrimmarket.backend.model.Role.CLIENT;
 
 @Data
 @NoArgsConstructor

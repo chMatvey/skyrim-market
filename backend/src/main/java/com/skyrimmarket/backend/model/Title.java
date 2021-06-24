@@ -7,10 +7,10 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum Title {
-    COURT_MAGICIAN("COURT_MAGICIAN"),
-    THANE("THANE"),
-    JARL("JARL"),
-    TRADER("TRADER");
+    Court_magician("Court_magician"),
+    Thane("Thane"),
+    Jarl("Jarl"),
+    Trader("Trader");
 
     private final String name;
 }

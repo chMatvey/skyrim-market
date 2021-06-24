@@ -10,6 +10,7 @@ public enum OrderStatus {
     NEED_CHANGES("NEED_CHANGES"),
     APPROVED("APPROVED"),
     PAYED("PAYED"),
+    COMPLETED("COMPLETED"),
     DECLINED("DECLINED");
 
     private final String name;
