@@ -4,5 +4,5 @@ export enum OrderStatus {
   APPROVED = 'APPROVED',
   PAYED = 'PAYED',
   DECLINED = 'DECLINED',
-  COMPLETED = 'DECLINED'
+  COMPLETED = 'COMPLETED'
 }
