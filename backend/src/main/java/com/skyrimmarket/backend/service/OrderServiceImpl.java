@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -29,6 +28,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> getAllByClient(long client_id) {
+        return orderRepository.findAllByClientId(client_id);
+    }
+
+    @Override
+    public List<Order> getAllByContractor(long contractor_id) {
+        return orderRepository.findAllByContractorId(contractor_id);
+    }
+
+    @Override
     public Order create(Order order) {
         return orderRepository.save(order);
     }
@@ -40,6 +49,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void delete(long id) {
+        orderRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         orderRepository.deleteById(id);
     }
 }

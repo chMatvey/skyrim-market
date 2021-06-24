@@ -1,13 +1,15 @@
-<div class="client-order">
+<div class="client-order" [class.loading]="loading">
 
-  <div class="client-order__list">
-    <div class="form-control client-order__order">
-      <div class="order-description">
-        <span class="order-description__name">Заказ: Steal3232</span>
-        <span class="order-description__date">Дата заказа: 23.05.2021</span>
-        <span class="order-description__status">Статус заказа: выполняется</span>
-        <div class="order-description__text">Украсть меч небес</div>
+  <div *ngIf="orders?.length" class="client-order__list">
+    <div *ngFor="let order of orders" class="client-order__order form-control ">
+      <div class="order-description" (click)="openOrder(order.id)">
+        <span class="order-description__name">Order: {{order.id}}</span>
+        <span class="order-description__date">Date: {{order.date ?? ''}}</span>
+        <span class="order-description__status">Status: {{orderStatus(order.status)}}</span>
+        <div class="order-description__text">Description: {{order.description ?? ''}}</div>
       </div>
     </div>
   </div>
+
+  <div *ngIf="orders?.length === 0" class="client-order__no-orders">You don't have any active orders</div>
 </div>

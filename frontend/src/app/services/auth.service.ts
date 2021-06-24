@@ -10,12 +10,23 @@ import { tap } from 'rxjs/operators';
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
+  private currentUser: User
+
+  constructor(private http: HttpClient) {
+    this.currentUser = JSON.parse(localStorage.getItem(localStorageUserField))
+  }
+
+  get user(): User {
+    return this.currentUser
+  }
 
   login(user: User): Observable<User> {
     return this.http.post<User>(`${apiUrl}/login`, user)
       .pipe(
-        tap(user => localStorage.setItem(localStorageUserField, JSON.stringify(user)))
+        tap(user => {
+          this.currentUser = user
+          localStorage.setItem(localStorageUserField, JSON.stringify(user))
+        })
       )
   }
 

@@ -1,24 +1,22 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs';
-import { Store } from '@ngxs/store';
-import { ClientState } from '@state/client/client.state';
-import { map, tap } from 'rxjs/operators';
-import { Navigate } from '@ngxs/router-plugin';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { OrderStateService } from '@services/order-state.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderGuard implements CanActivate {
 
-  constructor(private store: Store) {
+  constructor(private orderStateService: OrderStateService,
+              private router: Router) {
   }
 
   canActivate(route: ActivatedRouteSnapshot,
-              state: RouterStateSnapshot): Observable<boolean> {
-    return this.store.selectOnce(ClientState.orderType).pipe(
-      map(value => !!value),
-      tap(value => !value && this.store.dispatch([new Navigate(['/client/order'])]))
-    )
+              state: RouterStateSnapshot): boolean {
+    if (!this.orderStateService.order?.type) {
+      this.router.navigate(['/client/order'])
+      return false
+    }
+    return true
   }
 }

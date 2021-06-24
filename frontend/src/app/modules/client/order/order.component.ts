@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { getOrderTypes, isNotEditableStatus } from '@utils/order';
-import { Select, Store } from '@ngxs/store';
-import { Navigate } from '@ngxs/router-plugin';
-import { SetOrderType } from '@state/client/client.actions';
-import { Observable } from 'rxjs';
-import { ClientState } from '@state/client/client.state';
+import { disabledStatuses, getOrderTypes } from '@utils/order';
 import { Dropdown } from '@models/dropdown';
-import { map, takeUntil } from 'rxjs/operators';
 import { BaseComponent } from '@shared/base/base.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { OrderStateService } from '@services/order-state.service';
+import { OrderType } from '@models/order-type';
+import { Order } from '@models/order';
+import { OrderStatus } from '@models/order-status';
+import { orderStatusToString } from '@services/order-status';
+import { map, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { OrderService } from '@services/order.service';
 
 @Component({
   selector: 'app-order',
@@ -16,29 +19,52 @@ import { BaseComponent } from '@shared/base/base.component';
 })
 export class OrderComponent extends BaseComponent implements OnInit {
 
-  orderTypes: Dropdown<string>[] = getOrderTypes()
+  orderTypes: Dropdown<OrderType>[] = getOrderTypes()
 
-  @Select(ClientState.orderType)
-  orderType$: Observable<string>
-
-  disabled$: Observable<boolean>
-
-  constructor(private store: Store) {
+  constructor(private router: Router,
+              private orderStateService: OrderStateService,
+              private activateRoute: ActivatedRoute,
+              private orderService: OrderService) {
     super()
   }
 
+  get order(): Order {
+    return this.orderStateService.order
+  }
+
+  get orderType(): OrderType {
+    return this.order?.type
+  }
+
+  get showPayForm(): boolean {
+    return this.order?.status === OrderStatus.APPROVED
+  }
+
+  get orderStatus(): string {
+    return orderStatusToString(this.order.status)
+  }
+
+  get formDisabled(): boolean {
+    return disabledStatuses.includes(this.order.status)
+  }
+
+  get loading(): boolean {
+    return !this.order
+  }
+
   ngOnInit(): void {
-    this.disabled$ = this.store.select(ClientState.orderStatus)
+    this.activateRoute.params
       .pipe(
-        takeUntil(this.ngUnsubscribe),
-        map(status => isNotEditableStatus(status))
+        map(params => params['id']),
+        switchMap(id => id ? this.orderService.get(id) : of({})),
+      )
+      .subscribe(
+        order => this.orderStateService.order = order,
+        error => console.log(error)
       )
   }
 
-  onOrderTypeChange(value: string) {
-    this.store.dispatch([
-      new SetOrderType(value),
-      new Navigate([`/client/order/${value}`])
-    ])
+  onOrderTypeChange(type: OrderType) {
+    this.orderStateService.order = {...this.order, type}
   }
 }

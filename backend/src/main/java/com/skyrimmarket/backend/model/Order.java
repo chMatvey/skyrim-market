@@ -2,10 +2,11 @@ package com.skyrimmarket.backend.model;
 
 import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.Employee;
-import com.skyrimmarket.backend.model.user.User;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 @Data
@@ -26,15 +27,20 @@ public class Order {
     @Column(nullable = false)
     private String person;
 
-    @NonNull
-    @Column(nullable = false)
+    @Column
     private Title title;
 
     @NonNull
     @Column(nullable = false)
     private String item;
 
+    private String address;
+
     private String description;
+
+    private Float price;
+
+    private Payment payment;
 
     @NonNull
     @Column(nullable = false)
@@ -51,6 +57,8 @@ public class Order {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "comments_id", referencedColumnName = "id")
     private Comment comment;
+
+    private LocalDateTime date;
 
     @Override
     public boolean equals(Object o) {

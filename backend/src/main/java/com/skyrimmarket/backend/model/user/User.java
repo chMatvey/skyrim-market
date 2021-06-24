@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Data
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "of")
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity(name = "users")
@@ -20,7 +20,7 @@ public class User {
     private long id;
 
     @NonNull
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @NonNull
