@@ -72,7 +72,12 @@ export function isEditableStatus(status: OrderStatus) {
 }
 
 export const disabledStatuses = [
-  OrderStatus.CREATED, OrderStatus.DECLINED, OrderStatus.PAYED, OrderStatus.APPROVED, OrderStatus.IN_PROGRESS
+  OrderStatus.CREATED,
+  OrderStatus.DECLINED,
+  OrderStatus.PAYED,
+  OrderStatus.APPROVED,
+  OrderStatus.IN_PROGRESS,
+  OrderStatus.COMPLETED
 ]
 
 export function orderTypeToString(type: OrderType): string {
