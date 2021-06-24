@@ -1,0 +1,64 @@
+@import "mixins";
+
+.available-order {
+  @include card();
+  width: 1059px;
+  height: 730px;
+  padding: 46px 76px;
+
+  &__description {
+    width: 200px;
+    margin-left: 24px;
+  }
+}
+
+.service{
+  margin-left: 10px;
+  margin-bottom: 30px;
+
+  &__description{
+    margin-left: 10px;
+    margin-bottom: 10px;
+  }
+
+  &__text{
+    border-width: 1px;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: white;
+    width: 600px;
+    height: 50px;
+    padding: 5px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+  }
+
+  &__type{
+    margin-bottom: 40px;
+  }
+}
+
+.available-order-form {
+  @include form();
+  width: 687px;
+  height: 550px;
+  padding: 24px 32px;
+}
+
+.buttons{
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  button {
+    height: 35px;
+
+    &.cancel {
+      width: 95px;
+    }
+
+    &.apply {
+      width: 110px;
+    }
+  }
+}
