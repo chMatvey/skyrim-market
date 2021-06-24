@@ -6,6 +6,11 @@ import com.skyrimmarket.backend.model.OrderStatus;
 import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.Employee;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
 import static com.skyrimmarket.backend.model.OrderStatus.CREATED;
 
 public class OrderUtil {
@@ -22,10 +27,14 @@ public class OrderUtil {
                 dto.getItem(),
                 dto.getAddress(),
                 dto.getDescription(),
+                dto.getPrice(),
+                dto.getPayment(),
                 status,
                 new Client(dto.getClient()),
                 dto.getContractor() != null ? new Employee(dto.getContractor()) : null,
-                dto.getCommentDto() != null ? CommentUtil.fromTo(dto.getCommentDto()) : null
+                dto.getComment() != null ? dto.getComment() : null,
+                dto.getDroppoint(),
+                dto.getDate() != null ? LocalDate.parse(dto.getDate(), DateTimeFormatter.ISO_DATE) : null
         );
     }
 
@@ -38,10 +47,14 @@ public class OrderUtil {
                 order.getItem(),
                 order.getAddress(),
                 order.getDescription(),
+                order.getPrice(),
+                order.getPayment(),
                 order.getStatus(),
                 UserUtil.asTo(order.getClient()).getId(),
                 order.getContractor() != null ? UserUtil.asTo(order.getContractor()).getId() : null,
-                order.getComment() != null ? CommentUtil.asTo(order.getComment()) : null
+                order.getComment() != null ? order.getComment() : null,
+                order.getDroppoint(),
+                order.getDate().format(DateTimeFormatter.ISO_DATE)
         );
     }
 }

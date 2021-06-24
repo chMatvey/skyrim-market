@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,6 +54,7 @@ public class OrderController {
 
     @PostMapping
     public OrderDto createOrder(@RequestBody OrderDto orderDto) {
+        orderDto.setDate(LocalDate.now().toString());
         return asTo(this.orderService.create(fromTo(orderDto)));
     }
 

@@ -41,6 +41,22 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/all/employees")
+    public List<UserDto> getAllEmployees() {
+        return this.userService.getAllEmployees()
+                .stream()
+                .map(UserUtil::asTo)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/all/clients")
+    public List<UserDto> getAllClients() {
+        return this.userService.getAllClients()
+                .stream()
+                .map(UserUtil::asTo)
+                .collect(Collectors.toList());
+    }
+
     @GetMapping("/{id}")
     public UserDto getuser(@PathVariable("id") Long id) {
         return  UserUtil.asTo(this.userService.get(id));

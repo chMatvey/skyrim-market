@@ -7,9 +7,11 @@ export function orderStatusToString(status: OrderStatus): string {
     case OrderStatus.NEED_CHANGES:
       return 'Changes needed'
     case OrderStatus.APPROVED:
-      return 'Order paying'
+      return 'Paying'
     case OrderStatus.PAYED:
-      return 'Order is being executed'
+      return 'Being executed'
+    case OrderStatus.DECLINED:
+      return 'Declined'
     default:
       throw new Error('Unsupported order status')
   }

@@ -5,6 +5,9 @@ import com.skyrimmarket.backend.model.user.Employee;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 @Data
@@ -36,6 +39,10 @@ public class Order {
 
     private String description;
 
+    private Float price;
+
+    private Payment payment;
+
     @NonNull
     @Column(nullable = false)
     private OrderStatus status;
@@ -48,9 +55,13 @@ public class Order {
     @JoinColumn(name = "employee_id")
     private Employee contractor;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "comments_id", referencedColumnName = "id")
-    private Comment comment;
+    /*@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "comments_id", referencedColumnName = "id")*/
+    private String comment;
+
+    private String droppoint;
+
+    private LocalDate date;
 
     @Override
     public boolean equals(Object o) {

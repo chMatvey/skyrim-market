@@ -3,37 +3,35 @@ import { HttpClient } from '@angular/common/http';
 import { Order } from '@models/order';
 import { apiUrl } from '@app/app.const';
 import { Observable } from 'rxjs';
-import { AuthService } from '@services/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
 
-  constructor(private http: HttpClient,
-              private authService: AuthService) { }
-
-  get clientId() {
-    return this.authService.user.id
-  }
+  constructor(private http: HttpClient) { }
 
   create(order: Order): Observable<Order> {
-    return this.http.post<Order>(`${apiUrl}/order`, {...order, client: this.clientId})
+    return this.http.post<Order>(`${apiUrl}/order`, order)
   }
 
   update(order: Order): Observable<Order> {
-    return this.http.put<Order>(`${apiUrl}/order`, {...order, client: this.clientId})
+    return this.http.put<Order>(`${apiUrl}/order/${order.id}`, order)
   }
 
-  delete(order: Order): Observable<Order> {
-    return this.http.put<Order>(`${apiUrl}/order`, {...order, client: this.clientId})
+  getClientOrder(id: number): Observable<Order[]> {
+    return this.http.get<Order[]>(`${apiUrl}/order/all/client/${id}`)
   }
 
-  getAll(): Observable<Order[]> {
-    return this.http.get<Order[]>(`${apiUrl}/order/all/client/${this.clientId}`)
-  }
-
-  get(id: number) {
+  get(id: number): Observable<Order> {
     return this.http.get<Order>(`${apiUrl}/order/${id}`)
+  }
+
+  getAvailableOrders(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${apiUrl}/order/all`)
+  }
+
+  getEmployeeOrders(id: number): Observable<Order[]> {
+    return this.http.get<Order[]>(`${apiUrl}/order/all/contractor/${id}`)
   }
 }

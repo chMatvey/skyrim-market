@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-top-products',
   templateUrl: './top-products.component.html',
-  styleUrls: ['./top-products.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./top-products.component.scss']
 })
 export class TopProductsComponent {
 }

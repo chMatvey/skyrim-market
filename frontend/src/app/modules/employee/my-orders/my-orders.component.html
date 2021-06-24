@@ -1,13 +1,10 @@
-<div class="client-order">
-
-  <div class="client-order__list">
-    <div class="form-control client-order__order">
-      <div class="order-description">
-        <span class="order-description__name">Заказ: Steal3232</span>
-        <span class="order-description__date">Дата заказа: 23.05.2021</span>
-        <span class="order-description__status">Статус заказа: выполняется</span>
-        <div class="order-description__text">Украсть меч небес</div>
-      </div>
-    </div>
+<div class="my-orders" [class.loading]="loading">
+  <div class="my-orders__header">
+    My Orders
   </div>
+
+  <app-order-list [orders]="orders"
+                  (open)="openOrder($event)"></app-order-list>
+
+  <div *ngIf="orders?.length === 0" class="my-orders__no-orders">No active orders</div>
 </div>

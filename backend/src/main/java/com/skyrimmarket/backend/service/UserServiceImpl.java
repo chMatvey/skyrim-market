@@ -1,6 +1,5 @@
 package com.skyrimmarket.backend.service;
 
-import com.skyrimmarket.backend.dto.EmployeeDto;
 import com.skyrimmarket.backend.model.Role;
 import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.Employee;
@@ -10,7 +9,6 @@ import com.skyrimmarket.backend.repository.UserRepository;
 import com.skyrimmarket.backend.util.ClientUtil;
 import com.skyrimmarket.backend.util.EmployeeUtil;
 import com.skyrimmarket.backend.util.MasterUtil;
-import com.skyrimmarket.backend.util.UserUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.data.util.Streamable;
 import org.springframework.http.HttpStatus;
@@ -19,8 +17,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.annotation.PostConstruct;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
+
+import static com.skyrimmarket.backend.model.Role.CLIENT;
+import static com.skyrimmarket.backend.model.Role.EMPLOYEE;
 
 @Service
 @AllArgsConstructor
@@ -30,12 +31,14 @@ public class UserServiceImpl implements UserService {
 
     @PostConstruct
     public void init() {
-        Client client = new Client("client", "client", Role.CLIENT);
-        Employee employee = new Employee("employee", "employee", Role.EMPLOYEE);
-        Master master = new Master("master", "master", Role.MASTER);
-        this.userRepository.save(client);
-        this.userRepository.save(employee);
-        this.userRepository.save(master);
+        if (userRepository.count() == 0) {
+            Client client = new Client("client", "client", CLIENT);
+            Employee employee = new Employee("employee", "employee", EMPLOYEE);
+            Master master = new Master("master", "master", Role.MASTER);
+            this.userRepository.save(client);
+            this.userRepository.save(employee);
+            this.userRepository.save(master);
+        }
     }
 
     @Override
@@ -47,6 +50,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAll() {
         return Streamable.of(userRepository.findAll()).toList();
+    }
+
+    @Override
+    public List<User> getAllEmployees() {
+        return Streamable.of(userRepository.findAllByRole(EMPLOYEE)).toList();
+    }
+
+    @Override
+    public List<User> getAllClients() {
+        return Streamable.of(userRepository.findAllByRole(CLIENT)).toList();
     }
 
     @Override
@@ -65,7 +78,7 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new ResponseStatusException(HttpStatus.CONFLICT);
         }
-        }
+    }
 
     @Override
     public User update(User user) {

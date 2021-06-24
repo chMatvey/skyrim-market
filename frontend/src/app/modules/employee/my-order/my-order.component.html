@@ -1,32 +1,9 @@
-
-<div class="available-order">
-  <form class="form-control client-order__description">
-    <div class="service__type">Service type: The Burglary Job</div>
-    <form class="available-order-form">
-      <div class="service">Person: Abnur Tarl</div>
-      <div class="service">The title of the robbed person: Yarl</div>
-      <div class="service">What we must steal?   Sword of the heavens</div>
-      <div class="service">Order reward:   350c</div>
-      <div class="service__description">Description of stealing object</div>
-      <div class="service__text">Располагается на улице вяземской, дом 13 (От заказчика)</div>
-
-
-      <div class="service__description">Where is the specified item hidden</div>
-      <div class="service__text">
-        Располагается на улице вяземской, дом 27, квартира 3, пароль "Овощи" (От исполнителя)
-      </div>
-
-
-      <div class="service__description">Comment</div>
-      <div class="service__text">Предмет заменен поддельным, замену обнаружат не скоро (От исполнителя)</div>
-
-      <div class="buttons">
-        <button class="cancel">Cancel</button>
-        <button class="apply">Failed</button>
-        <button class="apply">Completed</button>
-      </div>
-    </form>
-  </form>
-
-  <router-outlet></router-outlet>
+<div class="my-order" [class.loading]="loading">
+  <app-order-info [order]="order$ | async">
+    <div class="my-order__control actions">
+      <button (click)="close()">Close</button>
+      <button (click)="decline()">Decline</button>
+      <button (click)="complete()">Complete</button>
+    </div>
+  </app-order-info>
 </div>

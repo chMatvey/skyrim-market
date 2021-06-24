@@ -1,10 +1,8 @@
 package com.skyrimmarket.backend.util;
 
 import com.skyrimmarket.backend.dto.ClientDto;
-import com.skyrimmarket.backend.dto.UserDto;
 import com.skyrimmarket.backend.model.Role;
 import com.skyrimmarket.backend.model.user.Client;
-import com.skyrimmarket.backend.model.user.Employee;
 import com.skyrimmarket.backend.model.user.User;
 
 import java.util.stream.Collectors;

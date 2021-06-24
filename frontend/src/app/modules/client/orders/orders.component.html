@@ -1,15 +1,6 @@
-<div class="client-order" [class.loading]="loading">
-
-  <div *ngIf="orders?.length" class="client-order__list">
-    <div *ngFor="let order of orders" class="client-order__order form-control ">
-      <div class="order-description" (click)="openOrder(order.id)">
-        <span class="order-description__name">Order: {{order.id}}</span>
-        <span class="order-description__date">Date: {{order.date ?? ''}}</span>
-        <span class="order-description__status">Status: {{orderStatus(order.status)}}</span>
-        <div class="order-description__text">Description: {{order.description ?? ''}}</div>
-      </div>
-    </div>
-  </div>
+<div class="client-orders" [class.loading]="loading">
+  <app-order-list [orders]="orders"
+                  (open)="openOrder($event)"></app-order-list>
 
   <div *ngIf="orders?.length === 0" class="client-order__no-orders">You don't have any active orders</div>
 </div>

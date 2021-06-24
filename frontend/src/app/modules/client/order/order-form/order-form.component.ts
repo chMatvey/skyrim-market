@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable, ReplaySubject } from 'rxjs';
-import { createOrderForm } from '@utils/order';
+import { createOrderForm, disabledStatuses } from '@utils/order';
 import { OrderStatus } from '@models/order-status';
 import { tap } from 'rxjs/operators';
 import { TitleService } from '@services/title.service';
@@ -13,6 +13,7 @@ import { OrderType } from '@models/order-type';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationPopupComponent } from '@shared/notification-popup/notification-popup.component';
 import { Router } from '@angular/router';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'app-order-form',
@@ -29,11 +30,16 @@ export class OrderFormComponent extends BaseComponent implements OnInit {
 
   loading = false
 
+  get userId() {
+    return this.authService.user.id
+  }
+
   constructor(private titleService: TitleService,
               private orderService: OrderService,
               private orderStateService: OrderStateService,
               private dialogService: MatDialog,
-              private router: Router) {
+              private router: Router,
+              private authService: AuthService) {
     super()
   }
 
@@ -54,11 +60,24 @@ export class OrderFormComponent extends BaseComponent implements OnInit {
     return this.order?.status
   }
 
+  get formDisabled(): boolean {
+    return disabledStatuses.includes(this.orderStatus)
+  }
+
+  get itemLabel(): string {
+    return this.orderType === 'FORGERY' ? 'What we must throw' : 'What we must steal?'
+  }
+
   ngOnInit(): void {
     this.titles$ = this.titleService.all()
 
     this.orderType$
-      .subscribe(() => this.form = createOrderForm(this.order))
+      .subscribe(() => {
+        this.form = createOrderForm(this.order)
+        if (this.formDisabled) {
+          this.form.disable()
+        }
+      })
   }
 
   onCancel() {
@@ -66,18 +85,27 @@ export class OrderFormComponent extends BaseComponent implements OnInit {
   }
 
   onCreateOrder() {
-    this.orderService.create({...this.form.value, type: this.orderType})
+    this.orderService.create({...this.form.value, type: this.orderType, client: this.userId})
       .pipe(
         tap(() => this.showNotification('Order successfully created!'))
       )
       .subscribe(
-        order => this.router.navigate([`/client/order/${order.id}`]),
+        order => {
+          this.orderStateService.order = null
+          this.router.navigate([`/client/order/${order.id}`])
+        },
         error => console.log(error)
         )
   }
 
   onUpdateOrder() {
-    this.orderService.create({...this.form.value, type: this.orderType, status: OrderStatus.CREATED})
+    const order = {
+      ...this.form.value,
+      type: this.orderType,
+      status: OrderStatus.CREATED,
+      client: this.userId
+    }
+    this.orderService.create(order)
       .pipe(
         tap(() => this.showNotification('Order successfully updated!'))
       )
@@ -93,7 +121,10 @@ export class OrderFormComponent extends BaseComponent implements OnInit {
         tap(() => this.showNotification('Order successfully declined!'))
       )
       .subscribe(
-        () => this.orderStateService.order = null,
+        () => {
+          this.orderStateService.order = null
+          this.router.navigate(['/client/order'])
+        },
         error => console.log(error)
       )
   }

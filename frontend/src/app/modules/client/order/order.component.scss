@@ -6,15 +6,20 @@
   height: 730px;
   padding: 46px 76px;
   display: flex;
+  justify-content: space-between;
 
   &__form {
-    margin-left: 24px;
-
     &__info {
       display: flex;
       width: 400px;
       justify-content: space-between;
     }
+  }
+
+  &__pay {
+    padding-top: 30px;
+    width: 180px;
+    height: 100%;
   }
 
   &__status {
