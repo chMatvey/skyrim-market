@@ -17,11 +17,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.annotation.PostConstruct;
 
-import java.util.Arrays;
 import java.util.List;
 
-import static com.skyrimmarket.backend.model.Role.CLIENT;
-import static com.skyrimmarket.backend.model.Role.EMPLOYEE;
+import static com.skyrimmarket.backend.model.Role.client;
+import static com.skyrimmarket.backend.model.Role.employee;
 
 @Service
 @AllArgsConstructor
@@ -32,9 +31,9 @@ public class UserServiceImpl implements UserService {
     @PostConstruct
     public void init() {
         if (userRepository.count() == 0) {
-            Client client = new Client("client", "client", CLIENT);
-            Employee employee = new Employee("employee", "employee", EMPLOYEE);
-            Master master = new Master("master", "master", Role.MASTER);
+            Client client = new Client("client", "client", Role.client);
+            Employee employee = new Employee("employee", "employee", Role.employee);
+            Master master = new Master("master", "master", Role.master);
             this.userRepository.save(client);
             this.userRepository.save(employee);
             this.userRepository.save(master);
@@ -54,23 +53,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllEmployees() {
-        return Streamable.of(userRepository.findAllByRole(EMPLOYEE)).toList();
+        return Streamable.of(userRepository.findAllByRole(employee)).toList();
     }
 
     @Override
     public List<User> getAllClients() {
-        return Streamable.of(userRepository.findAllByRole(CLIENT)).toList();
+        return Streamable.of(userRepository.findAllByRole(client)).toList();
     }
 
     @Override
     public User create(User user) {
         if (!userRepository.findUserByUsername(user.getUsername()).isPresent()) {
             switch (user.getRole()) {
-                case EMPLOYEE:
+                case employee:
                     return userRepository.save(EmployeeUtil.fromUserTo(user));
-                case CLIENT:
+                case client:
                     return userRepository.save(ClientUtil.fromUserTo(user));
-                case MASTER:
+                case master:
                     return userRepository.save(MasterUtil.fromUserTo(user));
                 default:
                     return userRepository.save(user);

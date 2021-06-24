@@ -17,7 +17,7 @@ public class EmployeeUtil {
         return new Employee(
                 user.getUsername(),
                 user.getPassword(),
-                Role.EMPLOYEE
+                Role.employee
         );
     }
 

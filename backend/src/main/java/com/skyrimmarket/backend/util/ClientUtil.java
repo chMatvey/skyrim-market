@@ -17,7 +17,7 @@ public class ClientUtil {
         return new Client(
                 user.getUsername(),
                 user.getPassword(),
-                Role.CLIENT
+                Role.client
         );
     }
     public static ClientDto asTo(Client client) {

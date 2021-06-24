@@ -10,7 +10,7 @@ public class MasterUtil {
         return new Master(
                 user.getUsername(),
                 user.getPassword(),
-                Role.MASTER
+                Role.master
         );
     }
 }
