@@ -53,6 +53,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void delete(long id) {
+        orderRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         orderRepository.deleteById(id);
     }
 }
