@@ -1,9 +1,9 @@
-<div class="login">
-  <div class="login__header">
+<div class="register">
+  <div class="register__header">
     Skyrim Market
   </div>
 
-  <form class="login__form" [formGroup]="form" [class.loading]="loading">
+  <form class="register__form" [formGroup]="form" [class.loading]="loading">
     <div class="form-control">
       <label for="username">Username</label>
 
@@ -16,12 +16,12 @@
       <input id="password" type="password" autocomplete formControlName="password">
     </div>
 
-    <div class="login__form__submit">
-      <button (click)="submit()">Login</button>
+    <div class="register__form__submit">
+      <button (click)="submit()">Register</button>
 
-      <div class="login__form__submit__redirect">
-        <span>No account yet</span>
-        <a routerLink="/register">Register</a>
+      <div class="register__form__submit__redirect">
+        <span>Already registered</span>
+        <a routerLink="/login">Login</a>
       </div>
     </div>
   </form>
