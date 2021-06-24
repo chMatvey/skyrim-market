@@ -22,7 +22,7 @@ export class OrderService {
   }
 
   update(order: Order): Observable<Order> {
-    return this.http.put<Order>(`${apiUrl}/order`, {...order, client: this.clientId})
+    return this.http.put<Order>(`${apiUrl}/order/${order.id}`, {...order, client: this.clientId})
   }
 
   delete(order: Order): Observable<Order> {

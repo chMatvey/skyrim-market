@@ -54,11 +54,23 @@ export class OrderFormComponent extends BaseComponent implements OnInit {
     return this.order?.status
   }
 
+  get formDisabled(): boolean {
+    const disabledStatuses = [
+      OrderStatus.CREATED, OrderStatus.DECLINED, OrderStatus.PAYED, OrderStatus.APPROVED
+    ]
+    return disabledStatuses.includes(this.orderStatus)
+  }
+
   ngOnInit(): void {
     this.titles$ = this.titleService.all()
 
     this.orderType$
-      .subscribe(() => this.form = createOrderForm(this.order))
+      .subscribe(() => {
+        this.form = createOrderForm(this.order)
+        if (this.formDisabled) {
+          this.form.disable()
+        }
+      })
   }
 
   onCancel() {
@@ -71,7 +83,10 @@ export class OrderFormComponent extends BaseComponent implements OnInit {
         tap(() => this.showNotification('Order successfully created!'))
       )
       .subscribe(
-        order => this.router.navigate([`/client/order/${order.id}`]),
+        order => {
+          this.orderStateService.order = null
+          this.router.navigate([`/client/order/${order.id}`])
+        },
         error => console.log(error)
         )
   }
@@ -93,7 +108,10 @@ export class OrderFormComponent extends BaseComponent implements OnInit {
         tap(() => this.showNotification('Order successfully declined!'))
       )
       .subscribe(
-        () => this.orderStateService.order = null,
+        () => {
+          this.orderStateService.order = null
+          this.router.navigate(['/client/order'])
+        },
         error => console.log(error)
       )
   }

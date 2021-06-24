@@ -23,27 +23,27 @@
       padding: 20px 10px 10px 20px;
       cursor: pointer;
 
-      &__name {
+      * {
         position: relative;
+      }
+
+      &__name {
         left: 5px;
         width: 120px;
       }
 
       &__date {
-        position: relative;
         left: 140px;
         width: 165px;
       }
 
       &__status {
-        position: relative;
         left: 320px;
         top: 11px;
         width: 180px;
       }
 
       &__text {
-        position: relative;
         left: 18px;
         top: 8px;
         width: 500px;

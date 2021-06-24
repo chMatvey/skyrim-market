@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new ResponseStatusException(HttpStatus.CONFLICT);
         }
-        }
+    }
 
     @Override
     public User update(User user) {
