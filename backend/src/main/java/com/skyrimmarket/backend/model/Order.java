@@ -58,6 +58,8 @@ public class Order {
     @JoinColumn(name = "comments_id", referencedColumnName = "id")
     private Comment comment;
 
+    private LocalDateTime date;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

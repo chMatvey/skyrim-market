@@ -6,6 +6,8 @@ import com.skyrimmarket.backend.model.OrderStatus;
 import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.Employee;
 
+import java.time.LocalDateTime;
+
 import static com.skyrimmarket.backend.model.OrderStatus.CREATED;
 
 public class OrderUtil {
@@ -27,7 +29,8 @@ public class OrderUtil {
                 status,
                 new Client(dto.getClient()),
                 dto.getContractor() != null ? new Employee(dto.getContractor()) : null,
-                dto.getCommentDto() != null ? CommentUtil.fromTo(dto.getCommentDto()) : null
+                dto.getCommentDto() != null ? CommentUtil.fromTo(dto.getCommentDto()) : null,
+                LocalDateTime.parse(dto.getDate())
         );
     }
 
@@ -45,7 +48,8 @@ public class OrderUtil {
                 order.getStatus(),
                 UserUtil.asTo(order.getClient()).getId(),
                 order.getContractor() != null ? UserUtil.asTo(order.getContractor()).getId() : null,
-                order.getComment() != null ? CommentUtil.asTo(order.getComment()) : null
+                order.getComment() != null ? CommentUtil.asTo(order.getComment()) : null,
+                order.getDate().toString()
         );
     }
 }
