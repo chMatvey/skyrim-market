@@ -12,14 +12,16 @@ public class TitleConverter implements AttributeConverter<Title, String> {
 
     @Override
     public String convertToDatabaseColumn(Title title) {
-        return title.getName();
+        return title != null ? title.getName() : null;
     }
 
     @Override
     public Title convertToEntityAttribute(String title) {
-        return Stream.of(Title.values())
-                .filter(t -> t.getName().equalsIgnoreCase(title))
-                .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+        return title != null ?
+            Stream.of(Title.values())
+                    .filter(t -> t.getName().equalsIgnoreCase(title))
+                    .findFirst()
+                    .orElseThrow(IllegalArgumentException::new)
+            : null;
     }
 }

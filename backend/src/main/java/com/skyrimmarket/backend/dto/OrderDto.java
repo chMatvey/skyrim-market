@@ -21,6 +21,8 @@ public class OrderDto {
 
     private final String item;
 
+    private final String address;
+
     private final String description;
 
     private final OrderStatus status;
