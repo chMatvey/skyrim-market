@@ -84,7 +84,7 @@ export class OrderFormComponent extends BaseComponent implements OnInit {
     const status = this.orderStateService.order.status
     this.orderStateService.order = {}
     if (status) {
-      this.router.navigate(['/client/order'])
+      this.router.navigate(['/client/orders'])
     }
   }
 
