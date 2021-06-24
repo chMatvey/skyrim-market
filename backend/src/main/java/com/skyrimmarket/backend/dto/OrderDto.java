@@ -7,11 +7,13 @@ import com.skyrimmarket.backend.model.Title;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Getter
+@Setter
 public class OrderDto {
 
     private final long id;
@@ -39,4 +41,6 @@ public class OrderDto {
     private final Long contractor;
 
     private final CommentDto commentDto;
+
+    private String date;
 }

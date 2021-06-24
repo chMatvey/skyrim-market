@@ -28,15 +28,17 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    /*@PostConstruct
+    @PostConstruct
     public void init() {
-        Client client = new Client("client", "client", Role.CLIENT);
-        Employee employee = new Employee("employee", "employee", Role.EMPLOYEE);
-        Master master = new Master("master", "master", Role.MASTER);
-        this.userRepository.save(client);
-        this.userRepository.save(employee);
-        this.userRepository.save(master);
-    }*/
+        if (userRepository.count() == 0) {
+            Client client = new Client("client", "client", Role.CLIENT);
+            Employee employee = new Employee("employee", "employee", Role.EMPLOYEE);
+            Master master = new Master("master", "master", Role.MASTER);
+            this.userRepository.save(client);
+            this.userRepository.save(employee);
+            this.userRepository.save(master);
+        }
+    }
 
     @Override
     public User get(long id) {
