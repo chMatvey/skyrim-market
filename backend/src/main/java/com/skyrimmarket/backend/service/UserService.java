@@ -1,6 +1,5 @@
 package com.skyrimmarket.backend.service;
 
-import com.skyrimmarket.backend.model.Order;
 import com.skyrimmarket.backend.model.user.User;
 
 import java.util.List;
@@ -18,4 +17,8 @@ public interface UserService {
     void delete(long id);
 
     List<User> getAll();
+
+    List<User> getAllEmployees();
+
+    List<User> getAllClients();
 }

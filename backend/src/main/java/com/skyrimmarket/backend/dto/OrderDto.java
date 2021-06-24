@@ -40,7 +40,9 @@ public class OrderDto {
 
     private final Long contractor;
 
-    private final CommentDto commentDto;
+    private final String comment;
+
+    private final String droppoint;
 
     private String date;
 }
