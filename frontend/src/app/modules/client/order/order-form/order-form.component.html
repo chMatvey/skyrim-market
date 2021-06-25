@@ -57,6 +57,10 @@
       <button class="cancel" (click)="onCancel()">Close</button>
     </ng-template>
 
+    <ng-template ngSwitchCase="IN_PROGRESS">
+      <button class="cancel" (click)="onCancel()">Close</button>
+    </ng-template>
+
     <ng-template ngSwitchCase="COMPLETED">
       <button class="cancel" (click)="onCancel()">Close</button>
     </ng-template>
