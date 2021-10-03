@@ -1,22 +1,25 @@
 package com.skyrimmarket.backend.web;
 
 import com.skyrimmarket.backend.model.Title;
+import com.skyrimmarket.backend.service.TitleService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/api/title")
+@RequiredArgsConstructor
 public class TitleController {
+    private final TitleService titleService;
 
-    @GetMapping()
-    public List<String> getTitles() {
-        return Stream.of(Title.values())
-                .map(Title::getName)
-                .collect(Collectors.toList());
+    @GetMapping("/all")
+    public ResponseEntity<List<Title>> all() {
+        return ok(titleService.all());
     }
 }

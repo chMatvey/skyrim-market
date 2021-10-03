@@ -1,6 +1,4 @@
-package com.skyrimmarket.backend.converter;
-
-import com.skyrimmarket.backend.model.Role;
+package com.skyrimmarket.backend.model.user;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

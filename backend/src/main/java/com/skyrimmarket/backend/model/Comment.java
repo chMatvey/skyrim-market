@@ -1,25 +1,30 @@
 package com.skyrimmarket.backend.model;
 
+import com.skyrimmarket.backend.model.user.User;
 import lombok.*;
 
 import javax.persistence.*;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor(staticName = "of")
-@Entity(name = "comments")
+@AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Builder
+@Entity
+@Table(name = "comments")
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
+    @EqualsAndHashCode.Include()
     private Long id;
 
-    @NonNull
-    private String person;
-
-    @NonNull
     private String title;
 
-    @NonNull
-    private String item;
+    private String content;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

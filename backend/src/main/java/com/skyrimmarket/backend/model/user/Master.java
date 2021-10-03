@@ -1,26 +1,21 @@
 package com.skyrimmarket.backend.model.user;
 
-import com.skyrimmarket.backend.model.Role;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "users")
-@Entity(name = "masters")
-@DiscriminatorValue("master")
+@Entity
+@DiscriminatorValue("ROLE_MASTER")
 public class Master extends User {
-
-    public Master(long id) {
-        super(id);
-    }
-
-    public Master(@NonNull String username, @NonNull String password, @NonNull Role role) {
-        super(username, password, role);
+    @Builder
+    public Master(long id, String username, String password, Role role) {
+        super(id, username, password, role);
     }
 }

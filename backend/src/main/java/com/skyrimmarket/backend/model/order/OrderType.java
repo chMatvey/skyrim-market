@@ -1,4 +1,4 @@
-package com.skyrimmarket.backend.model;
+package com.skyrimmarket.backend.model.order;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,9 +6,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum OrderType {
-    PICKPOCKETING("PICKPOCKETING"),
-    SWEEP("SWEEP"),
-    FORGERY("FORGERY");
+    PICKPOCKETING("Pickpocketing"),
+    SWEEP("Sweep"),
+    FORGERY("Forgery");
 
     private final String name;
 }

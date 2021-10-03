@@ -20,7 +20,7 @@ export class OrdersForMasterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.orderService.getMasterOrders()
+    this.orderService.getCreatedOrders()
       .pipe(withLoading(this))
       .subscribe(
         orders => this.orders = orders,

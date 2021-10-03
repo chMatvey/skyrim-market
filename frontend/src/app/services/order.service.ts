@@ -43,7 +43,7 @@ export class OrderService {
       )
   }
 
-  getMasterOrders() {
+  getCreatedOrders() {
     return this.http.get<Order[]>(`${apiUrl}/order/all`)
       .pipe(
         map(orders => orders.filter(order => order.status === OrderStatus.CREATED))

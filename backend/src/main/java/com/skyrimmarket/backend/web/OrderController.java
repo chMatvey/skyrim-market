@@ -1,70 +1,65 @@
 package com.skyrimmarket.backend.web;
 
-import com.skyrimmarket.backend.dto.OrderDto;
-import com.skyrimmarket.backend.model.Order;
+import com.skyrimmarket.backend.model.order.Order;
 import com.skyrimmarket.backend.service.OrderService;
-import com.skyrimmarket.backend.util.OrderUtil;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.skyrimmarket.backend.web.error.BadRequestException;
+import com.skyrimmarket.backend.web.error.NotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static com.skyrimmarket.backend.model.OrderStatus.*;
-import static com.skyrimmarket.backend.util.OrderUtil.asTo;
-import static com.skyrimmarket.backend.util.OrderUtil.fromTo;
+import static com.skyrimmarket.backend.util.OptionalUtil.isEmpty;
+import static java.lang.String.format;
+import static org.springframework.http.ResponseEntity.of;
+import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/api/order")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OrderController {
-
     private final OrderService orderService;
 
-    @GetMapping("/{id}")
-    public OrderDto getOrder(@PathVariable("id") Long id) {
-        return asTo(this.orderService.get(id));
-    }
-
-    @GetMapping("/all")
-    public List<OrderDto> getAllOrders() {
-        return orderService.getAll()
-                .stream()
-                .map(OrderUtil::asTo)
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping("/all/client/{id}")
-    public List<OrderDto> getAllOrdersByClient(@PathVariable("id") Long id) {
-        return this.orderService.getAllByClient(id)
-                .stream()
-                .map(OrderUtil::asTo)
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping("/all/contractor/{id}")
-    public List<OrderDto> getAllOrdersByContractor(@PathVariable("id") Long id) {
-        return this.orderService.getAllByContractor(id)
-                .stream()
-                .map(OrderUtil::asTo)
-                .collect(Collectors.toList());
-    }
-
     @PostMapping
-    public OrderDto createOrder(@RequestBody OrderDto orderDto) {
-        orderDto.setDate(LocalDate.now().toString());
-        return asTo(this.orderService.create(fromTo(orderDto)));
+    public ResponseEntity<Order> create(@RequestBody Order order) {
+        if (order.getId() != null) {
+            throw new BadRequestException("Id must be null");
+        }
+        return new ResponseEntity<>(orderService.create(order), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public OrderDto updateOrder(@RequestBody OrderDto orderDto, @PathVariable("id") Long id) {
-        return asTo(this.orderService.update(fromTo(orderDto, orderDto.getStatus(), id)));
+    @PutMapping
+    public ResponseEntity<Order> update(@RequestBody Order order) {
+        if (isEmpty(orderService.get(order.getId()))) {
+            throw new NotFoundException(format("Order with id %d does not exist", order.getId()));
+        }
+        return ok(orderService.update(order));
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteOrder(@PathVariable("id") Long id) {
-        this.orderService.delete(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<Order> getOrder(@PathVariable("id") Long id) {
+        return of(orderService.get(id));
+    }
+
+    @GetMapping("/client/{id}")
+    public ResponseEntity<List<Order>> getClientOrders(@PathVariable("id") Long id) {
+        return ok(orderService.getClientOrders(id));
+    }
+
+    @GetMapping("/contractor/{id}")
+    public ResponseEntity<List<Order>> getContractorOrders(@PathVariable("id") Long id) {
+        return ok(orderService.getContractorOrders(id));
+    }
+
+    @GetMapping("/created")
+    public ResponseEntity<List<Order>> getCreatedOrders() {
+        return ok(orderService.getCreatedOrders());
+    }
+
+    @GetMapping("/available")
+    public ResponseEntity<List<Order>> getAvailableOrders() {
+        return ok(orderService.getAvailableOrders());
     }
 }

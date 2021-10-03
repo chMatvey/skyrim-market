@@ -1,24 +1,34 @@
 package com.skyrimmarket.backend.service;
 
 import com.skyrimmarket.backend.model.user.User;
+import com.skyrimmarket.backend.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
-public interface UserService {
+import static com.skyrimmarket.backend.util.UserUtil.toUserDetails;
+import static java.lang.String.format;
 
-    User login(String username, String password);
+@Service
+@RequiredArgsConstructor
+public class UserService implements UserDetailsService {
+    private final UserRepository userRepository;
 
-    User get(long id);
+    public Optional<User> getByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 
-    User create(User user);
-
-    User update(User user);
-
-    void delete(long id);
-
-    List<User> getAll();
-
-    List<User> getAllEmployees();
-
-    List<User> getAllClients();
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> userOptional = getByUsername(username);
+        if (userOptional.isPresent()) {
+            return toUserDetails(userOptional.get());
+        } else {
+            throw new UsernameNotFoundException(format("User %s not found", username));
+        }
+    }
 }

@@ -1,16 +1,26 @@
 package com.skyrimmarket.backend.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 
+import javax.persistence.*;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
-@Getter
-public enum Title {
-    Court_magician("Court_magician"),
-    Thane("Thane"),
-    Jarl("Jarl"),
-    Trader("Trader");
+@RequiredArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Builder
+@Entity
+@Table(name = "titles")
+public class Title {
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @EqualsAndHashCode.Include()
+    private Long id;
 
-    private final String name;
+    @NonNull
+    @Column(nullable = false)
+    private String name;
 }

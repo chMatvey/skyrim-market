@@ -1,14 +1,23 @@
 package com.skyrimmarket.backend.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
+import javax.persistence.*;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
-@Getter
-public enum Payment {
-    CASH("CASH"),
-    BANK("BANK"),
-    EWALLET("EWALLET");
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Builder
+@Entity
+@Table(name = "payments")
+public class Payment {
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @EqualsAndHashCode.Include()
+    private Long id;
 
-    private final String name;
+    private String name;
 }
