@@ -8,6 +8,9 @@ spring:
   jpa:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    generate-ddl: true
+    show-sql: true
+    properties:
+      dialect: PostgreSQLDialect
+      format_sql: true
     hibernate:
       ddl-auto: create

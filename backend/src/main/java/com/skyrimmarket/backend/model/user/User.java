@@ -26,6 +26,13 @@ public abstract class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(insertable = false, updatable = false)
+    @Column(insertable = false, updatable = false, nullable = false)
     private Role role;
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public abstract Role getRole();
 }

@@ -17,4 +17,9 @@ public class UserUtil {
                 new HashSet<GrantedAuthority>(singletonList(user.getRole()))
         );
     }
+
+    public static User toView(User user) {
+        user.setPassword(null);
+        return user;
+    }
 }

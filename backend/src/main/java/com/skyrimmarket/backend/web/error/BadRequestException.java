@@ -9,4 +9,8 @@ public class BadRequestException extends ResponseStatusException {
     public BadRequestException(String reason) {
         super(BAD_REQUEST, reason);
     }
+
+    public BadRequestException(String reason, Throwable cause) {
+        super(BAD_REQUEST, reason, cause);
+    }
 }

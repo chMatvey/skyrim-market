@@ -6,6 +6,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Set;
 
+import static com.skyrimmarket.backend.model.user.Role.CLIENT;
+
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
@@ -20,4 +22,6 @@ public class Client extends User {
         super(id, username, password, role);
         this.orders = orders;
     }
+
+    private final Role role = CLIENT;
 }
