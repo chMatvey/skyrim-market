@@ -2,7 +2,8 @@ package com.skyrimmarket.backend.model.user;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
-import java.util.stream.Stream;
+
+import static com.skyrimmarket.backend.model.user.Role.fromString;
 
 @Converter(autoApply = true)
 public class RoleConverter implements AttributeConverter<Role, String> {
@@ -14,9 +15,6 @@ public class RoleConverter implements AttributeConverter<Role, String> {
 
     @Override
     public Role convertToEntityAttribute(String role) {
-        return Stream.of(Role.values())
-                .filter(r -> r.getName().equalsIgnoreCase(role))
-                .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+        return fromString(role);
     }
 }

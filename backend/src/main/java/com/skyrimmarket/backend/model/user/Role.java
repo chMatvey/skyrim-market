@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.util.Arrays;
+
 @AllArgsConstructor
 @Getter
 public enum Role implements GrantedAuthority {
@@ -18,5 +20,12 @@ public enum Role implements GrantedAuthority {
     @Override
     public String getAuthority() {
         return name;
+    }
+
+    public static Role fromString(String value) {
+        return Arrays.stream(Role.values())
+                .filter(role -> role.getName().equals(value))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
     }
 }
