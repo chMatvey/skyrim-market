@@ -1,12 +1,19 @@
 package com.skyrimmarket.backend.model.user;
 
 import com.skyrimmarket.backend.model.order.Order;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.Set;
 
 import static com.skyrimmarket.backend.model.user.Role.EMPLOYEE;
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.LAZY;
 
 @Data
 @NoArgsConstructor
@@ -14,7 +21,7 @@ import static com.skyrimmarket.backend.model.user.Role.EMPLOYEE;
 @Entity
 @DiscriminatorValue("ROLE_EMPLOYEE")
 public class Employee extends SkyrimUser {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "contractor", fetch = FetchType.LAZY)
+    @OneToMany(cascade = ALL, mappedBy = "contractor", fetch = LAZY)
     private Set<Order> tasks;
 
     @Builder

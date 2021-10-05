@@ -1,15 +1,13 @@
 package com.skyrimmarket.backend.integration;
 
 import com.skyrimmarket.backend.BackendApplication;
+import com.skyrimmarket.backend.model.Item;
 import com.skyrimmarket.backend.model.OrderStatus;
+import com.skyrimmarket.backend.model.Payment;
 import com.skyrimmarket.backend.model.Title;
 import com.skyrimmarket.backend.model.order.SweepOrder;
 import com.skyrimmarket.backend.model.user.Client;
-import com.skyrimmarket.backend.model.user.Role;
-import com.skyrimmarket.backend.repository.OrderRepository;
-import com.skyrimmarket.backend.repository.OrderStatusRepository;
-import com.skyrimmarket.backend.repository.TitleRepository;
-import com.skyrimmarket.backend.repository.UserRepository;
+import com.skyrimmarket.backend.repository.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,6 +30,12 @@ public class JpaIntegrationTest {
     OrderStatusRepository orderStatusRepository;
 
     @Autowired
+    PaymentRepository paymentRepository;
+
+    @Autowired
+    ItemRepository itemRepository;
+
+    @Autowired
     OrderRepository orderRepository;
 
     @Test
@@ -39,6 +43,8 @@ public class JpaIntegrationTest {
         Client client = userRepository.save(Client.builder().username("Alex").password("qwerty").build());
         Title title = titleRepository.save(Title.builder().name("Thane").build());
         OrderStatus orderStatus = orderStatusRepository.save(OrderStatus.builder().name("CREATED").build());
+        Payment payment = paymentRepository.save(Payment.builder().name("Cash").build());
+        Item item = itemRepository.save(Item.builder().name("Dragan Sword").build());
 
         SweepOrder order = SweepOrder.builder()
                 .startDate(now())
@@ -46,7 +52,8 @@ public class JpaIntegrationTest {
                 .client(client)
                 .address("Test Street")
                 .title(title)
-                .item("Sword")
+                .item(item)
+                .payment(payment)
                 .build();
 
         SweepOrder savedOrder = orderRepository.save(order);

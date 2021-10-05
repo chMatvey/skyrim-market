@@ -1,6 +1,7 @@
 package com.skyrimmarket.backend.model.order;
 
 import com.skyrimmarket.backend.model.OrderStatus;
+import com.skyrimmarket.backend.model.Payment;
 import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.Employee;
 import lombok.AllArgsConstructor;
@@ -50,6 +51,10 @@ public abstract class Order {
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee contractor;
+
+    @ManyToOne
+    @JoinColumn(name = "payment_id")
+    private Payment payment;
 
     abstract OrderType getOrderType();
 }

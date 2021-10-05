@@ -1,12 +1,19 @@
 package com.skyrimmarket.backend.model.user;
 
 import com.skyrimmarket.backend.model.order.Order;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.Set;
 
 import static com.skyrimmarket.backend.model.user.Role.CLIENT;
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.LAZY;
 
 @Data
 @NoArgsConstructor
@@ -14,7 +21,7 @@ import static com.skyrimmarket.backend.model.user.Role.CLIENT;
 @Entity
 @DiscriminatorValue("ROLE_CLIENT")
 public class Client extends SkyrimUser {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "client", fetch = FetchType.LAZY)
+    @OneToMany(cascade = ALL, mappedBy = "client", fetch = LAZY)
     private Set<Order> orders;
 
     @Builder
