@@ -14,7 +14,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Inheritance
 @DiscriminatorColumn(name="role", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "users")
-public abstract class User {
+public abstract class SkyrimUser {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @EqualsAndHashCode.Include()
@@ -29,7 +29,7 @@ public abstract class User {
     @Column(insertable = false, updatable = false, nullable = false)
     private Role role;
 
-    public User(String username, String password) {
+    public SkyrimUser(String username, String password) {
         this.username = username;
         this.password = password;
     }

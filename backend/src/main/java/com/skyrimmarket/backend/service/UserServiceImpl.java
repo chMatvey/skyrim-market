@@ -1,6 +1,6 @@
 package com.skyrimmarket.backend.service;
 
-import com.skyrimmarket.backend.model.user.User;
+import com.skyrimmarket.backend.model.user.SkyrimUser;
 import com.skyrimmarket.backend.repository.UserRepository;
 import com.skyrimmarket.backend.service.error.UsernameAlreadyExist;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public User create(User user) throws UsernameAlreadyExist {
+    public SkyrimUser create(SkyrimUser user) throws UsernameAlreadyExist {
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             throw new UsernameAlreadyExist(user.getUsername());
         }
@@ -36,13 +36,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Optional<User> getByUsername(String username) {
+    public Optional<SkyrimUser> getByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> userOptional = getByUsername(username);
+        Optional<SkyrimUser> userOptional = getByUsername(username);
         if (userOptional.isPresent()) {
             log.info("User found in database: {}", username);
             return toUserDetails(userOptional.get());

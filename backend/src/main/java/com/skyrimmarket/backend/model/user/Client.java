@@ -13,7 +13,7 @@ import static com.skyrimmarket.backend.model.user.Role.CLIENT;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @DiscriminatorValue("ROLE_CLIENT")
-public class Client extends User {
+public class Client extends SkyrimUser {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "client", fetch = FetchType.LAZY)
     private Set<Order> orders;
 

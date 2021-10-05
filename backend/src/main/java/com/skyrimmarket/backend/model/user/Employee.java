@@ -13,7 +13,7 @@ import static com.skyrimmarket.backend.model.user.Role.EMPLOYEE;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @DiscriminatorValue("ROLE_EMPLOYEE")
-public class Employee extends User {
+public class Employee extends SkyrimUser {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "contractor", fetch = FetchType.LAZY)
     private Set<Order> tasks;
 

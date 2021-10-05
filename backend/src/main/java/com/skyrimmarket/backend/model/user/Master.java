@@ -15,7 +15,7 @@ import static com.skyrimmarket.backend.model.user.Role.MASTER;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @DiscriminatorValue("ROLE_MASTER")
-public class Master extends User {
+public class Master extends SkyrimUser {
     public Master(String username, String password) {
         super(username, password);
     }

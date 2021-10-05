@@ -1,7 +1,8 @@
 package com.skyrimmarket.backend.util;
 
-import com.skyrimmarket.backend.model.user.User;
+import com.skyrimmarket.backend.model.user.SkyrimUser;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.HashSet;
@@ -9,8 +10,8 @@ import java.util.HashSet;
 import static java.util.Collections.singletonList;
 
 public class UserUtil {
-    public static UserDetails toUserDetails(User user) {
-        return new org.springframework.security.core.userdetails.User(
+    public static UserDetails toUserDetails(SkyrimUser user) {
+        return new User(
                 user.getUsername(),
                 user.getPassword(),
                 true, true, true, true,
@@ -18,7 +19,7 @@ public class UserUtil {
         );
     }
 
-    public static User toView(User user) {
+    public static SkyrimUser toView(SkyrimUser user) {
         user.setPassword(null);
         return user;
     }

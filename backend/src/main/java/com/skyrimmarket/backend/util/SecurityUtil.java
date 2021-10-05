@@ -7,7 +7,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.skyrimmarket.backend.model.user.Role;
-import com.skyrimmarket.backend.web.form.UserForm;
+import com.skyrimmarket.backend.web.form.TokenUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -28,14 +28,14 @@ public class SecurityUtil {
 
     public static final List<String> ALLOW_URLS = Lists.newArrayList("/api/user/client", "/api/user/token/refresh");
 
-    public static UserForm fromToken(String token) {
+    public static TokenUser fromToken(String token) {
         JWTVerifier verifier = JWT.require(ALGORITHM).build();
         DecodedJWT decodedJwt = verifier.verify(token);
         String username = decodedJwt.getSubject();
         String[] roles = decodedJwt.getClaim("roles").asArray(String.class);
         List<GrantedAuthority> authorities = Arrays.stream(roles).map(Role::fromString).collect(Collectors.toList());
 
-        return new UserForm(username, authorities);
+        return new TokenUser(username, authorities);
     }
 
     public static String usernameFromToken(String token) {

@@ -2,7 +2,7 @@ package com.skyrimmarket.backend.web;
 
 import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.Employee;
-import com.skyrimmarket.backend.model.user.User;
+import com.skyrimmarket.backend.model.user.SkyrimUser;
 import com.skyrimmarket.backend.service.UserService;
 import com.skyrimmarket.backend.service.error.UsernameAlreadyExist;
 import com.skyrimmarket.backend.web.error.BadRequestException;
@@ -33,7 +33,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/client")
-    public ResponseEntity<User> createClient(@RequestBody Client client) {
+    public ResponseEntity<SkyrimUser> createClient(@RequestBody Client client) {
         try {
             URI uri = URI.create(fromCurrentContextPath().path("/api/user/client").toUriString());
             Client user = (Client) userService.create(client);
@@ -45,7 +45,7 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ROLE_MASTER')")
     @PostMapping("/employee")
-    public ResponseEntity<User> createEmployee(@RequestBody Employee employee) {
+    public ResponseEntity<SkyrimUser> createEmployee(@RequestBody Employee employee) {
         try {
             URI uri = URI.create(fromCurrentContextPath().path("/api/user/employee").toUriString());
             Employee user = (Employee) userService.create(employee);
@@ -62,7 +62,7 @@ public class UserController {
             try {
                 String refreshToken = authorizationHeader.substring(TOKEN_PREFIX.length());
                 String username = usernameFromToken(refreshToken);
-                User user = userService.getByUsername(username)
+                SkyrimUser user = userService.getByUsername(username)
                         .orElseThrow(() -> new UsernameNotFoundException(format("User %s not found", username)));
                 String accessToken = createAccessToken(toUserDetails(user), request.getRequestURL().toString());
                 Map<String, String> tokens = createTokensMap(accessToken, refreshToken);

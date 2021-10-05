@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class UserForm {
+public class TokenUser {
     private final String username;
     private final List<GrantedAuthority> authorities;
 }

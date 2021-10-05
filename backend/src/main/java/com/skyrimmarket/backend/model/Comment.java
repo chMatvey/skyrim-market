@@ -1,6 +1,6 @@
 package com.skyrimmarket.backend.model;
 
-import com.skyrimmarket.backend.model.user.User;
+import com.skyrimmarket.backend.model.user.SkyrimUser;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,5 +26,5 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private SkyrimUser user;
 }

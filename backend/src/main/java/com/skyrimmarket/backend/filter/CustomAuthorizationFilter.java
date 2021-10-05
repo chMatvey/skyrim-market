@@ -1,6 +1,6 @@
 package com.skyrimmarket.backend.filter;
 
-import com.skyrimmarket.backend.web.form.UserForm;
+import com.skyrimmarket.backend.web.form.TokenUser;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,7 +29,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
             if (authorizationHeader != null && authorizationHeader.startsWith(TOKEN_PREFIX)) {
                 try {
                     String accessToken = authorizationHeader.substring(TOKEN_PREFIX.length());
-                    UserForm userForm = fromToken(accessToken);
+                    TokenUser userForm = fromToken(accessToken);
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(userForm.getUsername(), null, userForm.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
