@@ -1,5 +1,6 @@
 package com.skyrimmarket.backend.model.order;
 
+import com.skyrimmarket.backend.model.Comment;
 import com.skyrimmarket.backend.model.OrderStatus;
 import com.skyrimmarket.backend.model.Payment;
 import com.skyrimmarket.backend.model.user.Client;
@@ -30,8 +31,6 @@ public abstract class Order {
 
     private Double price;
 
-    private String comment;
-
     private String droppoint;
 
     @Column(name = "start_date", nullable = false)
@@ -40,7 +39,7 @@ public abstract class Order {
     @Column(name = "end_date")
     private LocalDate endDate;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "status_id", nullable = false)
     private OrderStatus status;
 
@@ -52,9 +51,13 @@ public abstract class Order {
     @JoinColumn(name = "employee_id")
     private Employee contractor;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "payment_id")
     private Payment payment;
+
+    @OneToOne
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
 
     abstract OrderType getOrderType();
 }

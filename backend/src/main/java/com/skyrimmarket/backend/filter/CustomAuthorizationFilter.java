@@ -12,9 +12,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 import static com.skyrimmarket.backend.util.SecurityUtil.*;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Slf4j
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
@@ -25,10 +25,10 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
         if (ALLOW_URLS.stream().anyMatch((url -> url.equals(request.getServletPath())))) {
             filterChain.doFilter(request, response);
         } else {
-            String authorizationHeader = request.getHeader(AUTHORIZATION);
-            if (authorizationHeader != null && authorizationHeader.startsWith(TOKEN_PREFIX)) {
+            Optional<String> accessTokenOptional = getAuthorizationToken(request);
+            if (accessTokenOptional.isPresent()) {
                 try {
-                    String accessToken = authorizationHeader.substring(TOKEN_PREFIX.length());
+                    String accessToken = accessTokenOptional.get();
                     TokenUser userForm = fromToken(accessToken);
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(userForm.getUsername(), null, userForm.getAuthorities());

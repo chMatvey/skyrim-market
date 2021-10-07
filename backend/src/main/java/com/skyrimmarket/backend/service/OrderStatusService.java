@@ -27,4 +27,8 @@ public class OrderStatusService {
             orderStatusRepository.saveAll(orderStatusList);
         }
     }
+
+    public OrderStatus get(OrderStatusEnum orderStatusEnum) {
+        return orderStatusRepository.findByName(orderStatusEnum.getName()).orElseThrow(IllegalArgumentException::new);
+    }
 }

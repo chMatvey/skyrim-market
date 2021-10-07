@@ -1,9 +1,6 @@
 package com.skyrimmarket.backend.model.order;
 
-import com.skyrimmarket.backend.model.Item;
-import com.skyrimmarket.backend.model.OrderStatus;
-import com.skyrimmarket.backend.model.Payment;
-import com.skyrimmarket.backend.model.Title;
+import com.skyrimmarket.backend.model.*;
 import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.Employee;
 import lombok.Builder;
@@ -39,8 +36,8 @@ public class SweepOrder extends Order {
     private final OrderType orderType = SWEEP;
 
     @Builder
-    public SweepOrder(Long id, Double price, String comment, String droppoint, LocalDate startDate, LocalDate endDate, OrderStatus status, Client client, Employee contractor, Payment payment, String address, Title title, Item item, String description) {
-        super(id, price, comment, droppoint, startDate, endDate, status, client, contractor, payment);
+    public SweepOrder(Long id, Double price, String droppoint, LocalDate startDate, LocalDate endDate, OrderStatus status, Client client, Employee contractor, Payment payment, Comment comment, String address, Title title, Item item, String description) {
+        super(id, price, droppoint, startDate, endDate, status, client, contractor, payment, comment);
         this.address = address;
         this.title = title;
         this.item = item;

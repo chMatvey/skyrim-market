@@ -22,7 +22,6 @@ import static com.skyrimmarket.backend.util.SecurityUtil.*;
 import static com.skyrimmarket.backend.util.UserUtil.toUserDetails;
 import static com.skyrimmarket.backend.util.UserUtil.toView;
 import static java.lang.String.format;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentContextPath;
 
@@ -57,21 +56,16 @@ public class UserController {
 
     @GetMapping("/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String authorizationHeader = request.getHeader(AUTHORIZATION);
-        if (authorizationHeader != null && authorizationHeader.startsWith(TOKEN_PREFIX)) {
-            try {
-                String refreshToken = authorizationHeader.substring(TOKEN_PREFIX.length());
-                String username = usernameFromToken(refreshToken);
-                SkyrimUser user = userService.getByUsername(username)
-                        .orElseThrow(() -> new UsernameNotFoundException(format("User %s not found", username)));
-                String accessToken = createAccessToken(toUserDetails(user), request.getRequestURL().toString());
-                Map<String, String> tokens = createTokensMap(accessToken, refreshToken);
-                putTokensToResponseAsJson(response, tokens);
-            } catch (Exception e) {
-                addAuthorizationErrorToResponse(response, e);
-            }
-        } else {
-            throw new BadRequestException("Refresh token is missing");
+        String refreshToken = getAuthorizationTokenOrThrowException(request);
+        try {
+            String username = usernameFromToken(refreshToken);
+            SkyrimUser user = userService.getByUsername(username)
+                    .orElseThrow(() -> new UsernameNotFoundException(format("User %s not found", username)));
+            String accessToken = createAccessToken(toUserDetails(user), request.getRequestURL().toString());
+            Map<String, String> tokens = createTokensMap(accessToken, refreshToken);
+            putTokensToResponseAsJson(response, tokens);
+        } catch (Exception e) {
+            addAuthorizationErrorToResponse(response, e);
         }
     }
 }

@@ -1,9 +1,11 @@
 package com.skyrimmarket.backend.model;
 
-import com.skyrimmarket.backend.model.user.SkyrimUser;
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -23,8 +25,4 @@ public class Comment {
     private String title;
 
     private String content;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private SkyrimUser user;
 }

@@ -7,15 +7,20 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.skyrimmarket.backend.model.user.Role;
+import com.skyrimmarket.backend.web.error.BadRequestException;
 import com.skyrimmarket.backend.web.form.TokenUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -83,5 +88,19 @@ public class SecurityUtil {
         errors.put("error_message", e.getMessage());
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), errors);
+    }
+
+    public static Optional<String> getAuthorizationToken(HttpServletRequest request) {
+        String authorizationHeader = request.getHeader(AUTHORIZATION);
+        if (authorizationHeader != null && authorizationHeader.startsWith(TOKEN_PREFIX)) {
+            return of(authorizationHeader.substring(TOKEN_PREFIX.length()));
+        } else {
+            return empty();
+        }
+    }
+
+    public static String getAuthorizationTokenOrThrowException(HttpServletRequest request) {
+        return getAuthorizationToken(request)
+                .orElseThrow(() -> new BadRequestException("Authorization token is missing"));
     }
 }

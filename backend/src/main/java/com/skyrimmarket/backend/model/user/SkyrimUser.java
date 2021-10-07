@@ -1,6 +1,9 @@
 package com.skyrimmarket.backend.model.user;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -20,7 +23,8 @@ public abstract class SkyrimUser {
     @EqualsAndHashCode.Include()
     private long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, updatable = false)
+    @EqualsAndHashCode.Include()
     private String username;
 
     @Column(nullable = false)
