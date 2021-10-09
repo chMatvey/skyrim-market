@@ -21,11 +21,18 @@ public class OrderServiceImpl implements OrderService {
     public Order create(Order order) {
         order.setStatus(orderStatusService.get(CREATED));
         order.setStartDate(now());
+        order.setPrice(order.calculatePrice());
         return orderRepository.save(order);
     }
 
     @Override
     public Order update(Order order) {
+        return orderRepository.save(order);
+    }
+
+    @Override
+    public Order updateAndCalculatePrice(Order order) {
+        order.setPrice(order.calculatePrice());
         return orderRepository.save(order);
     }
 

@@ -15,8 +15,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
 @Entity
-@Table(name = "comments")
-public class Comment {
+@Table(name = "feedbacks")
+public class Feedback {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @EqualsAndHashCode.Include()

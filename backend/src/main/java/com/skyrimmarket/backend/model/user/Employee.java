@@ -24,11 +24,15 @@ public class Employee extends SkyrimUser {
     @OneToMany(cascade = ALL, mappedBy = "contractor", fetch = LAZY)
     private Set<Order> tasks;
 
+    private final Role role = EMPLOYEE;
+
+    public Employee(String username, String password) {
+        super(username, password);
+    }
+
     @Builder
     public Employee(long id, String username, String password, Role role, Set<Order> tasks) {
         super(id, username, password, role);
         this.tasks = tasks;
     }
-
-    private final Role role = EMPLOYEE;
 }

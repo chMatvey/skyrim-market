@@ -10,6 +10,8 @@ public interface OrderService {
 
     Order update(Order order);
 
+    Order updateAndCalculatePrice(Order order);
+
     Optional<Order> get(Long id);
 
     List<Order> getClientOrders(Long clientId);

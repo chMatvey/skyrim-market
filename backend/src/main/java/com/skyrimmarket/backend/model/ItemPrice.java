@@ -10,6 +10,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
 @Entity
@@ -20,9 +21,11 @@ public class ItemPrice {
     @EqualsAndHashCode.Include()
     private long id;
 
+    @NonNull
     @Column(nullable = false)
     private Double price;
 
+    @NonNull
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "item_id", nullable = false)

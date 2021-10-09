@@ -16,6 +16,8 @@ import static com.skyrimmarket.backend.model.user.Role.MASTER;
 @Entity
 @DiscriminatorValue("ROLE_MASTER")
 public class Master extends SkyrimUser {
+    private final Role role = MASTER;
+
     public Master(String username, String password) {
         super(username, password);
     }
@@ -24,6 +26,4 @@ public class Master extends SkyrimUser {
     public Master(long id, String username, String password, Role role) {
         super(id, username, password, role);
     }
-
-    private final Role role = MASTER;
 }

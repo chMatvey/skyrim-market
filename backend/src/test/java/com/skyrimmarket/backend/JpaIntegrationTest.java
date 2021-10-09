@@ -1,6 +1,5 @@
-package com.skyrimmarket.backend.integration;
+package com.skyrimmarket.backend;
 
-import com.skyrimmarket.backend.BackendApplication;
 import com.skyrimmarket.backend.model.Item;
 import com.skyrimmarket.backend.model.OrderStatus;
 import com.skyrimmarket.backend.model.Payment;

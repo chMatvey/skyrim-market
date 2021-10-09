@@ -24,11 +24,15 @@ public class Client extends SkyrimUser {
     @OneToMany(cascade = ALL, mappedBy = "client", fetch = LAZY)
     private Set<Order> orders;
 
+    private final Role role = CLIENT;
+
+    public Client(String username, String password) {
+        super(username, password);
+    }
+
     @Builder
     public Client(long id, String username, String password, Role role, Set<Order> orders) {
         super(id, username, password, role);
         this.orders = orders;
     }
-
-    private final Role role = CLIENT;
 }

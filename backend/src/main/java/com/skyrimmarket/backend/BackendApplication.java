@@ -1,8 +1,9 @@
 package com.skyrimmarket.backend;
 
+import com.skyrimmarket.backend.model.user.Client;
+import com.skyrimmarket.backend.model.user.Employee;
 import com.skyrimmarket.backend.model.user.Master;
 import com.skyrimmarket.backend.service.UserService;
-import com.skyrimmarket.backend.util.OptionalUtil;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,9 +28,18 @@ public class BackendApplication {
 	@Bean
 	CommandLineRunner run(UserService userService) {
 		return args -> {
-			String masterUsername = "Master";
+			String masterUsername = "master";
+			String employeeUsername = "employee";
+			String clientUsername = "client";
+
 			if (isEmpty(userService.getByUsername(masterUsername))) {
-				userService.create(new Master(masterUsername, "admin"));
+				userService.create(new Master(masterUsername, masterUsername));
+			}
+			if (isEmpty(userService.getByUsername(employeeUsername))) {
+				userService.create(new Employee(employeeUsername, employeeUsername));
+			}
+			if (isEmpty(userService.getByUsername(clientUsername))) {
+				userService.create(new Client(clientUsername, clientUsername));
 			}
 		};
 	}

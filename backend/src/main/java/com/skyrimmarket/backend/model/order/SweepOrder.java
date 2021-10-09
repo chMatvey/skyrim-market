@@ -18,7 +18,7 @@ import static com.skyrimmarket.backend.model.order.OrderType.SWEEP;
 @NoArgsConstructor
 @Entity
 @Table(name = "sweep_orders")
-public class SweepOrder extends Order {
+public class SweepOrder extends ItemOrder {
     @Column(nullable = false)
     private String address;
 
@@ -36,8 +36,8 @@ public class SweepOrder extends Order {
     private final OrderType orderType = SWEEP;
 
     @Builder
-    public SweepOrder(Long id, Double price, String droppoint, LocalDate startDate, LocalDate endDate, OrderStatus status, Client client, Employee contractor, Payment payment, Comment comment, String address, Title title, Item item, String description) {
-        super(id, price, droppoint, startDate, endDate, status, client, contractor, payment, comment);
+    public SweepOrder(Long id, Double price, String droppoint, String comment, LocalDate startDate, LocalDate endDate, OrderStatus status, Client client, Employee contractor, Payment payment, Feedback feedback, String address, Title title, Item item, String description) {
+        super(id, price, droppoint, comment, startDate, endDate, status, client, contractor, payment, feedback);
         this.address = address;
         this.title = title;
         this.item = item;

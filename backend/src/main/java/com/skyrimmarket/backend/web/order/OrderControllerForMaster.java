@@ -1,15 +1,14 @@
 package com.skyrimmarket.backend.web.order;
 
 import com.skyrimmarket.backend.model.order.Order;
+import com.skyrimmarket.backend.model.order.OrderStatusEnum;
 import com.skyrimmarket.backend.service.OrderService;
 import com.skyrimmarket.backend.service.OrderStatusService;
+import com.skyrimmarket.backend.web.error.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,6 +39,7 @@ public class OrderControllerForMaster {
     public ResponseEntity<Order> approve(Long id) {
         Order order = orderService.get(id).orElseThrow(() -> notFoundException(id));
         order.setStatus(orderStatusService.get(APPROVED));
+
         return ok(orderService.update(order));
     }
 
@@ -47,6 +47,17 @@ public class OrderControllerForMaster {
     public ResponseEntity<Order> decline(Long id) {
         Order order = orderService.get(id).orElseThrow(() -> notFoundException(id));
         order.setStatus(orderStatusService.get(DECLINED));
+
+        return ok(orderService.update(order));
+    }
+
+    @PostMapping("/comment")
+    public ResponseEntity<Order> comment(@RequestBody Order order) {
+        if (order.getComment() == null) {
+            throw new BadRequestException("Comments not specified");
+        }
+        order.setStatus(orderStatusService.get(OrderStatusEnum.NEED_CHANGES));
+
         return ok(orderService.update(order));
     }
 }

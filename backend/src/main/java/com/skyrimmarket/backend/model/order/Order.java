@@ -1,6 +1,6 @@
 package com.skyrimmarket.backend.model.order;
 
-import com.skyrimmarket.backend.model.Comment;
+import com.skyrimmarket.backend.model.Feedback;
 import com.skyrimmarket.backend.model.OrderStatus;
 import com.skyrimmarket.backend.model.Payment;
 import com.skyrimmarket.backend.model.user.Client;
@@ -16,6 +16,9 @@ import java.time.LocalDate;
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.InheritanceType.JOINED;
 
+/**
+ * comment - json object {[fieldName: string]: [comment: string]}
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,6 +35,8 @@ public abstract class Order {
     private Double price;
 
     private String droppoint;
+
+    private String comment;
 
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
@@ -56,8 +61,10 @@ public abstract class Order {
     private Payment payment;
 
     @OneToOne
-    @JoinColumn(name = "comment_id")
-    private Comment comment;
+    @JoinColumn(name = "feedback_id")
+    private Feedback feedback;
 
-    abstract OrderType getOrderType();
+    public abstract OrderType getOrderType();
+
+    public abstract Double calculatePrice();
 }

@@ -1,15 +1,12 @@
 package com.skyrimmarket.backend.model.order;
 
-import com.skyrimmarket.backend.model.*;
-import com.skyrimmarket.backend.model.user.Client;
-import com.skyrimmarket.backend.model.user.Employee;
-import lombok.Builder;
+import com.skyrimmarket.backend.model.Item;
+import com.skyrimmarket.backend.model.Title;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 import static com.skyrimmarket.backend.model.order.OrderType.PICKPOCKETING;
 
@@ -18,7 +15,7 @@ import static com.skyrimmarket.backend.model.order.OrderType.PICKPOCKETING;
 @NoArgsConstructor
 @Entity
 @Table(name = "pickpocketing_orders")
-public class PickpocketingOrder extends Order {
+public class PickpocketingOrder extends ItemOrder {
     @Column(nullable = false)
     private String person;
 
@@ -34,13 +31,4 @@ public class PickpocketingOrder extends Order {
 
     @Transient
     private final OrderType orderType = PICKPOCKETING;
-
-    @Builder
-    public PickpocketingOrder(Long id, Double price, String droppoint, LocalDate startDate, LocalDate endDate, OrderStatus status, Client client, Employee contractor, Payment payment, Comment comment, String person, Title title, Item item, String description) {
-        super(id, price, droppoint, startDate, endDate, status, client, contractor, payment, comment);
-        this.person = person;
-        this.title = title;
-        this.item = item;
-        this.description = description;
-    }
 }
