@@ -1,1 +1,4 @@
-export type Payment = 'CASH' | 'BANK' | 'EWALLET'
+export interface Payment {
+  id: number
+  name: string
+}

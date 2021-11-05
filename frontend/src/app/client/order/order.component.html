@@ -1,0 +1,85 @@
+<div class="client-order">
+  <div class="client-order__form">
+    <div class="client-order__form__info">
+      <div class="client-order__select-service form-control" [class.disabled]="formDisabled">
+        <label>Select service</label>
+
+        <mat-select (valueChange)="onOrderTypeChange($event)"
+                    [ngModel]="orderType"
+                    [disabled]="formDisabled">
+          <mat-option *ngFor="let type of orderTypes" [value]="type.value">
+            {{type.name}}
+          </mat-option>
+        </mat-select>
+      </div>
+
+      <div *ngIf="orderStatus" class="client-order__status">
+        <div class="client-order__status__header">Order status:</div>
+        <div class="client-order__status__name">{{orderStatus}}</div>
+      </div>
+    </div>
+
+    <ng-container *ngIf="order$ | async as order" [ngSwitch]="order.type">
+      <ng-template ngSwitchCase="PICKPOCKETING">
+        <app-pickpocketing-order-form [form]="orderForm" [disabled]="formDisabled"></app-pickpocketing-order-form>
+      </ng-template>
+
+      <ng-template ngSwitchCase="SWEEP">
+        <app-sweep-order-form [form]="orderForm" [disabled]="formDisabled"></app-sweep-order-form>
+      </ng-template>
+
+      <ng-template ngSwitchCase="FORGERY">
+        <app-forgery-order-form [form]="orderForm" [disabled]="formDisabled"></app-forgery-order-form>
+      </ng-template>
+    </ng-container>
+
+    <div class="client-order__form__footer" [ngSwitch]="orderStatus">
+      <ng-template ngSwitchCase="CREATED">
+        <button class="cancel" (click)="onCancel()">Close</button>
+
+        <button class="create" (click)="onDeclineOrder()">Decline Order</button>
+      </ng-template>
+
+      <ng-template ngSwitchCase="NEED_CHANGES">
+        <button class="cancel" (click)="onCancel()">Close</button>
+
+        <button class="create" (click)="onDeclineOrder()">Decline Order</button>
+
+        <button class="create" [disabled]="saveDisabled" (click)="onUpdateOrder()">Apply</button>
+      </ng-template>
+
+      <ng-template ngSwitchCase="DECLINED">
+        <button class="cancel" (click)="onCancel()">Close</button>
+      </ng-template>
+
+      <ng-template ngSwitchCase="APPROVED">
+        <button class="cancel" (click)="onCancel()">Close</button>
+      </ng-template>
+
+      <ng-template ngSwitchCase="PAYED">
+        <button class="cancel" (click)="onCancel()">Close</button>
+      </ng-template>
+
+      <ng-template ngSwitchCase="IN_PROGRESS">
+        <button class="cancel" (click)="onCancel()">Close</button>
+      </ng-template>
+
+      <ng-template ngSwitchCase="COMPLETED">
+        <button class="cancel" (click)="onCancel()">Close</button>
+      </ng-template>
+
+      <ng-template ngSwitchDefault>
+        <button class="cancel" (click)="onCancel()">Cancel</button>
+        <button class="create" [disabled]="saveDisabled" (click)="onCreateOrder()">Create Order</button>
+      </ng-template>
+    </div>
+  </div>
+
+  <div *ngIf="showPayForm" class="client-order__pay">
+    <app-pay-form></app-pay-form>
+  </div>
+
+  <div *ngIf="showItemLocation" class="client-order__location">
+    <app-item-location></app-item-location>
+  </div>
+</div>

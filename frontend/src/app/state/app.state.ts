@@ -1,34 +1,51 @@
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { SetToolbar, SetUser } from './app.actions';
 import { User } from '@models/user';
 import { Injectable } from '@angular/core';
-import { getInitialState } from './initial-state';
-import { Toolbar } from '@models/toolbar';
+import { appInitialState } from './initial-state';
+import { App } from '@state/app.actions'
+import { UserService } from '@services/user.service'
+import { tap } from 'rxjs/operators'
+import { localStorageUserField } from '@app/app.const'
+import { Observable } from 'rxjs'
+import Login = App.Login
+import Logout = App.Logout
 
 export interface AppStateModel {
   user: User
-  toolbar: Toolbar
 }
 
 @State<AppStateModel>({
-  defaults: getInitialState(),
-  name: 'app'
+  name: 'app',
+  defaults: appInitialState()
 })
 @Injectable()
 export class AppState {
+  constructor(private userService: UserService) {
+  }
 
   @Selector()
-  static user(state: AppStateModel) {
+  static user(state: AppStateModel): User {
     return state.user
   }
 
-  @Action(SetUser)
-  setUser({patchState}: StateContext<AppStateModel>, {payload}: SetUser) {
-    patchState({user: payload})
+  @Action(Login, {cancelUncompleted: true})
+  login(ctx: StateContext<AppStateModel>, {user}: Login): Observable<User> {
+    return this.userService.login(user).pipe(
+      tap(user => {
+        localStorage.setItem(localStorageUserField, JSON.stringify(user))
+        const state = ctx.getState()
+        ctx.setState({...state, user})
+      })
+    )
   }
 
-  @Action(SetToolbar)
-  setToolbar({patchState}: StateContext<AppStateModel>, {payload}: SetToolbar) {
-    patchState({toolbar: payload})
+  @Action(Logout, {cancelUncompleted: true})
+  logout({patchState}: StateContext<AppStateModel>): Observable<void> {
+    return this.userService.logout().pipe(
+      tap(() => {
+        localStorage.removeItem(localStorageUserField)
+        patchState({user: null})
+      })
+    )
   }
 }

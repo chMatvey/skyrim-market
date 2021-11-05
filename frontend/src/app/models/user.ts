@@ -4,6 +4,8 @@ export interface User {
   id: number
   username: string
   password?: string
-  role?: UserRole
-  token?: string
+  confirmPassword?: string
+  role: UserRole
+  accessToken?: string
+  refreshToken?: string
 }

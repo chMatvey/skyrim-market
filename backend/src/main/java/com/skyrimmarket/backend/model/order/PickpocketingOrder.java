@@ -30,5 +30,5 @@ public class PickpocketingOrder extends ItemOrder {
     private String description;
 
     @Transient
-    private final OrderType orderType = PICKPOCKETING;
+    private final String type = PICKPOCKETING.getName();
 }

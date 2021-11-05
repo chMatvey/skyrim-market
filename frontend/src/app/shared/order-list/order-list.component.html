@@ -1,0 +1,10 @@
+<div *ngIf="orders?.length" class="order-list">
+  <div *ngFor="let order of orders" class="order-list__order form-control">
+    <div class="order-description" (click)="openOrder(order.id)">
+      <span class="order-description__name">Order: {{order.id}}</span>
+      <span class="order-description__date">Date: {{order.startDate ?? ''}}</span>
+      <span class="order-description__status">Status: {{orderStatus(order)}}</span>
+      <div class="order-description__text">Description: {{description(order) ?? ''}}</div>
+    </div>
+  </div>
+</div>

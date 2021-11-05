@@ -1,0 +1,23 @@
+.error-popup {
+  width: 361px;
+  height: 245px;
+  position: relative;
+  padding: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+  }
+
+  p {
+    text-align: center;
+    font-size: 18px;
+    line-height: 21px;
+    color: #fff;
+    word-break: break-word;
+  }
+}

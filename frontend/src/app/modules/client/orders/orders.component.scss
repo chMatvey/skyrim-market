@@ -1,7 +1,0 @@
-@import "mixins";
-
-.client-orders {
-  @include card();
-  @include order-list();
-}
-

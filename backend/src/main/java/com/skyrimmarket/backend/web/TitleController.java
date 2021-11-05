@@ -18,7 +18,7 @@ import static org.springframework.http.ResponseEntity.ok;
 public class TitleController {
     private final TitleService titleService;
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<Title>> all() {
         return ok(titleService.all());
     }

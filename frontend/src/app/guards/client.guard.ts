@@ -1,30 +1,34 @@
 import { Injectable } from '@angular/core';
-import { CanLoad, Route, Router, UrlSegment } from '@angular/router';
-import { AuthService } from '@services/auth.service';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  CanActivateChild,
+  CanLoad,
+  Route,
+  RouterStateSnapshot,
+  UrlSegment
+} from '@angular/router';
 import { UserRole } from '@models/user-role';
-import { getUrlByUserRole } from '@utils/user';
+import { Store } from '@ngxs/store'
+import { Observable } from 'rxjs'
+import { canLoadOrActivate } from '@utils/guard-util'
 
 @Injectable({
   providedIn: 'root'
 })
-export class ClientGuard implements CanLoad {
-
-  constructor(private authService: AuthService,
-              private router: Router) {
+export class ClientGuard implements CanLoad, CanActivate, CanActivateChild {
+  constructor(private store: Store) {
   }
 
-  canLoad(route: Route, segments: UrlSegment[]): boolean {
-    const role = this.authService.user?.role
+  canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> | boolean {
+    return canLoadOrActivate(this.store, UserRole.CLIENT)
+  }
 
-    if (!role) {
-      this.router.navigate(['/login'])
-      return false
-    } else if (role !== UserRole.CLIENT) {
-      const location = getUrlByUserRole(role)
-      this.router.navigate([`/${location}`])
-      return false
-    }
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
+    return canLoadOrActivate(this.store, UserRole.CLIENT)
+  }
 
-    return true
+  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
+    return canLoadOrActivate(this.store, UserRole.CLIENT)
   }
 }

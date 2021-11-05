@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-import static com.skyrimmarket.backend.model.user.Role.MASTER;
+import static com.skyrimmarket.backend.model.user.SkyrimRole.MASTER;
 
 @Data
 @NoArgsConstructor
@@ -16,14 +16,14 @@ import static com.skyrimmarket.backend.model.user.Role.MASTER;
 @Entity
 @DiscriminatorValue("ROLE_MASTER")
 public class Master extends SkyrimUser {
-    private final Role role = MASTER;
+    private final SkyrimRole role = MASTER;
 
     public Master(String username, String password) {
         super(username, password);
     }
 
     @Builder
-    public Master(long id, String username, String password, Role role) {
+    public Master(long id, String username, String password, SkyrimRole role) {
         super(id, username, password, role);
     }
 }

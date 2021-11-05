@@ -1,6 +1,0 @@
-@import "mixins";
-
-.orders-for-master {
-  @include card();
-  @include order-list();
-}

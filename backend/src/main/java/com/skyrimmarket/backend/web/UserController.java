@@ -4,11 +4,13 @@ import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.Employee;
 import com.skyrimmarket.backend.model.user.SkyrimUser;
 import com.skyrimmarket.backend.service.UserService;
-import com.skyrimmarket.backend.service.error.UsernameAlreadyExist;
+import com.skyrimmarket.backend.web.error.UsernameAlreadyExist;
 import com.skyrimmarket.backend.web.error.BadRequestException;
+import com.skyrimmarket.backend.web.form.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,12 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
-import java.util.Map;
 
+import static com.skyrimmarket.backend.util.ErrorUtil.addErrorBodyToResponse;
 import static com.skyrimmarket.backend.util.SecurityUtil.*;
 import static com.skyrimmarket.backend.util.UserUtil.toUserDetails;
 import static com.skyrimmarket.backend.util.UserUtil.toView;
 import static java.lang.String.format;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentContextPath;
 
@@ -33,25 +36,17 @@ public class UserController {
 
     @PostMapping("/client")
     public ResponseEntity<SkyrimUser> createClient(@RequestBody Client client) {
-        try {
-            URI uri = URI.create(fromCurrentContextPath().path("/api/user/client").toUriString());
-            Client user = (Client) userService.create(client);
-            return created(uri).body(toView(user));
-        } catch (UsernameAlreadyExist e) {
-            throw new BadRequestException(e.getMessage(), e);
-        }
+        URI uri = URI.create(fromCurrentContextPath().path("/api/user/client").toUriString());
+        Client user = (Client) userService.create(client);
+        return created(uri).body(toView(user));
     }
 
     @PreAuthorize("hasAuthority('ROLE_MASTER')")
     @PostMapping("/employee")
     public ResponseEntity<SkyrimUser> createEmployee(@RequestBody Employee employee) {
-        try {
-            URI uri = URI.create(fromCurrentContextPath().path("/api/user/employee").toUriString());
-            Employee user = (Employee) userService.create(employee);
-            return created(uri).body(toView(user));
-        } catch (UsernameAlreadyExist e) {
-            throw new BadRequestException(e.getMessage(), e);
-        }
+        URI uri = URI.create(fromCurrentContextPath().path("/api/user/employee").toUriString());
+        Employee user = (Employee) userService.create(employee);
+        return created(uri).body(toView(user));
     }
 
     @GetMapping("/token/refresh")
@@ -59,13 +54,14 @@ public class UserController {
         String refreshToken = getAuthorizationTokenOrThrowException(request);
         try {
             String username = usernameFromToken(refreshToken);
-            SkyrimUser user = userService.getByUsername(username)
+            SkyrimUser skyrimUser = userService.getByUsername(username)
                     .orElseThrow(() -> new UsernameNotFoundException(format("User %s not found", username)));
-            String accessToken = createAccessToken(toUserDetails(user), request.getRequestURL().toString());
-            Map<String, String> tokens = createTokensMap(accessToken, refreshToken);
-            putTokensToResponseAsJson(response, tokens);
+            UserDetails userDetails = toUserDetails(skyrimUser);
+            String accessToken = createAccessToken(userDetails, request.getRequestURL().toString());
+            UserResponse userResponse = createUserResponse(skyrimUser, accessToken, refreshToken);
+            putUserToResponseAsJson(response, userResponse);
         } catch (Exception e) {
-            addAuthorizationErrorToResponse(response, e);
+            addErrorBodyToResponse(response, FORBIDDEN, e);
         }
     }
 }

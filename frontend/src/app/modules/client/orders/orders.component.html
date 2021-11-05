@@ -1,6 +1,0 @@
-<div class="client-orders" [class.loading]="loading">
-  <app-order-list [orders]="orders"
-                  (open)="openOrder($event)"></app-order-list>
-
-  <div *ngIf="orders?.length === 0" class="client-order__no-orders">You don't have any active orders</div>
-</div>

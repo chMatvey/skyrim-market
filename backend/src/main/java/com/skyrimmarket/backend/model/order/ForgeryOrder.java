@@ -28,5 +28,5 @@ public class ForgeryOrder extends ItemOrder {
     private String description;
 
     @Transient
-    private final OrderType orderType = FORGERY;
+    private final String type = FORGERY.getName();
 }

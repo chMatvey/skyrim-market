@@ -1,0 +1,27 @@
+<div class="toolbar">
+  <ng-container *ngIf="toolbar$ | async as toolbar">
+    <div class="left">
+      <a [routerLink]="toolbar?.logoRef" class="toolbar__logo">
+        Skyrim Market
+      </a>
+
+      <div class="toolbar__links">
+        <a *ngFor="let link of toolbar?.links" [routerLink]="link.ref">
+          {{link.name}}
+        </a>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="toolbar__username" [matMenuTriggerFor]="menu">
+        {{(user$ | async).username | username}}
+      </div>
+
+      <div class="toolbar__icon"></div>
+
+      <mat-menu #menu>
+        <button mat-menu-item (click)="onLogout()">Logout</button>
+      </mat-menu>
+    </div>
+  </ng-container>
+</div>

@@ -2,7 +2,7 @@ package com.skyrimmarket.backend.service;
 
 import com.skyrimmarket.backend.model.user.SkyrimUser;
 import com.skyrimmarket.backend.repository.UserRepository;
-import com.skyrimmarket.backend.service.error.UsernameAlreadyExist;
+import com.skyrimmarket.backend.web.error.UsernameAlreadyExist;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public SkyrimUser create(SkyrimUser user) throws UsernameAlreadyExist {
+    public SkyrimUser create(SkyrimUser user) {
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             throw new UsernameAlreadyExist(user.getUsername());
         }

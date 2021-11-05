@@ -2,7 +2,7 @@ package com.skyrimmarket.backend.web.order;
 
 import com.skyrimmarket.backend.model.order.Order;
 import com.skyrimmarket.backend.service.AuthorizationService;
-import com.skyrimmarket.backend.service.OrderService;
+import com.skyrimmarket.backend.service.order.OrderService;
 import com.skyrimmarket.backend.service.OrderStatusService;
 import com.skyrimmarket.backend.web.error.BadRequestException;
 import com.skyrimmarket.backend.web.error.NotFoundException;
@@ -16,6 +16,7 @@ import java.util.Optional;
 
 import static com.skyrimmarket.backend.model.order.OrderStatusEnum.CREATED;
 import static com.skyrimmarket.backend.util.OptionalUtil.isEmpty;
+import static com.skyrimmarket.backend.util.OrderUtil.validateOrder;
 import static java.lang.String.format;
 import static org.springframework.http.ResponseEntity.*;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentContextPath;
@@ -34,6 +35,7 @@ public class OrderController {
             throw new BadRequestException("Id must be null");
         }
         authorizationService.checkThatOrderLinkedWithCurrentUser(request, order);
+        validateOrder(order);
         URI uri = URI.create(fromCurrentContextPath().path("/api/order").toUriString());
         return created(uri).body(orderService.create(order));
     }
@@ -44,6 +46,7 @@ public class OrderController {
             throw new NotFoundException(format("Order with id %d does not exist", order.getId()));
         }
         authorizationService.checkThatOrderLinkedWithCurrentUser(request, order);
+        validateOrder(order);
         order.setStatus(orderStatusService.get(CREATED));
         return ok(orderService.update(order));
     }

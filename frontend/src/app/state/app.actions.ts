@@ -1,13 +1,13 @@
 import { User } from '@models/user';
-import { Toolbar } from '@models/toolbar';
 
-export class SetUser {
-  static readonly type = '[app] set user'
-  constructor(public payload: User) {}
-}
+export namespace App {
+  export class Login {
+    static readonly type = '[App] login'
+    constructor(public user: User) {}
+  }
 
-export class SetToolbar {
-  static readonly type = '[app] set toolbar'
-  constructor(public payload: Toolbar) {
+  export class Logout {
+    static readonly type = '[App] logout'
+    constructor() {}
   }
 }

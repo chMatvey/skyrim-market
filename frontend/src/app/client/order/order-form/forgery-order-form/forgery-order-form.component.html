@@ -1,0 +1,21 @@
+<form class="order-form" [formGroup]="form">
+  <div class="form-control" [class.disabled]="form.disabled">
+    <label for="person" appRequired>Person</label>
+    <input id="person" type="text" formControlName="person">
+  </div>
+
+  <div class="form-control" [class.disabled]="form.disabled">
+    <label for="address" appRequired>Address</label>
+    <input id="address" type="text" formControlName="address">
+  </div>
+
+  <div class="form-control" [class.disabled]="form.disabled">
+    <label for="item" appRequired>Item</label>
+    <input id="item" type="text" formControlName="item">
+  </div>
+
+  <div class="form-control" [class.disabled]="form.disabled">
+    <label for="description">Description of stealing object</label>
+    <textarea id="description" formControlName="description"></textarea>
+  </div>
+</form>

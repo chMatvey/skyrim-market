@@ -1,0 +1,25 @@
+@import "src/app/styles/mixins";
+
+.my-order {
+  @include card();
+  width: 1059px;
+  height: 730px;
+  padding: 46px 76px;
+
+  &__description {
+    width: 200px;
+    margin-left: 24px;
+  }
+
+  &__actions {
+    margin-top: 110px;
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      width: 100px;
+      height: 35px;
+    }
+
+  }
+}

@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.Set;
 
-import static com.skyrimmarket.backend.model.user.Role.CLIENT;
+import static com.skyrimmarket.backend.model.user.SkyrimRole.CLIENT;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 
@@ -24,14 +24,14 @@ public class Client extends SkyrimUser {
     @OneToMany(cascade = ALL, mappedBy = "client", fetch = LAZY)
     private Set<Order> orders;
 
-    private final Role role = CLIENT;
+    private final SkyrimRole role = CLIENT;
 
     public Client(String username, String password) {
         super(username, password);
     }
 
     @Builder
-    public Client(long id, String username, String password, Role role, Set<Order> orders) {
+    public Client(long id, String username, String password, SkyrimRole role, Set<Order> orders) {
         super(id, username, password, role);
         this.orders = orders;
     }

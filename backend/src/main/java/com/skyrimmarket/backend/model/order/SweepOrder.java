@@ -33,7 +33,7 @@ public class SweepOrder extends ItemOrder {
     private String description;
 
     @Transient
-    private final OrderType orderType = SWEEP;
+    private final String type = SWEEP.getName();
 
     @Builder
     public SweepOrder(Long id, Double price, String droppoint, String comment, LocalDate startDate, LocalDate endDate, OrderStatus status, Client client, Employee contractor, Payment payment, Feedback feedback, String address, Title title, Item item, String description) {

@@ -1,0 +1,55 @@
+@import "src/app/styles/mixins";
+
+.login {
+  @include card();
+  width: 456px;
+  height: 372px;
+  padding: 38px 49px;
+
+  &__header {
+    @include header();
+    height: 28px;
+    margin-bottom: 30px;
+  }
+
+  &__form {
+    .form-control {
+      position: relative;
+
+      .error {
+        position: absolute;
+        top: 53px;
+        color: #ef5350;
+      }
+    }
+
+    &__submit {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-top: 42px;
+
+      button {
+        width: 185px;
+        height: 35px;
+      }
+
+      &__redirect {
+        margin-top: 15px;
+
+        * {
+          font-size: 12px;
+          line-height: 13px;
+          font-weight: 300;
+          color: #e6e6e6;
+        }
+
+        span {
+          margin-right: 4px;
+          opacity: .6;
+        }
+      }
+    }
+  }
+}

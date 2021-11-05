@@ -3,18 +3,18 @@ package com.skyrimmarket.backend.model.user;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import static com.skyrimmarket.backend.model.user.Role.fromString;
+import static com.skyrimmarket.backend.model.user.SkyrimRole.fromString;
 
 @Converter(autoApply = true)
-public class RoleConverter implements AttributeConverter<Role, String> {
+public class RoleConverter implements AttributeConverter<SkyrimRole, String> {
 
     @Override
-    public String convertToDatabaseColumn(Role role) {
+    public String convertToDatabaseColumn(SkyrimRole role) {
         return role.getName();
     }
 
     @Override
-    public Role convertToEntityAttribute(String role) {
+    public SkyrimRole convertToEntityAttribute(String role) {
         return fromString(role);
     }
 }

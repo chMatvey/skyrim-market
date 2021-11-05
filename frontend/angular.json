@@ -1,7 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
-    "analytics": "03b2100a-4007-4f1a-a464-b2d485bef469"
+    "analytics": "03b2100a-4007-4f1a-a464-b2d485bef469",
+    "defaultCollection": "@angular-eslint/schematics"
   },
   "version": 1,
   "newProjectRoot": "projects",
@@ -11,31 +12,31 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "skipTests": true,
-          "path": "src/app/modules"
+          "skipTests": false,
+          "path": "src/app"
         },
         "@schematics/angular:class": {
-          "skipTests": true,
+          "skipTests": false,
           "path": "src/app/utils"
         },
         "@schematics/angular:directive": {
-          "skipTests": true,
+          "skipTests": false,
           "path": "src/app/modules/shared"
         },
         "@schematics/angular:guard": {
-          "skipTests": true,
+          "skipTests": false,
           "path": "src/app/guards"
         },
         "@schematics/angular:interceptor": {
           "path": "src/app/interceptors",
-          "skipTests": true
+          "skipTests": false
         },
         "@schematics/angular:pipe": {
-          "skipTests": true,
+          "skipTests": false,
           "path": "src/app/modules/shared"
         },
         "@schematics/angular:service": {
-          "skipTests": true,
+          "skipTests": false,
           "path": "src/app/services"
         },
         "@schematics/angular:application": {
@@ -145,6 +146,15 @@
               ]
             },
             "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         }
       }

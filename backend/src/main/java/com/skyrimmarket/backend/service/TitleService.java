@@ -18,7 +18,7 @@ public class TitleService {
     @PostConstruct
     void init() {
         if (titleRepository.findAll().isEmpty()) {
-            List<Title> titleList = Arrays.stream(new String[]{"Court_magician", "Thane", "Jarl", "Trader"})
+            List<Title> titleList = Arrays.stream(new String[]{"Court magician", "Thane", "Jarl", "Trader"})
                     .map(Title::new)
                     .collect(Collectors.toList());
             titleRepository.saveAll(titleList);

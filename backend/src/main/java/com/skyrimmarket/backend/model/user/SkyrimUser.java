@@ -24,19 +24,18 @@ public abstract class SkyrimUser {
     private long id;
 
     @Column(nullable = false, unique = true, updatable = false)
-    @EqualsAndHashCode.Include()
     private String username;
 
     @Column(nullable = false)
     private String password;
 
     @Column(insertable = false, updatable = false, nullable = false)
-    private Role role;
+    private SkyrimRole role;
 
     public SkyrimUser(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public abstract Role getRole();
+    public abstract SkyrimRole getRole();
 }

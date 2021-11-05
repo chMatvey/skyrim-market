@@ -1,5 +1,8 @@
 package com.skyrimmarket.backend.model.order;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.skyrimmarket.backend.model.Feedback;
 import com.skyrimmarket.backend.model.OrderStatus;
 import com.skyrimmarket.backend.model.Payment;
@@ -13,12 +16,10 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 
+import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.InheritanceType.JOINED;
 
-/**
- * comment - json object {[fieldName: string]: [comment: string]}
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,6 +27,12 @@ import static javax.persistence.InheritanceType.JOINED;
 @Entity
 @Inheritance(strategy = JOINED)
 @Table(name = "orders")
+@JsonTypeInfo(use = NAME, property = "type")
+@JsonSubTypes({
+        @Type(value = ForgeryOrder.class, name = "FORGERY"),
+        @Type(value = PickpocketingOrder.class, name = "PICKPOCKETING"),
+        @Type(value = SweepOrder.class, name = "SWEEP")
+})
 public abstract class Order {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -64,7 +71,7 @@ public abstract class Order {
     @JoinColumn(name = "feedback_id")
     private Feedback feedback;
 
-    public abstract OrderType getOrderType();
+    public abstract String getType();
 
     public abstract Double calculatePrice();
 }

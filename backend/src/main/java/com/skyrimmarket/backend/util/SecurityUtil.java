@@ -6,10 +6,13 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import com.skyrimmarket.backend.model.user.Role;
+import com.skyrimmarket.backend.model.user.SkyrimRole;
+import com.skyrimmarket.backend.model.user.SkyrimUser;
 import com.skyrimmarket.backend.web.error.BadRequestException;
 import com.skyrimmarket.backend.web.form.TokenUser;
+import com.skyrimmarket.backend.web.form.UserResponse;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +21,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.time.LocalDateTime.now;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -31,14 +35,18 @@ public class SecurityUtil {
 
     public static final String TOKEN_PREFIX = "Bearer ";
 
-    public static final List<String> ALLOW_URLS = Lists.newArrayList("/api/user/client", "/api/user/token/refresh");
+    public static final List<String> ALLOW_URLS = Lists.newArrayList(
+            "/api/user/client",
+            "/api/user/token/refresh",
+            "/api/login"
+    );
 
     public static TokenUser fromToken(String token) {
         JWTVerifier verifier = JWT.require(ALGORITHM).build();
         DecodedJWT decodedJwt = verifier.verify(token);
         String username = decodedJwt.getSubject();
         String[] roles = decodedJwt.getClaim("roles").asArray(String.class);
-        List<GrantedAuthority> authorities = Arrays.stream(roles).map(Role::fromString).collect(Collectors.toList());
+        List<GrantedAuthority> authorities = Arrays.stream(roles).map(SkyrimRole::fromString).collect(Collectors.toList());
 
         return new TokenUser(username, authorities);
     }
@@ -75,19 +83,19 @@ public class SecurityUtil {
         return tokens;
     }
 
+    public static UserResponse createUserResponse(SkyrimUser user, String accessToken, String refreshToken) {
+        String role = user.getRole().getName();
+        return new UserResponse(user.getId(), user.getUsername(), role, accessToken, refreshToken);
+    }
+
     public static void putTokensToResponseAsJson(HttpServletResponse response, Map<String, String> tokens) throws IOException {
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }
 
-    public static void addAuthorizationErrorToResponse(HttpServletResponse response, Exception e) throws IOException {
-        response.setHeader("error", e.getMessage());
-        response.setStatus(FORBIDDEN.value());
-        // response.sendError(FORBIDDEN.value());
-        HashMap<String, String> errors = new HashMap<>();
-        errors.put("error_message", e.getMessage());
+    public static void putUserToResponseAsJson(HttpServletResponse response, UserResponse userResponse) throws IOException {
         response.setContentType(APPLICATION_JSON_VALUE);
-        new ObjectMapper().writeValue(response.getOutputStream(), errors);
+        new ObjectMapper().writeValue(response.getOutputStream(), userResponse);
     }
 
     public static Optional<String> getAuthorizationToken(HttpServletRequest request) {

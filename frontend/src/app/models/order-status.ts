@@ -1,9 +1,4 @@
-export enum OrderStatus {
-  CREATED = 'CREATED',
-  NEED_CHANGES = 'NEED_CHANGES',
-  APPROVED = 'APPROVED',
-  PAYED = 'PAYED',
-  IN_PROGRESS = 'IN_PROGRESS',
-  DECLINED = 'DECLINED',
-  COMPLETED = 'COMPLETED'
+export interface OrderStatus {
+  id: number
+  name: string
 }

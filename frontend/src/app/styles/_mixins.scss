@@ -33,6 +33,10 @@
 @mixin form() {
   background: #1c1c1c;
   border-radius: 10px;
+
+  .form-control:last-child {
+    margin-bottom: 0;
+  }
 }
 
 @mixin input() {

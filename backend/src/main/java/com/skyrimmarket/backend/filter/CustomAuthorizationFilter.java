@@ -1,5 +1,6 @@
 package com.skyrimmarket.backend.filter;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.skyrimmarket.backend.web.form.TokenUser;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+import static com.skyrimmarket.backend.util.ErrorUtil.addErrorBodyToResponse;
 import static com.skyrimmarket.backend.util.SecurityUtil.*;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 
 @Slf4j
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
@@ -34,8 +37,8 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                             new UsernamePasswordAuthenticationToken(userForm.getUsername(), null, userForm.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     filterChain.doFilter(request, response);
-                } catch (Exception e) {
-                    addAuthorizationErrorToResponse(response, e);
+                } catch (JWTVerificationException e) {
+                    addErrorBodyToResponse(response, FORBIDDEN, e);
                 }
             } else {
                 filterChain.doFilter(request, response);
