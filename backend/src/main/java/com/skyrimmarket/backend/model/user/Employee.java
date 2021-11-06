@@ -1,5 +1,6 @@
 package com.skyrimmarket.backend.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.skyrimmarket.backend.model.order.Order;
 import lombok.Builder;
 import lombok.Data;
@@ -17,10 +18,11 @@ import static javax.persistence.FetchType.LAZY;
 
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 @Entity
 @DiscriminatorValue("ROLE_EMPLOYEE")
 public class Employee extends SkyrimUser {
+    @JsonIgnore
     @OneToMany(cascade = ALL, mappedBy = "contractor", fetch = LAZY)
     private Set<Order> tasks;
 

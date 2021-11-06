@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from '@services/order/order.service';
 import { Order } from '@models/order/order';
 import { UserService } from '@services/user.service';
-import { withLoading } from '@utils/stream-pipe-operators';
+import { withLoading } from '@utils/loading-util';
 import { OrderStatusEnum } from '@models/order-status-enum';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationPopupComponent } from '@app/shared/notification-popup/notification-popup.component';

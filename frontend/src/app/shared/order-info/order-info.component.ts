@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { OrderTypeString } from '@models/order-type-string';
-import { orderTypeToString } from '@utils/order-util';
+import { orderTypeToString } from '@utils/order-type-util'
 
 @Component({
   selector: 'app-order-info',

@@ -3,10 +3,7 @@ package com.skyrimmarket.backend.model.order;
 import com.skyrimmarket.backend.model.*;
 import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.Employee;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -16,6 +13,8 @@ import static com.skyrimmarket.backend.model.order.OrderType.SWEEP;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "sweep_orders")
 public class SweepOrder extends ItemOrder {

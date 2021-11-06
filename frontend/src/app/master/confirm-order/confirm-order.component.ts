@@ -6,7 +6,7 @@ import { OrderService } from '@services/order/order.service';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { OrderStatusEnum } from '@models/order-status-enum';
-import { withLoading } from '@utils/stream-pipe-operators';
+import { withLoading } from '@utils/loading-util';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationPopupComponent } from '@app/shared/notification-popup/notification-popup.component';
 

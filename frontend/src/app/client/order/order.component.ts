@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { createOrderForm, disabledStatuses, getOrderTypes } from '@utils/order-util';
+import { createOrderForm } from '@utils/order-util';
 import { Dropdown } from '@models/template/dropdown';
 import { BaseComponent } from '@app/shared/base/base.component';
 import { ActivatedRoute } from '@angular/router';
 import { OrderTypeString } from '@models/order-type-string';
 import { Order } from '@models/order/order';
 import { OrderStatusEnum } from '@models/order-status-enum';
-import { filter, map, takeUntil, tap } from 'rxjs/operators';
+import { filter, map, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Store } from '@ngxs/store'
 import { ClientState } from '@state/client/client.state'
@@ -14,15 +14,21 @@ import { Client } from '@state/client/client.actions'
 import { showError, showNotification } from '@utils/notification-util'
 import { MatDialog } from '@angular/material/dialog'
 import { toMessage } from '@utils/http-util'
-import { withLoading } from '@utils/stream-pipe-operators'
+import { withLoading } from '@utils/loading-util'
 import { Navigate } from '@ngxs/router-plugin'
 import { FormGroup } from '@angular/forms'
 import Reset = Client.Reset
 import SetOrderType = Client.SetOrderType
-import GetOrderById = Client.GetOrderById
 import DeclineOrder = Client.DeclineOrder
 import UpdateOrder = Client.UpdateOrder
 import CreateOrder = Client.CreateOrder
+import { TitleService } from '@services/title.service'
+import { ItemService } from '@services/item.service'
+import { Title } from '@models/title'
+import { Item } from '@models/Item'
+import { OrderService } from '@services/order/order.service'
+import SetOrder = Client.SetOrder
+import { getOrderTypes } from '@utils/order-type-util'
 
 @Component({
   selector: 'app-order',
@@ -39,9 +45,15 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
 
   loading: boolean
 
+  titles: Title[] = []
+  items: Item[] = []
+
   constructor(private activateRoute: ActivatedRoute,
               private store: Store,
-              private dialogService: MatDialog) {
+              private dialogService: MatDialog,
+              private orderService: OrderService,
+              private titleService: TitleService,
+              private itemService: ItemService) {
     super()
   }
 
@@ -58,7 +70,7 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
   }
 
   get formDisabled(): boolean {
-    return disabledStatuses.includes(OrderStatusEnum[this.orderStatus])
+    return this.orderForm?.disabled
   }
 
   get saveDisabled(): boolean {
@@ -73,19 +85,23 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
       .pipe(
         takeUntil(this.ngUnsubscribe),
         map(params => params['id']),
-        filter(id => !!id)
+        filter(id => !!id),
+        switchMap(id => this.orderService.get(id).pipe(withLoading(this))),
+        tap(order => this.store.dispatch(new SetOrder(order))),
       )
       .subscribe(
-        id => this.store.dispatch(new GetOrderById(id)),
+        order => this.orderForm = createOrderForm(order),
         error => showError(this.dialogService, toMessage(error))
       )
 
     this.order$ = this.store.select(ClientState.order).pipe(
       takeUntil(this.ngUnsubscribe),
       filter(order => !!order?.type),
-      tap(order => this.order = order),
-      tap(order => this.orderForm = createOrderForm(order))
+      tap(order => this.order = order)
     )
+
+    this.titleService.all().subscribe(titles => this.titles = titles)
+    this.itemService.all().subscribe(items => this.items = items)
   }
 
   ngAfterViewInit() {
@@ -103,28 +119,21 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
   onOrderTypeChange(value: OrderTypeString) {
     this.orderType = value
     this.store.dispatch(new SetOrderType(value))
+      .pipe(withLatestFrom(this.store.select(ClientState.order)))
+      .subscribe(([,order]) => this.orderForm = createOrderForm(order))
   }
 
   onCreateOrder() {
     this.store.dispatch(new CreateOrder({...this.order, ...this.orderForm.value}))
       .pipe(
         withLoading(this),
-        tap(() => showNotification(this.dialogService, 'Order successfully created!'))
+        tap(() => showNotification(this.dialogService, 'Order successfully created!')),
+        withLatestFrom(this.store.select(ClientState.order))
       )
       .subscribe(
-        order => this.store.dispatch([
-          new Reset(),
+        ([,order]) => this.store.dispatch([
           new Navigate([`/client/order/${order.id}`])
         ]),
-        error => showError(this.dialogService, toMessage(error))
-      )
-  }
-
-  onUpdateOrder() {
-    this.store.dispatch(new UpdateOrder({...this.order, ...this.orderForm.value}))
-      .pipe(withLoading(this))
-      .subscribe(
-        () => showNotification(this.dialogService, 'Order successfully updated!'),
         error => showError(this.dialogService, toMessage(error))
       )
   }
@@ -137,6 +146,15 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
       )
       .subscribe(
         () => this.store.dispatch(new Navigate(['/client/order'])),
+        error => showError(this.dialogService, toMessage(error))
+      )
+  }
+
+  onUpdateOrder() {
+    this.store.dispatch(new UpdateOrder({...this.order, ...this.orderForm.value}))
+      .pipe(withLoading(this))
+      .subscribe(
+        () => showNotification(this.dialogService, 'Order successfully updated!'),
         error => showError(this.dialogService, toMessage(error))
       )
   }

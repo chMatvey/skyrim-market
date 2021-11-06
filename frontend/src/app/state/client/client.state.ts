@@ -13,15 +13,14 @@ import GetOrderById = Client.GetOrderById
 import UpdateOrder = Client.UpdateOrder
 import DeclineOrder = Client.DeclineOrder
 import PayOrder = Client.PayOrder
+import SetOrder = Client.SetOrder
 
 export interface ClientStateModel<T extends Order = Order> {
   order: T
 }
 
 const defaults: ClientStateModel = {
-  order: {
-    type: 'PICKPOCKETING',
-  },
+  order: null
 }
 
 @State<ClientStateModel>({
@@ -41,6 +40,11 @@ export class ClientState {
   @Selector()
   static orderType(state: ClientStateModel): OrderTypeString | null {
     return state.order?.type ?? null
+  }
+
+  @Action(SetOrder)
+  setOrder({patchState}: StateContext<ClientStateModel>, {order}: CreateOrder) {
+    patchState({order})
   }
 
   @Action(CreateOrder, {cancelUncompleted: true})
@@ -73,7 +77,7 @@ export class ClientState {
 
   @Action(DeclineOrder)
   declineOrder({patchState}: StateContext<ClientStateModel>, {id}: DeclineOrder) {
-    this.clientOrderService.decline(id).pipe(
+    return this.clientOrderService.decline(id).pipe(
       tap(order => patchState({order}))
     )
   }

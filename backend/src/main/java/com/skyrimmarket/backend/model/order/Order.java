@@ -27,12 +27,6 @@ import static javax.persistence.InheritanceType.JOINED;
 @Entity
 @Inheritance(strategy = JOINED)
 @Table(name = "orders")
-@JsonTypeInfo(use = NAME, property = "type")
-@JsonSubTypes({
-        @Type(value = ForgeryOrder.class, name = "FORGERY"),
-        @Type(value = PickpocketingOrder.class, name = "PICKPOCKETING"),
-        @Type(value = SweepOrder.class, name = "SWEEP")
-})
 public abstract class Order {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -45,7 +39,7 @@ public abstract class Order {
 
     private String comment;
 
-    @Column(name = "start_date", nullable = false)
+    @Column(name = "start_date", nullable = false, updatable = false)
     private LocalDate startDate;
 
     @Column(name = "end_date")

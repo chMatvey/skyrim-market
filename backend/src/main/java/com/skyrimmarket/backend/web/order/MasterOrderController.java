@@ -1,9 +1,7 @@
 package com.skyrimmarket.backend.web.order;
 
 import com.skyrimmarket.backend.model.order.Order;
-import com.skyrimmarket.backend.model.order.OrderStatusEnum;
-import com.skyrimmarket.backend.service.order.OrderService;
-import com.skyrimmarket.backend.service.OrderStatusService;
+import com.skyrimmarket.backend.service.order.MasterOrderService;
 import com.skyrimmarket.backend.web.error.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.skyrimmarket.backend.model.order.OrderStatusEnum.APPROVED;
-import static com.skyrimmarket.backend.model.order.OrderStatusEnum.DECLINED;
-import static com.skyrimmarket.backend.util.OrderUtil.notFoundException;
 import static java.lang.String.format;
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -23,8 +18,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/api/order/master")
 @RequiredArgsConstructor
 public class MasterOrderController {
-    private final OrderService orderService;
-    private final OrderStatusService orderStatusService;
+    private final MasterOrderService orderService;
 
     @GetMapping("/created")
     public ResponseEntity<List<Order>> getCreatedOrders() {
@@ -38,18 +32,12 @@ public class MasterOrderController {
 
     @GetMapping("/approve/{id}")
     public ResponseEntity<Order> approve(@PathVariable("id") Long id) {
-        Order order = orderService.get(id).orElseThrow(() -> notFoundException(id));
-        order.setStatus(orderStatusService.get(APPROVED));
-
-        return ok(orderService.update(order));
+        return ok(orderService.approve(id));
     }
 
     @GetMapping("/decline/{id}")
     public ResponseEntity<Order> decline(@PathVariable("id") Long id) {
-        Order order = orderService.get(id).orElseThrow(() -> notFoundException(id));
-        order.setStatus(orderStatusService.get(DECLINED));
-
-        return ok(orderService.update(order));
+        return ok(orderService.decline(id));
     }
 
     @PostMapping("/comment/{id}")
@@ -57,10 +45,6 @@ public class MasterOrderController {
         if (comment == null) {
             throw new BadRequestException("Comments not specified");
         }
-        Order order = orderService.get(id).orElseThrow(() -> notFoundException(id));
-        order.setStatus(orderStatusService.get(OrderStatusEnum.NEED_CHANGES));
-        order.setComment(comment);
-
-        return ok(orderService.update(order));
+        return ok(orderService.comment(id, comment));
     }
 }

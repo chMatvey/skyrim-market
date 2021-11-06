@@ -11,7 +11,7 @@ public class OrderUtil {
         return new NotFoundException(format("Order not found by id: %d", id));
     }
 
-    public static void validateOrder(Order order) {
+    public static void validateNewOrder(Order order) {
         if (order.getClient() == null) {
             throw new BadRequestException("Client not specified");
         }
@@ -26,6 +26,24 @@ public class OrderUtil {
         }
         if (order.getContractor() != null) {
             throw new BadRequestException("Contractor cannot be assigned");
+        }
+        if (order.getPayment() != null) {
+            throw new BadRequestException("Payment type cannot be chosen before approving");
+        }
+        if (order.getFeedback() != null) {
+            throw new BadRequestException("Feedback cannot be left before closing");
+        }
+    }
+
+    public static void validateUpdatedOrder(Order order) {
+        if (order.getClient() == null) {
+            throw new BadRequestException("Client not specified");
+        }
+        if (order.getEndDate() != null) {
+            throw new BadRequestException("End date can be set after closing");
+        }
+        if (order.getDroppoint() != null) {
+            throw new BadRequestException("Drop-point cannot be set");
         }
         if (order.getPayment() != null) {
             throw new BadRequestException("Payment type cannot be chosen before approving");

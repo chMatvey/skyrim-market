@@ -9,6 +9,8 @@ import { Observable } from 'rxjs'
 import { AppState } from '@state/app.state'
 import { map } from 'rxjs/operators'
 import Logout = App.Logout
+import { MatDialog } from '@angular/material/dialog'
+import { showError } from '@utils/notification-util'
 
 @Component({
   selector: 'app-toolbar',
@@ -22,7 +24,8 @@ export class ToolbarComponent implements OnInit {
 
   toolbar$: Observable<Toolbar>
 
-  constructor(private store: Store) {
+  constructor(private store: Store,
+              private dialogService: MatDialog) {
   }
 
   ngOnInit() {
@@ -31,6 +34,9 @@ export class ToolbarComponent implements OnInit {
 
   onLogout() {
     this.store.dispatch(new Logout())
-      .subscribe(() => this.store.dispatch(new Navigate(['/login'])))
+      .subscribe(
+        () => this.store.dispatch(new Navigate(['/login'])),
+        error => showError(this.dialogService, error)
+      )
   }
 }

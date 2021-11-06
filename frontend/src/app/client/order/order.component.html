@@ -1,4 +1,4 @@
-<div class="client-order">
+<div class="client-order" [class.loading]="loading">
   <div class="client-order__form">
     <div class="client-order__form__info">
       <div class="client-order__select-service form-control" [class.disabled]="formDisabled">
@@ -21,15 +21,23 @@
 
     <ng-container *ngIf="order$ | async as order" [ngSwitch]="order.type">
       <ng-template ngSwitchCase="PICKPOCKETING">
-        <app-pickpocketing-order-form [form]="orderForm" [disabled]="formDisabled"></app-pickpocketing-order-form>
+        <app-pickpocketing-order-form [form]="orderForm"
+                                      [disabled]="formDisabled"
+                                      [titles]="titles"
+                                      [items]="items"></app-pickpocketing-order-form>
       </ng-template>
 
       <ng-template ngSwitchCase="SWEEP">
-        <app-sweep-order-form [form]="orderForm" [disabled]="formDisabled"></app-sweep-order-form>
+        <app-sweep-order-form [form]="orderForm"
+                              [disabled]="formDisabled"
+                              [titles]="titles"
+                              [items]="items"></app-sweep-order-form>
       </ng-template>
 
       <ng-template ngSwitchCase="FORGERY">
-        <app-forgery-order-form [form]="orderForm" [disabled]="formDisabled"></app-forgery-order-form>
+        <app-forgery-order-form [form]="orderForm"
+                                [disabled]="formDisabled"
+                                [items]="items"></app-forgery-order-form>
       </ng-template>
     </ng-container>
 

@@ -1,7 +1,7 @@
 package com.skyrimmarket.backend.web.order;
 
 import com.skyrimmarket.backend.model.order.Order;
-import com.skyrimmarket.backend.service.order.OrderService;
+import com.skyrimmarket.backend.service.order.EmployeeOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,7 +19,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/api/order/contractor")
 @RequiredArgsConstructor
 public class EmployeeOrderController {
-    private final OrderService orderService;
+    private final EmployeeOrderService orderService;
 
     @GetMapping("/{id}")
     public ResponseEntity<List<Order>> getContractorOrders(@PathVariable("id") Long id) {

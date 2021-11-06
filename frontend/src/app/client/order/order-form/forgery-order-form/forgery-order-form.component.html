@@ -10,8 +10,8 @@
   </div>
 
   <div class="form-control" [class.disabled]="form.disabled">
-    <label for="item" appRequired>Item</label>
-    <input id="item" type="text" formControlName="item">
+    <label appRequired>Item</label>
+    <app-search-select formControlName="item" [data]="items"></app-search-select>
   </div>
 
   <div class="form-control" [class.disabled]="form.disabled">

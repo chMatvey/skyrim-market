@@ -3,6 +3,7 @@ package com.skyrimmarket.backend.service;
 import com.skyrimmarket.backend.model.Title;
 import com.skyrimmarket.backend.repository.TitleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -17,7 +18,7 @@ public class TitleService {
 
     @PostConstruct
     void init() {
-        if (titleRepository.findAll().isEmpty()) {
+        if (titleRepository.count() == 0) {
             List<Title> titleList = Arrays.stream(new String[]{"Court magician", "Thane", "Jarl", "Trader"})
                     .map(Title::new)
                     .collect(Collectors.toList());

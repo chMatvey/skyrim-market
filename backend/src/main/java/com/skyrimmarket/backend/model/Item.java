@@ -14,6 +14,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
 @Entity
@@ -24,6 +25,7 @@ public class Item {
     @EqualsAndHashCode.Include()
     private long id;
 
+    @NonNull
     @Column(nullable = false, unique = true)
     private String name;
 

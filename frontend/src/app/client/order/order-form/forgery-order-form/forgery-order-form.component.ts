@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms'
 import { OrderFormComponent } from '@app/client/order/order-form/order-form.component'
+import { Item } from '@models/Item'
 
 @Component({
   selector: 'app-forgery-order-form',
@@ -10,13 +11,13 @@ import { OrderFormComponent } from '@app/client/order/order-form/order-form.comp
     './forgery-order-form.component.scss'
   ]
 })
-export class ForgeryOrderFormComponent extends OrderFormComponent implements OnInit {
+export class ForgeryOrderFormComponent extends OrderFormComponent {
   @Input()
   form: FormGroup
 
   @Input()
   disabled: boolean
 
-  ngOnInit(): void {
-  }
+  @Input()
+  items: Item[] = []
 }

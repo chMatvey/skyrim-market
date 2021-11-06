@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { UserService } from '@services/user.service';
 import { createRegistrationForm } from '@app/auth/login/login';
-import { withLoading } from '@utils/stream-pipe-operators';
+import { withLoading } from '@utils/loading-util';
 import { MatDialog } from '@angular/material/dialog';
 import { tap } from 'rxjs/operators';
 import { Store } from '@ngxs/store'

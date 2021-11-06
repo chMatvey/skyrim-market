@@ -19,17 +19,13 @@ const VALUE_ACCESSOR: Provider = {
   providers: [VALUE_ACCESSOR]
 })
 export class SearchSelectComponent extends BaseComponent implements OnInit, AfterViewInit, ControlValueAccessor {
-  @Input()
-  data: Entity[] = []
-
-  disabled = false
-
   valueControl = new FormControl()
   filterControl = new FormControl()
 
-  @ViewChild('select')
+  @ViewChild(MatSelect)
   select: MatSelect;
 
+  private allData: Entity[] = []
   private filteredData$ = new ReplaySubject<Entity[]>(1)
 
   private newEntity: Entity | null = null
@@ -37,15 +33,25 @@ export class SearchSelectComponent extends BaseComponent implements OnInit, Afte
   private onChange = (value: Entity) => {}
   private onTouched = () => {}
 
+  get data(): Entity[] {
+    return this.allData
+  }
+
+  @Input()
+  set data(data: Entity[]) {
+    this.allData = [...data]
+    this.filteredData$.next(this.allData)
+  }
+
   get data$(): Observable<Entity[]> {
     return this.filteredData$.asObservable()
   }
 
   ngOnInit(): void {
-    this.filteredData$.next([...this.data])
-
     this.valueControl.valueChanges
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(value => {
         this.onChange(value)
         this.onTouched()
@@ -53,8 +59,8 @@ export class SearchSelectComponent extends BaseComponent implements OnInit, Afte
 
     this.filterControl.valueChanges
       .pipe(
-        debounceTime(200),
-        takeUntil(this.ngUnsubscribe)
+        takeUntil(this.ngUnsubscribe),
+        debounceTime(200)
       )
       .subscribe(value => this.filter(value))
   }
@@ -79,7 +85,7 @@ export class SearchSelectComponent extends BaseComponent implements OnInit, Afte
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled
+    isDisabled ? this.valueControl.disable() : this.valueControl.enable()
   }
 
   writeValue(entity: Entity): void {

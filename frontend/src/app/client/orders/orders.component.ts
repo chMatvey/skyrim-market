@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Order } from '@models/order/order';
-import { withLoading } from '@utils/stream-pipe-operators';
+import { withLoading } from '@utils/loading-util';
 import { ClientOrderService } from '@services/order/client-order.service'
 import { Store } from '@ngxs/store'
 import { userIdFromStore } from '@utils/store-util'

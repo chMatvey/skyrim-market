@@ -8,7 +8,7 @@ import { Navigate } from '@ngxs/router-plugin'
 import { MatDialog } from '@angular/material/dialog'
 import { showError } from '@utils/notification-util'
 import { toMessage } from '@utils/http-util'
-import { withLoading } from '@utils/stream-pipe-operators'
+import { withLoading } from '@utils/loading-util'
 import Login = App.Login
 
 @Component({

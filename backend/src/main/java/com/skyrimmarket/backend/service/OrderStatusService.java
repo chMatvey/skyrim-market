@@ -4,6 +4,7 @@ import com.skyrimmarket.backend.model.OrderStatus;
 import com.skyrimmarket.backend.model.order.OrderStatusEnum;
 import com.skyrimmarket.backend.repository.OrderStatusRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;

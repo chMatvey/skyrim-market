@@ -14,32 +14,16 @@ import { Item } from '@models/Item'
     './pickpocketing-order-form.component.scss'
   ]
 })
-export class PickpocketingOrderFormComponent extends OrderFormComponent implements OnInit {
+export class PickpocketingOrderFormComponent extends OrderFormComponent {
   @Input()
   form: FormGroup
 
   @Input()
   disabled: boolean
 
-  titles$: Observable<Title[]>
-  items: Item[] = [
-    {
-      id: 1,
-      name: 'Iron Sword'
-    },
-    {
-      id: 2,
-      name: 'Dragan Sword'
-    }
-  ]
+  @Input()
+  titles: Title[] = []
 
-  itemFilterControl = new FormControl();
-
-  constructor(private titleService: TitleService) {
-    super()
-  }
-
-  ngOnInit(): void {
-    this.titles$ = this.titleService.all()
-  }
+  @Input()
+  items: Item[] = []
 }

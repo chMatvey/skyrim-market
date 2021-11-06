@@ -12,7 +12,7 @@ import static com.skyrimmarket.backend.model.user.SkyrimRole.MASTER;
 
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 @Entity
 @DiscriminatorValue("ROLE_MASTER")
 public class Master extends SkyrimUser {

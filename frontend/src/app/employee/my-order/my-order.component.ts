@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from '@services/order/order.service';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { OrderStatusEnum } from '@models/order-status-enum';
-import { withLoading } from '@utils/stream-pipe-operators';
+import { withLoading } from '@utils/loading-util';
 import { NotificationPopupComponent } from '@app/shared/notification-popup/notification-popup.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';

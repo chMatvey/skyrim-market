@@ -1,5 +1,6 @@
 package com.skyrimmarket.backend.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,6 +27,7 @@ public abstract class SkyrimUser {
     @Column(nullable = false, unique = true, updatable = false)
     private String username;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 

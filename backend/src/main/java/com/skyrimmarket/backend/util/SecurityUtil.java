@@ -61,7 +61,7 @@ public class SecurityUtil {
     public static String createAccessToken(UserDetails user, String url) {
         return JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 2 * 60 * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000))
                 .withIssuer(url)
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(ALGORITHM);
@@ -70,7 +70,7 @@ public class SecurityUtil {
     public static String createRefreshToken(UserDetails user, String url) {
         return JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 14 * 24 * 60 * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 30L * 24 * 60 * 60 * 1000))
                 .withIssuer(url)
                 .sign(ALGORITHM);
     }

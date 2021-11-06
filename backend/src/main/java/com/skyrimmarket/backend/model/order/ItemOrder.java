@@ -1,11 +1,9 @@
 package com.skyrimmarket.backend.model.order;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
 import com.skyrimmarket.backend.model.*;
 import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.Employee;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.MappedSuperclass;
@@ -14,6 +12,7 @@ import java.util.List;
 
 @MappedSuperclass
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public abstract class ItemOrder extends Order {
     public abstract Item getItem();
 

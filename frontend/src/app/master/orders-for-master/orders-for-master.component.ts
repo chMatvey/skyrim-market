@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Order } from '@models/order/order';
 import { OrderService } from '@services/order/order.service';
 import { Router } from '@angular/router';
-import { withLoading } from '@utils/stream-pipe-operators';
+import { withLoading } from '@utils/loading-util';
 
 @Component({
   selector: 'app-orders-for-master',

@@ -3,6 +3,11 @@ import { OrderTypeString } from '@models/order-type-string'
 import { Payment } from '@models/payment'
 
 export namespace Client {
+  export class SetOrder {
+    static readonly type = '[Client] set order'
+    constructor(public order: Order) {}
+  }
+
   export class CreateOrder {
     static readonly type = '[Client] create order'
     constructor(public order: Order) {}

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs'
 import { Title } from '@models/title'
 import { TitleService } from '@services/title.service'
 import { OrderFormComponent } from '@app/client/order/order-form/order-form.component'
+import { Item } from '@models/Item'
 
 @Component({
   selector: 'app-sweep-order-form',
@@ -13,20 +14,16 @@ import { OrderFormComponent } from '@app/client/order/order-form/order-form.comp
     './sweep-order-form.component.scss'
   ]
 })
-export class SweepOrderFormComponent extends OrderFormComponent implements OnInit {
+export class SweepOrderFormComponent extends OrderFormComponent {
   @Input()
   form: FormGroup
 
   @Input()
   disabled: boolean
 
-  titles$: Observable<Title[]>
+  @Input()
+  titles: Title[] = []
 
-  constructor(private titleService: TitleService) {
-    super()
-  }
-
-  ngOnInit(): void {
-    this.titles$ = this.titleService.all()
-  }
+  @Input()
+  items: Item[] = []
 }

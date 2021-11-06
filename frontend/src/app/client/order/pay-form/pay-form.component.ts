@@ -4,7 +4,7 @@ import { getPaymentTypes } from '@utils/payment-util';
 import { PaymentString } from '@models/payment-string';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Order } from '@models/order/order';
-import { withLoading } from '@utils/stream-pipe-operators';
+import { withLoading } from '@utils/loading-util';
 import { MatDialog } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 import { Select, Store } from '@ngxs/store'

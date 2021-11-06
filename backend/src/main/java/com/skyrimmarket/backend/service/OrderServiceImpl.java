@@ -1,22 +1,26 @@
-package com.skyrimmarket.backend.service.order;
+package com.skyrimmarket.backend.service;
 
+import com.skyrimmarket.backend.model.Item;
 import com.skyrimmarket.backend.model.order.ItemOrder;
 import com.skyrimmarket.backend.model.order.Order;
 import com.skyrimmarket.backend.repository.OrderRepository;
 import com.skyrimmarket.backend.service.ItemService;
+import com.skyrimmarket.backend.service.OrderService;
 import com.skyrimmarket.backend.service.OrderStatusService;
-import com.skyrimmarket.backend.service.order.OrderService;
 import com.skyrimmarket.backend.web.error.BadRequestException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 import static com.skyrimmarket.backend.model.order.OrderStatusEnum.*;
+import static com.skyrimmarket.backend.util.OrderUtil.validateNewOrder;
+import static com.skyrimmarket.backend.util.OrderUtil.validateUpdatedOrder;
 import static java.time.LocalDate.now;
 
+@Primary
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
@@ -24,46 +28,36 @@ public class OrderServiceImpl implements OrderService {
     private final OrderStatusService orderStatusService;
     private final ItemService itemService;
 
-    @Transactional
-    @Override
-    public Order create(Order notCastedOrder) {
-        ItemOrder order = castAndCheck(notCastedOrder);
-        order.setStatus(orderStatusService.get(CREATED));
-        order.setStartDate(now());
-        setItemAndCalculatePrice(order);
-
-        return orderRepository.save(order);
-    }
-
-    @Transactional
-    @Override
-    public Order update(Order order) {
-        return orderRepository.save(order);
-    }
-
     @Override
     public Optional<Order> get(Long id) {
         return orderRepository.findById(id);
     }
 
+    @Transactional
     @Override
-    public List<Order> getClientOrders(Long clientId) {
-        return orderRepository.findAllByClientId(clientId);
+    public Order create(Order notCastedOrder) {
+        validateNewOrder(notCastedOrder);
+        ItemOrder order = castAndCheck(notCastedOrder);
+        order.setStatus(orderStatusService.get(CREATED));
+        order.setStartDate(now());
+        setItem(order);
+        order.setPrice(order.calculatePrice());
+
+        return orderRepository.save(order);
     }
 
+    @Transactional
     @Override
-    public List<Order> getContractorOrders(Long contractorId) {
-        return orderRepository.findAllByContractorIdAndStatusName(contractorId, IN_PROGRESS.getName());
-    }
+    public Order update(Order notCastedOrder) {
+        validateUpdatedOrder(notCastedOrder);
+        ItemOrder order = castAndCheck(notCastedOrder);
+        order.setStatus(orderStatusService.get(CREATED));
+        setItem(order);
+        if (order.getPrice() == null) {
+            order.setPrice(order.calculatePrice());
+        }
 
-    @Override
-    public List<Order> getCreatedOrders() {
-        return orderRepository.findAllByStatusName(CREATED.getName());
-    }
-
-    @Override
-    public List<Order> getAvailableOrders() {
-        return orderRepository.findAllByStatusName(PAYED.getName());
+        return orderRepository.save(order);
     }
 
     private ItemOrder castAndCheck(Order order) {
@@ -78,8 +72,8 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private void setItemAndCalculatePrice(ItemOrder order) {
-        order.setItem(itemService.findExistedByNameOrSave(order.getItem()));
-        order.setPrice(order.calculatePrice());
+    private void setItem(ItemOrder order) {
+        Item item = order.getItem();
+        order.setItem(itemService.findExistedByNameOrSave(item));
     }
 }
