@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Order } from '@models/order/order';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { OrderService } from '@services/order.service';
 import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { withLoading } from '@utils/loading-util';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store'
