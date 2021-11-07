@@ -4,9 +4,6 @@ import com.skyrimmarket.backend.model.Item;
 import com.skyrimmarket.backend.model.order.ItemOrder;
 import com.skyrimmarket.backend.model.order.Order;
 import com.skyrimmarket.backend.repository.OrderRepository;
-import com.skyrimmarket.backend.service.ItemService;
-import com.skyrimmarket.backend.service.OrderService;
-import com.skyrimmarket.backend.service.OrderStatusService;
 import com.skyrimmarket.backend.web.error.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -42,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
         ItemOrder order = castAndCheck(notCastedOrder);
         order.setStatus(orderStatusService.get(CREATED));
         order.setStartDate(now());
-        setItem(order);
+        findItemFromDbOrCreateNew(order);
         order.setPrice(order.calculatePrice());
 
         return orderRepository.save(order);
@@ -54,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
         validateUpdatedOrder(notCastedOrder);
         ItemOrder order = castAndCheck(notCastedOrder);
         order.setStatus(orderStatusService.get(CREATED));
-        setItem(order);
+        findItemFromDbOrCreateNew(order);
         if (order.getPrice() == null) {
             order.setPrice(order.calculatePrice());
         }
@@ -74,7 +71,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private void setItem(ItemOrder order) {
+    private void findItemFromDbOrCreateNew(ItemOrder order) {
         Item item = order.getItem();
         entityManager.detach(item);
         Item fromDb = itemService.findExistedByNameOrSave(item);

@@ -4,6 +4,7 @@ import com.skyrimmarket.backend.model.Item;
 import com.skyrimmarket.backend.model.OrderStatus;
 import com.skyrimmarket.backend.model.Payment;
 import com.skyrimmarket.backend.model.Title;
+import com.skyrimmarket.backend.model.order.OrderStatusEnum;
 import com.skyrimmarket.backend.model.order.SweepOrder;
 import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.repository.*;
@@ -40,8 +41,8 @@ public class JpaIntegrationTest {
     @Test
     void saveAndFoundSweepOrder() {
         Client client = userRepository.save(Client.builder().username("Alex").password("qwerty").build());
-        Title title = titleRepository.save(Title.builder().name("Thane").build());
-        OrderStatus orderStatus = orderStatusRepository.save(OrderStatus.builder().name("CREATED").build());
+        Title title = titleRepository.findAll().get(0);
+        OrderStatus orderStatus = orderStatusRepository.findByName(OrderStatusEnum.CREATED.getName()).get();
         Payment payment = paymentRepository.save(Payment.builder().name("Cash").build());
         Item item = itemRepository.save(Item.builder().name("Dragan Sword").build());
 
