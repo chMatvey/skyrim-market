@@ -17,18 +17,22 @@ import { toMessage } from '@utils/http-util'
 import { withLoading } from '@utils/loading-util'
 import { Navigate } from '@ngxs/router-plugin'
 import { FormGroup } from '@angular/forms'
-import Reset = Client.Reset
-import SetOrderType = Client.SetOrderType
-import DeclineOrder = Client.DeclineOrder
-import UpdateOrder = Client.UpdateOrder
-import CreateOrder = Client.CreateOrder
 import { TitleService } from '@services/title.service'
 import { ItemService } from '@services/item.service'
 import { Title } from '@models/title'
 import { Item } from '@models/Item'
 import { OrderService } from '@services/order.service'
-import SetOrder = Client.SetOrder
 import { getOrderTypes } from '@utils/order-type-util'
+import Reset = Client.Reset
+import SetOrderType = Client.SetOrderType
+import DeclineOrder = Client.DeclineOrder
+import UpdateOrder = Client.UpdateOrder
+import CreateOrder = Client.CreateOrder
+import SetOrder = Client.SetOrder
+import APPROVED = OrderStatusEnum.APPROVED
+import COMPLETED = OrderStatusEnum.COMPLETED
+import NEED_CHANGES = OrderStatusEnum.NEED_CHANGES
+import DECLINED = OrderStatusEnum.DECLINED
 
 @Component({
   selector: 'app-order',
@@ -61,14 +65,6 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
     return this.order?.status?.name
   }
 
-  get showPayForm(): boolean {
-    return this.order?.status?.name === OrderStatusEnum.APPROVED
-  }
-
-  get showItemLocation(): boolean {
-    return this.order?.status?.name === OrderStatusEnum.COMPLETED
-  }
-
   get formDisabled(): boolean {
     return this.orderForm?.disabled
   }
@@ -78,6 +74,19 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
       return true
     }
     return this.orderForm.invalid
+  }
+
+  get showComment(): boolean {
+    const status: string | undefined = this.order?.status?.name
+    return this.order?.comment && (status === NEED_CHANGES || status === DECLINED)
+  }
+
+  get showPayForm(): boolean {
+    return this.order?.status?.name === APPROVED
+  }
+
+  get showItemLocation(): boolean {
+    return this.order?.status?.name === COMPLETED
   }
 
   ngOnInit(): void {

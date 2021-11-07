@@ -3,6 +3,7 @@ package com.skyrimmarket.backend.web.order;
 import com.skyrimmarket.backend.model.order.Order;
 import com.skyrimmarket.backend.service.order.MasterOrderService;
 import com.skyrimmarket.backend.web.error.BadRequestException;
+import com.skyrimmarket.backend.web.form.MasterOrderForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,21 +25,24 @@ public class MasterOrderController {
         return ok(orderService.getCreatedOrders());
     }
 
-    @GetMapping("/approve/{id}")
-    public ResponseEntity<Order> approve(@PathVariable("id") Long id) {
-        return ok(orderService.approve(id));
-    }
-
-    @GetMapping("/decline/{id}")
-    public ResponseEntity<Order> decline(@PathVariable("id") Long id) {
-        return ok(orderService.decline(id));
+    @PostMapping("/decline/{id}")
+    public ResponseEntity<Order> decline(@PathVariable("id") Long id, @RequestBody MasterOrderForm form) {
+        return ok(orderService.decline(id, form.getComment()));
     }
 
     @PostMapping("/comment/{id}")
-    public ResponseEntity<Order> comment(@PathVariable("id") Long id, @RequestBody String comment) {
-        if (comment == null) {
+    public ResponseEntity<Order> comment(@PathVariable("id") Long id, @RequestBody MasterOrderForm form) {
+        if (form.getComment() == null) {
             throw new BadRequestException("Comments not specified");
         }
-        return ok(orderService.comment(id, comment));
+        return ok(orderService.comment(id, form.getComment(), form.getPrice()));
+    }
+
+    @PostMapping("/approve/{id}")
+    public ResponseEntity<Order> approve(@PathVariable("id") Long id, @RequestBody MasterOrderForm form) {
+        if (form.getPrice() == null) {
+            throw new BadRequestException("Price not specified");
+        }
+        return ok(orderService.approve(id, form.getPrice(), form.getContractor()));
     }
 }

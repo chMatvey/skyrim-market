@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { BaseComponent } from '@app/shared/base/base.component';
 import { Entity } from '@models/entity'
 
 @Component({
   template: ``
 })
-export abstract class OrderFormComponent extends BaseComponent {
+export abstract class OrderFormComponent {
   abstract form: FormGroup
 
   abstract disabled: boolean

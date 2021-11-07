@@ -5,10 +5,12 @@ import com.skyrimmarket.backend.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,8 +28,10 @@ public class ItemService {
         }
     }
 
+    @Transactional
     public Item findExistedByNameOrSave(Item item) {
-        return itemRepository.findByNameIgnoreCase(item.getName()).orElse(itemRepository.save(item));
+        Optional<Item> itemOptional = itemRepository.findByNameIgnoreCase(item.getName());
+        return itemOptional.orElseGet(() -> itemRepository.save(item));
     }
 
     public List<Item> all() {

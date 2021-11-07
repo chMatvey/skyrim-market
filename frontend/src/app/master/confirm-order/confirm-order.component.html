@@ -27,8 +27,11 @@
       <button [disabled]="form.disabled"
               (click)="decline()">Decline</button>
 
-      <button [disabled]="form.disabled || form.invalid"
-              (click)="apply()">Approve</button>
+      <button [disabled]="form.disabled || commentInvalid"
+              (click)="comment()">Comment</button>
+
+      <button [disabled]="form.disabled || approveInvalid"
+              (click)="approve()">Approve</button>
     </div>
   </form>
 </div>

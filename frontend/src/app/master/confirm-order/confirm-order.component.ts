@@ -2,28 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { Order } from '@models/order/order';
 import { ActivatedRoute } from '@angular/router';
 import { OrderService } from '@services/order.service';
-import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { map, switchMap, takeUntil } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
-import { withLoading } from '@utils/loading-util';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store'
 import { Navigate } from '@ngxs/router-plugin'
-import { showNotification } from '@utils/notification-util'
-import { BaseComponent } from '@app/shared/base/base.component'
 import { createMasterOrderForm } from '@utils/order-util'
 import { MasterOrderService } from '@services/order/master-order.service'
-import { Entity } from '@models/entity'
 import { User } from '@models/user'
 import { ContractorService } from '@services/contractor.service'
+import { FormComponent } from '@app/shared/form/form.component'
 
 @Component({
   selector: 'app-confirm-order',
   templateUrl: './confirm-order.component.html',
   styleUrls: ['./confirm-order.component.scss']
 })
-export class ConfirmOrderComponent extends BaseComponent implements OnInit {
-  loading: boolean
-
+export class ConfirmOrderComponent extends FormComponent implements OnInit {
   form: FormGroup
   order: Order
 
@@ -34,12 +29,16 @@ export class ConfirmOrderComponent extends BaseComponent implements OnInit {
               private orderService: OrderService,
               private masterOrderService: MasterOrderService,
               private contractorService: ContractorService,
-              private dialogService: MatDialog) {
-    super()
+              dialogService: MatDialog) {
+    super(dialogService)
   }
 
-  compareEntity(a: Entity, b: Entity): boolean {
-    return a?.id === b?.id
+  get commentInvalid(): boolean {
+    return this.form.get('comment').invalid
+  }
+
+  get approveInvalid(): boolean {
+    return this.form.get('price').invalid
   }
 
   ngOnInit(): void {
@@ -62,20 +61,20 @@ export class ConfirmOrderComponent extends BaseComponent implements OnInit {
   }
 
   decline(): void {
-    this.masterOrderService.decline(this.order.id)
-      .pipe(
-        withLoading(this),
-        tap(() => showNotification(this.dialogService, 'Order successfully declined!'))
-      )
+    const request$ = this.masterOrderService.decline(this.order.id, this.form.value)
+    this.sendForm(request$, 'Order successfully declined!')
       .subscribe(() => this.store.dispatch(new Navigate(['/master/orders'])))
   }
 
-  apply(): void {
-    this.masterOrderService.approve(this.order.id, this.form.value)
-      .pipe(
-        withLoading(this),
-        tap(() => showNotification(this.dialogService, 'Order successfully approved!'))
-      )
+  comment(): void {
+    const request$ = this.masterOrderService.comment(this.order.id, this.form.value)
+    this.sendForm(request$, 'Order successfully commented!')
       .subscribe(({id}) => this.store.dispatch(new Navigate([`/master/order/${id}`])))
+  }
+
+  approve(): void {
+    const request$ = this.masterOrderService.approve(this.order.id, this.form.value)
+    this.sendForm(request$, 'Order successfully approved!')
+      .subscribe(() => this.store.dispatch(new Navigate([`/master/orders`])))
   }
 }

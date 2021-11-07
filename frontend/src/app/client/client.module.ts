@@ -12,7 +12,8 @@ import { PickpocketingOrderFormComponent } from './order/order-form/pickpocketin
 import { SweepOrderFormComponent } from './order/order-form/sweep-order-form/sweep-order-form.component';
 import { NgxsModule } from '@ngxs/store'
 import { AppState } from '@state/app.state'
-import { ClientState } from '@state/client/client.state'
+import { ClientState } from '@state/client/client.state';
+import { CommentComponent } from './order/comment/comment.component'
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ClientState } from '@state/client/client.state'
     ItemLocationComponent,
     ForgeryOrderFormComponent,
     PickpocketingOrderFormComponent,
-    SweepOrderFormComponent
+    SweepOrderFormComponent,
+    CommentComponent
   ],
   imports: [
     SharedModule,

@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.Optional;
 
 import static com.skyrimmarket.backend.model.order.OrderStatusEnum.*;
@@ -27,6 +28,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderStatusService orderStatusService;
     private final ItemService itemService;
+    private final EntityManager entityManager;
 
     @Override
     public Optional<Order> get(Long id) {
@@ -74,6 +76,8 @@ public class OrderServiceImpl implements OrderService {
 
     private void setItem(ItemOrder order) {
         Item item = order.getItem();
-        order.setItem(itemService.findExistedByNameOrSave(item));
+        entityManager.detach(item);
+        Item fromDb = itemService.findExistedByNameOrSave(item);
+        order.setItem(fromDb);
     }
 }

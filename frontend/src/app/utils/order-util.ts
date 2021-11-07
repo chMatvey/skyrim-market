@@ -36,7 +36,7 @@ export function createMasterOrderForm(order: Order) {
 
   const disabled = !enabledStatuses.includes(OrderStatusEnum[order.status.name])
   const form = new FormGroup({
-    comment: new FormControl(order.comment),
+    comment: new FormControl(order.comment, [Validators.required]),
     contractor: new FormControl(order.contractor),
     price: new FormControl(order.price, [Validators.required])
   })

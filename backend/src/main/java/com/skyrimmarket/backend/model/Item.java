@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
@@ -30,6 +31,6 @@ public class Item {
     private String name;
 
     @JsonIgnore
-    @OneToMany(cascade = ALL, fetch = LAZY, mappedBy = "item")
+    @OneToMany(cascade = ALL, fetch = LAZY, mappedBy = "item", orphanRemoval = true)
     private List<ItemPrice> itemPriceList;
 }

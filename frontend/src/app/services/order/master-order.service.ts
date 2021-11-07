@@ -19,11 +19,15 @@ export class MasterOrderService {
     return this.http.get<Order[]>(`${apiUrl}/order/master/payed`)
   }
 
-  decline(id: number): Observable<Order> {
-    return this.http.get<Order>(`${apiUrl}/order/master/decline/${id}`)
+  decline(id: number, form: Order): Observable<Order> {
+    return this.http.post<Order>(`${apiUrl}/order/master/decline/${id}`, form)
   }
 
-  approve(id: number, formValue: Order): Observable<Order> {
-    return this.http.post<Order>(`${apiUrl}/order/master/approve/${id}`, formValue)
+  comment(id: number, form: Order): Observable<Order> {
+    return this.http.post<Order>(`${apiUrl}/order/master/comment/${id}`, form)
+  }
+
+  approve(id: number, form: Order): Observable<Order> {
+    return this.http.post<Order>(`${apiUrl}/order/master/approve/${id}`, form)
   }
 }

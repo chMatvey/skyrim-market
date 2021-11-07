@@ -1,0 +1,11 @@
+.comment {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin-top: 80px;
+  width: 200px;
+
+  label {
+    font-weight: 300;
+  }
+}
