@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ClientGuard } from '@guards/client.guard';
+import { MasterGuard } from '@guards/master.guard'
 
 const routes: Routes = [
   {
@@ -23,13 +24,13 @@ const routes: Routes = [
   //   canLoad: [EmployeeGuard],
   //   canActivate: [EmployeeGuard]
   // },
-  // {
-  //   path: 'master',
-  //   loadChildren: () => import('./master/master.module')
-  //     .then(module => module.MasterModule),
-  //   canLoad: [MasterGuard],
-  //   canActivate: [MasterGuard]
-  // },
+  {
+    path: 'master',
+    loadChildren: () => import('./master/master.module')
+      .then(module => module.MasterModule),
+    canLoad: [MasterGuard],
+    canActivate: [MasterGuard]
+  },
   {
     path: '**',
     redirectTo: ''

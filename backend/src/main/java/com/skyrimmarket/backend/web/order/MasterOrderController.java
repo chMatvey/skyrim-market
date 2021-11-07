@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static java.lang.String.format;
 import static org.springframework.http.ResponseEntity.ok;
 
 @PreAuthorize("hasRole('ROLE_MASTER')")
@@ -23,11 +22,6 @@ public class MasterOrderController {
     @GetMapping("/created")
     public ResponseEntity<List<Order>> getCreatedOrders() {
         return ok(orderService.getCreatedOrders());
-    }
-
-    @GetMapping("/available")
-    public ResponseEntity<List<Order>> getAvailableOrders() {
-        return ok(orderService.getAvailableOrders());
     }
 
     @GetMapping("/approve/{id}")

@@ -29,10 +29,6 @@ public class MasterOrderService implements OrderService {
         return orderRepository.findAllByStatusName(CREATED.getName());
     }
 
-    public List<Order> getAvailableOrders() {
-        return orderRepository.findAllByStatusName(PAYED.getName());
-    }
-
     public Order approve(Long id) {
         Order order = orderRepository.findById(id).orElseThrow(() -> notFoundException(id));
         order.setStatus(orderStatusService.get(APPROVED));

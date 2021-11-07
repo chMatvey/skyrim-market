@@ -1,7 +1,7 @@
 import { Order } from '@models/order/order';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Injectable } from '@angular/core';
-import { OrderService } from '@services/order/order.service';
+import { OrderService } from '@services/order.service';
 import { tap } from 'rxjs/operators';
 import { Client } from '@state/client/client.actions'
 import { ClientOrderService } from '@services/order/client-order.service'

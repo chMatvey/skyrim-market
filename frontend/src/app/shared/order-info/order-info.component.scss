@@ -4,13 +4,13 @@
   @include form();
   width: 687px;
   height: 610px;
-  padding: 24px 32px;
+  padding: 16px 32px;
 
   &__value {
-    margin-top: 8px;
+    margin-top: 6px;
 
     &.description {
-      height: 70px;
+      height: 50px;
       border: 1px solid #fff;
       border-radius: 10px;
       box-sizing: border-box;

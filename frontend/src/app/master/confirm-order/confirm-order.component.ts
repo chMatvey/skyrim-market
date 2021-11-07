@@ -2,74 +2,81 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Order } from '@models/order/order';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OrderService } from '@services/order/order.service';
-import { map, switchMap, tap } from 'rxjs/operators';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { OrderStatusEnum } from '@models/order-status-enum';
+import { OrderService } from '@services/order.service';
+import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { FormGroup, Validators } from '@angular/forms';
 import { withLoading } from '@utils/loading-util';
 import { MatDialog } from '@angular/material/dialog';
-import { NotificationPopupComponent } from '@app/shared/notification-popup/notification-popup.component';
+import { Store } from '@ngxs/store'
+import { Navigate } from '@ngxs/router-plugin'
+import { showNotification } from '@utils/notification-util'
+import { BaseComponent } from '@app/shared/base/base.component'
+import { createMasterOrderForm } from '@utils/order-util'
+import { MasterOrderService } from '@services/order/master-order.service'
+import { Entity } from '@models/entity'
+import { User } from '@models/user'
+import { ContractorService } from '@services/contractor.service'
 
 @Component({
   selector: 'app-confirm-order',
   templateUrl: './confirm-order.component.html',
   styleUrls: ['./confirm-order.component.scss']
 })
-export class ConfirmOrderComponent implements OnInit {
-
-  order$: Observable<Order>
-
+export class ConfirmOrderComponent extends BaseComponent implements OnInit {
   loading: boolean
 
   form: FormGroup
+  order: Order
 
-  private order: Order
+  contractors: User[] = []
 
-  constructor(private activateRoute: ActivatedRoute,
+  constructor(private store: Store,
+              private activateRoute: ActivatedRoute,
               private orderService: OrderService,
-              private router: Router,
+              private masterOrderService: MasterOrderService,
+              private contractorService: ContractorService,
               private dialogService: MatDialog) {
+    super()
+  }
+
+  compareEntity(a: Entity, b: Entity): boolean {
+    return a?.id === b?.id
   }
 
   ngOnInit(): void {
-    this.order$ = this.activateRoute.params
+    this.activateRoute.params
       .pipe(
+        takeUntil(this.ngUnsubscribe),
         map(params => params['id']),
-        switchMap(id => this.orderService.get(id)),
-        tap(order => this.order = order)
+        switchMap(id => this.orderService.get(id))
       )
+      .subscribe(order => {
+        this.order = order
+        this.form = createMasterOrderForm(order)
+      })
 
-    this.form = new FormGroup({
-      price: new FormControl(null, [Validators.required])
-    })
+    this.contractorService.all().subscribe(contractors => this.contractors = contractors)
   }
 
-  close() {
-    this.router.navigate(['/master/orders'])
+  close(): void {
+    this.store.dispatch(new Navigate(['/master/orders']))
   }
 
-  decline() {
-    this.orderService.update({...this.order, status: OrderStatusEnum.DECLINED})
+  decline(): void {
+    this.masterOrderService.decline(this.order.id)
       .pipe(
         withLoading(this),
-        tap(() => this.showNotification('Order successfully declined!'))
+        tap(() => showNotification(this.dialogService, 'Order successfully declined!'))
       )
-      .subscribe(() => this.router.navigate(['/master/orders']))
+      .subscribe(() => this.store.dispatch(new Navigate(['/master/orders'])))
   }
 
-  approve() {
-    this.orderService.update({...this.order, ...this.form.value, status: OrderStatusEnum.APPROVED})
+  apply(): void {
+    this.masterOrderService.approve(this.order.id, this.form.value)
       .pipe(
         withLoading(this),
-        tap(() => this.showNotification('Order successfully approved!'))
+        tap(() => showNotification(this.dialogService, 'Order successfully approved!'))
       )
-      .subscribe(() => this.router.navigate(['/master/orders']))
-  }
-
-  private showNotification(data: string) {
-    this.dialogService.open(NotificationPopupComponent, {
-      data,
-      panelClass: 'skyrim-popup'
-    })
+      .subscribe(({id}) => this.store.dispatch(new Navigate([`/master/order/${id}`])))
   }
 }

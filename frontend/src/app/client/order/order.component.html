@@ -1,12 +1,12 @@
 <div class="client-order" [class.loading]="loading">
   <div class="client-order__form">
     <div class="client-order__form__info">
-      <div class="client-order__select-service form-control" [class.disabled]="formDisabled">
+      <div class="client-order__select-service form-control" [class.disabled]="formDisabled || loading">
         <label>Select service</label>
 
         <mat-select (valueChange)="onOrderTypeChange($event)"
                     [ngModel]="orderType"
-                    [disabled]="formDisabled">
+                    [disabled]="formDisabled || loading">
           <mat-option *ngFor="let type of orderTypes" [value]="type.value">
             {{type.name}}
           </mat-option>

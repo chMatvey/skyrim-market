@@ -1,35 +1,18 @@
-<div *ngIf="order" class="order-info"
-     [class.loading]="loading">
-
-  <div class="form-control">
-    <label>Service Type</label>
-    <div class="order-info__value">{{orderTypeToString(order.type)}}</div>
-  </div>
-
-  <div *ngIf="order.person" class="form-control">
-    <label>Person</label>
-    <div class="order-info__value">{{order.person}}</div>
-  </div>
-
-  <div *ngIf="order.address" class="form-control">
-    <label>Address</label>
-    <div class="order-info__value">{{order.address}}</div>
-  </div>
-
-  <div *ngIf="order.title" class="form-control">
-    <label>The title of the robbed person</label>
-    <div class="order-info__value">{{order.title}}</div>
-  </div>
-
-  <div class="form-control">
-    <label>{{itemLabel}}</label>
-    <div class="order-info__value">{{order.item}}</div>
-  </div>
-
-  <div class="form-control">
-    <label>Description of stealing object</label>
-    <div class="order-info__value description">{{order.description}}</div>
-  </div>
-
-  <ng-content></ng-content>
+<div class="form-control disabled">
+  <label>Service Type</label>
+  <div class="order-info__value">{{order.type | orderType}}</div>
 </div>
+
+<ng-container [ngSwitch]="orderType">
+  <ng-template ngSwitchCase="PICKPOCKETING">
+    <app-pickpocketing-order-info [order]="pickpocketingOrder"></app-pickpocketing-order-info>
+  </ng-template>
+
+  <ng-template ngSwitchCase="SWEEP">
+    <app-sweep-order-info [order]="sweepOrder"></app-sweep-order-info>
+  </ng-template>
+
+  <ng-template ngSwitchCase="FORGERY">
+    <app-forgery-order-info [order]="forgeryOrder"></app-forgery-order-info>
+  </ng-template>
+</ng-container>

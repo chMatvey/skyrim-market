@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { OrderTypeString } from '@models/order-type-string';
-import { orderTypeToString } from '@utils/order-type-util'
+import { Order } from '@models/order/order'
+import { PickpocketingOrder } from '@models/order/pickpocketing-order'
+import { SweepOrder } from '@models/order/sweep-order'
+import { ForgeryOrder } from '@models/order/forgery-order'
 
 @Component({
   selector: 'app-order-info',
@@ -10,17 +13,21 @@ import { orderTypeToString } from '@utils/order-type-util'
 export class OrderInfoComponent {
 
   @Input()
-  order: any
+  order: Order
 
-  get loading(): boolean {
-    return !this.order
+  get orderType(): OrderTypeString {
+    return this.order.type
   }
 
-  get itemLabel(): string {
-    return this.order.type === 'FORGERY' ? 'What we must throw' : 'What we must steal?'
+  get pickpocketingOrder(): PickpocketingOrder {
+    return this.order as PickpocketingOrder
   }
 
-  orderTypeToString(type: OrderTypeString) {
-    return orderTypeToString(type)
+  get sweepOrder(): SweepOrder {
+    return this.order as SweepOrder
+  }
+
+  get forgeryOrder(): ForgeryOrder {
+    return this.order as ForgeryOrder
   }
 }

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { createOrderForm } from '@utils/order-util';
+import { createClientOrderForm } from '@utils/order-util';
 import { Dropdown } from '@models/template/dropdown';
 import { BaseComponent } from '@app/shared/base/base.component';
 import { ActivatedRoute } from '@angular/router';
@@ -26,7 +26,7 @@ import { TitleService } from '@services/title.service'
 import { ItemService } from '@services/item.service'
 import { Title } from '@models/title'
 import { Item } from '@models/Item'
-import { OrderService } from '@services/order/order.service'
+import { OrderService } from '@services/order.service'
 import SetOrder = Client.SetOrder
 import { getOrderTypes } from '@utils/order-type-util'
 
@@ -90,7 +90,7 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
         tap(order => this.store.dispatch(new SetOrder(order))),
       )
       .subscribe(
-        order => this.orderForm = createOrderForm(order),
+        order => this.orderForm = createClientOrderForm(order),
         error => showError(this.dialogService, toMessage(error))
       )
 
@@ -120,7 +120,7 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
     this.orderType = value
     this.store.dispatch(new SetOrderType(value))
       .pipe(withLatestFrom(this.store.select(ClientState.order)))
-      .subscribe(([,order]) => this.orderForm = createOrderForm(order))
+      .subscribe(([,order]) => this.orderForm = createClientOrderForm(order))
   }
 
   onCreateOrder() {
@@ -145,7 +145,7 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
         tap(() => showNotification(this.dialogService,'Order successfully declined!'))
       )
       .subscribe(
-        () => this.store.dispatch(new Navigate(['/client/order'])),
+        () => this.store.dispatch(new Navigate(['/client/orders'])),
         error => showError(this.dialogService, toMessage(error))
       )
   }

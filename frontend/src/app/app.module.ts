@@ -8,7 +8,7 @@ import { AppState } from '@state/app.state'
 import { isDev } from '@app/app.const'
 import { NgxsModule } from '@ngxs/store'
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin'
-import { JwtInterceptor } from '@interceptors/jwt-interceptor.service'
+import { JwtInterceptor } from '@interceptors/jwt-interceptor.service';
 
 @NgModule({
   declarations: [

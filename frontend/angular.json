@@ -21,7 +21,7 @@
         },
         "@schematics/angular:directive": {
           "skipTests": false,
-          "path": "src/app/modules/shared"
+          "path": "src/app/shared"
         },
         "@schematics/angular:guard": {
           "skipTests": false,
@@ -33,7 +33,7 @@
         },
         "@schematics/angular:pipe": {
           "skipTests": false,
-          "path": "src/app/modules/shared"
+          "path": "src/app/shared"
         },
         "@schematics/angular:service": {
           "skipTests": false,

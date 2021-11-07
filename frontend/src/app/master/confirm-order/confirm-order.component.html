@@ -1,17 +1,34 @@
 <div class="confirm-order" [class.loading]="loading">
-  <app-order-info [order]="order$ | async">
-    <div class="confirm-order__actions">
+  <form *ngIf="order" class="confirm-order__form" [formGroup]="form">
+    <app-order-info [order]="order"></app-order-info>
+
+    <div class="form-control">
+      <label for="comment">Comment</label>
+      <textarea class="comment" type="text" id="comment" formControlName="comment"></textarea>
+    </div>
+
+    <div class="form-control">
+      <label>Contractor</label>
+      <mat-select formControlName="contractor" [compareWith]="compareEntity">
+        <mat-option *ngFor="let contractor of contractors" [value]="contractor">
+          {{contractor.username}}
+        </mat-option>
+      </mat-select>
+    </div>
+
+    <div class="confirm-order__form__actions">
       <button (click)="close()">Close</button>
 
-      <form class="price" [formGroup]="form">
-        <label for="price">Price:</label>
+      <div class="price">
+        <label for="price" appRequired>Price</label>
         <input type="number" id="price" formControlName="price">
-      </form>
+      </div>
 
-      <button (click)="decline()">Decline</button>
+      <button [disabled]="form.disabled"
+              (click)="decline()">Decline</button>
 
-      <button [disabled]="form.invalid"
-              (click)="approve()">Approve</button>
+      <button [disabled]="form.disabled || form.invalid"
+              (click)="apply()">Approve</button>
     </div>
-  </app-order-info>
+  </form>
 </div>

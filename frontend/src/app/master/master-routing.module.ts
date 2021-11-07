@@ -19,7 +19,7 @@ const routes: Routes = [
         component: OrdersForMasterComponent
       },
       {
-        path: 'confirm-order/:id',
+        path: 'order/:id',
         component: ConfirmOrderComponent
       }
     ]

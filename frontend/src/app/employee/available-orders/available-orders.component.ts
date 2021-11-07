@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Order } from '@models/order/order';
-import { OrderService } from '@services/order/order.service';
+import { OrderService } from '@services/order.service';
 import { Router } from '@angular/router';
 import { withLoading } from '@utils/loading-util';
 

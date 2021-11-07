@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.skyrimmarket.backend.model.order.OrderStatusEnum.IN_PROGRESS;
+import static com.skyrimmarket.backend.model.order.OrderStatusEnum.PAYED;
 
 @Service
 @RequiredArgsConstructor
@@ -21,5 +22,9 @@ public class EmployeeOrderService implements OrderService {
 
     public List<Order> getContractorOrders(Long contractorId) {
         return orderRepository.findAllByContractorIdAndStatusName(contractorId, IN_PROGRESS.getName());
+    }
+
+    public List<Order> getPayedOrders() {
+        return orderRepository.findAllByStatusName(PAYED.getName());
     }
 }

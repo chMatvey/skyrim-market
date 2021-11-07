@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Order } from '@models/order/order';
-import { OrderService } from '@services/order/order.service';
+import { OrderService } from '@services/order.service';
 import { Router } from '@angular/router';
 import { withLoading } from '@utils/loading-util';
+import { MasterOrderService } from '@services/order/master-order.service'
+import { Store } from '@ngxs/store'
+import { Navigate } from '@ngxs/router-plugin'
 
 @Component({
   selector: 'app-orders-for-master',
@@ -15,12 +18,12 @@ export class OrdersForMasterComponent implements OnInit {
 
   loading: boolean
 
-  constructor(private orderService: OrderService,
-              private router: Router) {
+  constructor(private orderService: MasterOrderService,
+              private store: Store) {
   }
 
   ngOnInit(): void {
-    this.orderService.getCreatedOrders()
+    this.orderService.created()
       .pipe(withLoading(this))
       .subscribe(
         orders => this.orders = orders,
@@ -29,6 +32,6 @@ export class OrdersForMasterComponent implements OnInit {
   }
 
   openOrder(id: number) {
-    this.router.navigate([`/master/confirm-order/${id}`])
+    this.store.dispatch(new Navigate([`/master/order/${id}`]))
   }
 }

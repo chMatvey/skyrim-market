@@ -25,4 +25,9 @@ public class EmployeeOrderController {
     public ResponseEntity<List<Order>> getContractorOrders(@PathVariable("id") Long id) {
         return ok(orderService.getContractorOrders(id));
     }
+
+    @GetMapping("/payed")
+    public ResponseEntity<List<Order>> getPayedOrders() {
+        return ok(orderService.getPayedOrders());
+    }
 }

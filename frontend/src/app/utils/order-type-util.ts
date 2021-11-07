@@ -17,16 +17,3 @@ export function getOrderTypes(): Dropdown<OrderTypeString>[] {
     }
   ]
 }
-
-export function orderTypeToString(type: OrderTypeString): string {
-  switch (type) {
-    case 'PICKPOCKETING':
-      return 'Pickpocketing'
-    case 'SWEEP':
-      return 'Sweep'
-    case 'FORGERY':
-      return 'Forgery'
-    default:
-      throw new Error('Unsupported order type')
-  }
-}

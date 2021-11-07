@@ -4,6 +4,9 @@ import { OrdersForMasterComponent } from './orders-for-master/orders-for-master.
 import { ConfirmOrderComponent } from './confirm-order/confirm-order.component';
 import { MasterComponent } from "@app/master/master.component";
 import { MasterRoutingModule } from "@app/master/master-routing.module";
+import { NgxsModule } from '@ngxs/store'
+import { AppState } from '@state/app.state'
+import { MasterState } from '@state/master/master.state'
 
 @NgModule({
   declarations: [
@@ -13,7 +16,8 @@ import { MasterRoutingModule } from "@app/master/master-routing.module";
   ],
   imports: [
     SharedModule,
-    MasterRoutingModule
+    MasterRoutingModule,
+    NgxsModule.forFeature([AppState, MasterState])
   ]
 })
 export class MasterModule { }

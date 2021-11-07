@@ -15,6 +15,10 @@ import { OrderListComponent } from './order-list/order-list.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { OrderInfoComponent } from './order-info/order-info.component';
 import { SearchSelectComponent } from './search-select/search-select.component';
+import { ForgeryOrderInfoComponent } from './order-info/forgery-order-info/forgery-order-info.component';
+import { PickpocketingOrderInfoComponent } from './order-info/pickpocketing-order-info/pickpocketing-order-info.component';
+import { SweepOrderInfoComponent } from './order-info/sweep-order-info/sweep-order-info.component';
+import { OrderTypePipe } from './order-type/order-type.pipe';
 
 @NgModule({
   declarations: [
@@ -28,7 +32,11 @@ import { SearchSelectComponent } from './search-select/search-select.component';
     OrderListComponent,
     WelcomeComponent,
     OrderInfoComponent,
-    SearchSelectComponent
+    SearchSelectComponent,
+    ForgeryOrderInfoComponent,
+    PickpocketingOrderInfoComponent,
+    SweepOrderInfoComponent,
+    OrderTypePipe
   ],
   exports: [
     CommonModule,

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Order } from '@models/order/order';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OrderService } from '@services/order/order.service';
+import { OrderService } from '@services/order.service';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { OrderStatusEnum } from '@models/order-status-enum';
 import { withLoading } from '@utils/loading-util';
