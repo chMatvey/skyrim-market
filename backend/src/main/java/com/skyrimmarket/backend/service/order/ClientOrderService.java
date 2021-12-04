@@ -13,8 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.skyrimmarket.backend.model.order.OrderStatusEnum.DECLINED;
-import static com.skyrimmarket.backend.model.order.OrderStatusEnum.PAYED;
+import static com.skyrimmarket.backend.model.order.OrderStatusEnum.*;
 import static com.skyrimmarket.backend.util.OrderUtil.notFoundException;
 
 @Service
@@ -41,7 +40,11 @@ public class ClientOrderService implements OrderService {
     public Order pay(Long id, @NonNull Payment payment) {
         Order order = orderService.get(id).orElseThrow(() -> notFoundException(id));
         order.setPayment(paymentService.get(payment.getName()));
-        order.setStatus(orderStatusService.get(PAYED));
+        if (order.getContractor() == null) {
+            order.setStatus(orderStatusService.get(PAYED));
+        } else {
+            order.setStatus(orderStatusService.get(IN_PROGRESS));
+        }
 
         return orderRepository.save(order);
     }

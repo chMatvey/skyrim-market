@@ -1,7 +1,6 @@
 package com.skyrimmarket.backend.service;
 
 import com.skyrimmarket.backend.model.order.Order;
-import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.SkyrimUser;
 import com.skyrimmarket.backend.repository.OrderRepository;
 import com.skyrimmarket.backend.repository.UserRepository;
@@ -21,23 +20,18 @@ public class AuthorizationService {
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
 
-    public void setCurrentUserToOrder(HttpServletRequest request, Order order) {
-        SkyrimUser skyrimUser = getCurrentUser(request);
-        order.setClient((Client) skyrimUser);
-    }
-
-    public void checkThatOrderLinkedWithCurrentUser(HttpServletRequest request, Long orderId) {
+    public void checkThatOrderLinkedWithCurrentClient(HttpServletRequest request, Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> notFoundException(orderId));
-        checkThatOrderLinkedWithCurrentUser(request, order);
+        checkThatOrderLinkedWithCurrentClient(request, order);
     }
 
-    public void checkThatOrderLinkedWithCurrentUser(HttpServletRequest request, Order order) {
-        if (isNotCurrentUser(request, order.getClient())) {
+    public void checkThatOrderLinkedWithCurrentClient(HttpServletRequest request, Order order) {
+        if (isNotCurrentClient(request, order.getClient())) {
             throw new BadRequestException("Order cannot be created for another user");
         }
     }
 
-    private SkyrimUser getCurrentUser(HttpServletRequest request) {
+    public SkyrimUser getCurrentUser(HttpServletRequest request) {
         String token = getAuthorizationTokenOrThrowException(request);
         String username = usernameFromToken(token);
 
@@ -45,7 +39,7 @@ public class AuthorizationService {
                 .orElseThrow(() -> new BadRequestException("User not found by authorization token"));
     }
 
-    private boolean isNotCurrentUser(HttpServletRequest request, SkyrimUser user) {
+    private boolean isNotCurrentClient(HttpServletRequest request, SkyrimUser user) {
         SkyrimUser userFromDb = getCurrentUser(request);
 
         return !user.equals(userFromDb);

@@ -1,8 +1,11 @@
 package com.skyrimmarket.backend;
 
+import com.skyrimmarket.backend.model.Payment;
 import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.Employee;
 import com.skyrimmarket.backend.model.user.Master;
+import com.skyrimmarket.backend.repository.OrderRepository;
+import com.skyrimmarket.backend.repository.PaymentRepository;
 import com.skyrimmarket.backend.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

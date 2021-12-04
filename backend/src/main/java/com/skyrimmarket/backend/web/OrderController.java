@@ -1,6 +1,8 @@
 package com.skyrimmarket.backend.web;
 
 import com.skyrimmarket.backend.model.order.Order;
+import com.skyrimmarket.backend.model.user.Client;
+import com.skyrimmarket.backend.model.user.SkyrimUser;
 import com.skyrimmarket.backend.service.AuthorizationService;
 import com.skyrimmarket.backend.service.OrderService;
 import com.skyrimmarket.backend.web.error.BadRequestException;
@@ -38,7 +40,8 @@ public class OrderController {
             throw new BadRequestException("Id must be null");
         }
         Order order = orderForm.toOrder(orderService);
-        authorizationService.setCurrentUserToOrder(request, order);
+        SkyrimUser currentUser = authorizationService.getCurrentUser(request);
+        order.setClient((Client) currentUser);
         URI uri = URI.create(fromCurrentContextPath().path("/api/order").toUriString());
 
         return created(uri).body(orderService.create(order));
@@ -54,7 +57,7 @@ public class OrderController {
             throw new NotFoundException(format("Order with id %d does not exist", orderForm.getId()));
         }
         Order order = orderForm.toOrder(orderService);
-        authorizationService.checkThatOrderLinkedWithCurrentUser(request, order);
+        authorizationService.checkThatOrderLinkedWithCurrentClient(request, order);
 
         return ok(orderService.update(order));
     }

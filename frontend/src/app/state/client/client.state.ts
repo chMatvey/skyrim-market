@@ -84,7 +84,9 @@ export class ClientState {
 
   @Action(PayOrder)
   payOrder({patchState}: StateContext<ClientStateModel>, {id, payment}: PayOrder) {
-    this.clientOrderService
+    return this.clientOrderService.pay(id, payment).pipe(
+      tap(order => patchState({order}))
+    )
   }
 
   @Action(Reset)

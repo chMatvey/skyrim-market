@@ -1,5 +1,5 @@
 <div class="confirm-order" [class.loading]="loading">
-  <form *ngIf="order" class="confirm-order__form" [formGroup]="form">
+  <form *ngIf="order" class="confirm-order__form" [formGroup]="orderForm">
     <app-order-info [order]="order"></app-order-info>
 
     <div class="form-control">
@@ -24,13 +24,13 @@
         <input type="number" id="price" formControlName="price">
       </div>
 
-      <button [disabled]="form.disabled"
+      <button [disabled]="orderForm.disabled"
               (click)="decline()">Decline</button>
 
-      <button [disabled]="form.disabled || commentInvalid"
+      <button [disabled]="orderForm.disabled || commentInvalid"
               (click)="comment()">Comment</button>
 
-      <button [disabled]="form.disabled || approveInvalid"
+      <button [disabled]="orderForm.disabled || approveInvalid"
               (click)="approve()">Approve</button>
     </div>
   </form>

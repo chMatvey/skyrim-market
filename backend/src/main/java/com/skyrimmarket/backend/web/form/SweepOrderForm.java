@@ -1,40 +1,40 @@
-package com.skyrimmarket.backend.web.form.order;
+package com.skyrimmarket.backend.web.form;
 
 import com.skyrimmarket.backend.model.Item;
-import com.skyrimmarket.backend.model.order.ForgeryOrder;
+import com.skyrimmarket.backend.model.Title;
 import com.skyrimmarket.backend.model.order.Order;
+import com.skyrimmarket.backend.model.order.SweepOrder;
 import com.skyrimmarket.backend.service.OrderService;
 import com.skyrimmarket.backend.web.error.BadRequestException;
-import com.skyrimmarket.backend.web.form.OrderForm;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import static com.skyrimmarket.backend.model.order.OrderType.FORGERY;
+import static com.skyrimmarket.backend.model.order.OrderType.SWEEP;
 import static com.skyrimmarket.backend.util.OrderUtil.notFoundException;
 
 @Getter
 @RequiredArgsConstructor
-public class ForgeryOrderForm implements OrderForm {
+public class SweepOrderForm implements OrderForm {
     private final Long id;
-    private final String person;
     private final String address;
+    private final Title title;
     private final Item item;
     private final String description;
 
-    private final String type = FORGERY.getName();
+    private final String type = SWEEP.getName();
 
     @Override
-    public ForgeryOrder toOrder(OrderService orderService) {
+    public SweepOrder toOrder(OrderService orderService) {
         if (id == null) {
-            return new ForgeryOrder(person, address, item, description);
+            return new SweepOrder(address, title, item, description);
         } else {
             Order notCastedOrder = orderService.get(id).orElseThrow(() -> notFoundException(id));
             if (!type.equals(notCastedOrder.getType())) {
                 throw new BadRequestException("Incorrect order type");
             }
-            ForgeryOrder order = (ForgeryOrder) notCastedOrder;
-            order.setPerson(person);
+            SweepOrder order = (SweepOrder) notCastedOrder;
             order.setAddress(address);
+            order.setTitle(title);
             order.setItem(item);
             order.setDescription(description);
 
