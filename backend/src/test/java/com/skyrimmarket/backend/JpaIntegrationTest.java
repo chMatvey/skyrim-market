@@ -42,8 +42,10 @@ public class JpaIntegrationTest {
     void saveAndFoundSweepOrder() {
         Client client = userRepository.save(Client.builder().username("Alex").password("qwerty").build());
         Title title = titleRepository.findAll().get(0);
-        OrderStatus orderStatus = orderStatusRepository.findByName(OrderStatusEnum.CREATED.getName()).get();
-        Payment payment = paymentRepository.save(Payment.builder().name("Cash").build());
+        OrderStatus orderStatus = orderStatusRepository.findByName(OrderStatusEnum.CREATED.getName())
+                .orElseThrow(() -> new RuntimeException("Order status not found"));
+        Payment payment = paymentRepository.findByName("Cash")
+                .orElseThrow(() -> new RuntimeException("Payment not found"));
         Item item = itemRepository.save(Item.builder().name("Dragan Sword").build());
 
         SweepOrder order = SweepOrder.builder()
