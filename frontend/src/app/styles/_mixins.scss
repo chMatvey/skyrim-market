@@ -1,0 +1,54 @@
+@import "variables";
+
+@mixin card() {
+  background: rgba(43, 43, 43, .7);
+  border-radius: 10px;
+  z-index: 1;
+}
+
+@mixin order-list {
+  width: 1059px;
+  height: 730px;
+  padding: 46px 76px;
+
+  &__no-orders {
+    width: 100%;
+    height: 100%;
+    padding-top: 200px;
+    display: flex;
+    justify-content: center;
+    font-size: 24px;
+  }
+}
+
+@mixin header() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  line-height: 28px;
+  color: #fff;
+}
+
+@mixin form() {
+  background: #1c1c1c;
+  border-radius: 10px;
+
+  .form-control:last-child {
+    margin-bottom: 0;
+  }
+}
+
+@mixin input() {
+  font-size: 16px;
+  height: 30px;
+  line-height: 14px;
+  color: #fff;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid #fff;
+
+  &:focus {
+    outline: none;
+  }
+}

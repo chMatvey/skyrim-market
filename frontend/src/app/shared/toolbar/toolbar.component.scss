@@ -1,0 +1,52 @@
+@import "src/app/styles/variables";
+
+.toolbar {
+  height: $toolbar-height;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 32px 0 64px;
+  background-color: #1A1A1A;
+
+  .left,
+  .right {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  &__logo {
+    font-size: 18px;
+    line-height: 21px;
+    color: #fff;
+    -webkit-text-stroke: 1px #808080;
+    margin-right: 82px;
+  }
+
+  &__links {
+    a {
+      font-size: 18px;
+      color: #fff;
+      line-height: 21px;
+      font-style: italic;
+      text-shadow: $text-shadow;
+      margin-right: 40px;
+    }
+  }
+
+  &__username {
+    font-size: 18px;
+    line-height: 21px;
+    color: #fff;
+    text-shadow: $text-shadow;
+    margin-right: 17px;
+    cursor: pointer;
+  }
+
+  &__icon {
+    background-image: url("/assets/icons/profile.svg");
+    margin-top: 4px;
+    width: 40px;
+    height: 40px;
+  }
+}

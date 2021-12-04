@@ -1,5 +1,9 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "03b2100a-4007-4f1a-a464-b2d485bef469",
+    "defaultCollection": "@angular-eslint/schematics"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -8,25 +12,32 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "skipTests": true
+          "skipTests": false,
+          "path": "src/app"
         },
         "@schematics/angular:class": {
-          "skipTests": true
+          "skipTests": false,
+          "path": "src/app/utils"
         },
         "@schematics/angular:directive": {
-          "skipTests": true
+          "skipTests": false,
+          "path": "src/app/shared"
         },
         "@schematics/angular:guard": {
-          "skipTests": true
+          "skipTests": false,
+          "path": "src/app/guards"
         },
         "@schematics/angular:interceptor": {
-          "skipTests": true
+          "path": "src/app/interceptors",
+          "skipTests": false
         },
         "@schematics/angular:pipe": {
-          "skipTests": true
+          "skipTests": false,
+          "path": "src/app/shared"
         },
         "@schematics/angular:service": {
-          "skipTests": true
+          "skipTests": false,
+          "path": "src/app/services"
         },
         "@schematics/angular:application": {
           "strict": true
@@ -52,6 +63,11 @@
             "styles": [
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/app/styles"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
@@ -97,7 +113,11 @@
               "browserTarget": "frontend:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "browserTarget": "frontend:build",
+            "proxyConfig": "src/proxy.conf.json"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -120,7 +140,21 @@
             "styles": [
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/app/styles"
+              ]
+            },
             "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         }
       }

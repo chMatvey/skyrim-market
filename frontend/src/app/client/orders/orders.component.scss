@@ -1,0 +1,7 @@
+@import "src/app/styles/mixins";
+
+.client-orders {
+  @include card();
+  @include order-list();
+}
+

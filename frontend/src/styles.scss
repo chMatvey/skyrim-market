@@ -1,1 +1,77 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~normalize.css";
+@import "material";
+@import "variables";
+@import "mixins";
+@import "loading";
+@import "autofill";
+@import "form";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  min-width: 1024px;
+  min-height: 760px;
+  font-family: 'Roboto', "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  color: #fff;
+}
+
+button {
+  background: #505050;
+  border-radius: 40px;
+  font-size: 14px;
+  line-height: 16px;
+  color: #fff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+}
+
+a {
+  text-decoration: none;
+}
+
+.mat-select-arrow, .mat-select-value {
+  color: #fff;
+}
+
+.required {
+  color: #fff;
+  margin-left: 2px;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #5f5f5f;
+  border-radius: 5px;
+}
+
+.skyrim-popup {
+  .mat-dialog-container {
+    padding: 0;
+    background: #000;
+    border-radius: 10px;
+  }
+}

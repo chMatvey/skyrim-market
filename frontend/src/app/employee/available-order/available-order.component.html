@@ -1,0 +1,10 @@
+<div class="available-order" [class.loading]="loading">
+  <ng-container *ngIf="(order$ | async) as order">
+    <app-order-info [order]="order"></app-order-info>
+
+    <div class="available-order__control actions">
+      <button (click)="close()">Close</button>
+      <button class="assign" (click)="assignToMe()">Assign to me</button>
+    </div>
+  </ng-container>
+</div>

@@ -1,0 +1,19 @@
+.comment {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin-top: 80px;
+  width: 200px;
+
+  label {
+    font-weight: 300;
+    margin-bottom: 10px;
+    opacity: .8;
+  }
+
+  &__text {
+    margin-left: 4px;
+    word-break: break-word;
+    font-size: 16px;
+  }
+}

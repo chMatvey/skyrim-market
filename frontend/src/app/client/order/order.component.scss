@@ -1,0 +1,66 @@
+@import "src/app/styles/mixins";
+
+.client-order {
+  @include card();
+  width: 1059px;
+  height: 730px;
+  padding: 46px 76px;
+  display: flex;
+  justify-content: space-between;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &__info {
+      display: flex;
+      width: 400px;
+      justify-content: space-between;
+    }
+
+    &__footer {
+      flex: 1;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin: 2px 8px;
+
+      button {
+        height: 35px;
+
+        &.cancel {
+          width: 95px;
+        }
+
+        &.create {
+          width: 110px;
+        }
+      }
+    }
+  }
+
+  &__pay {
+    padding-top: 30px;
+    width: 180px;
+    height: 100%;
+  }
+
+  &__status {
+    font-size: 14px;
+    line-height: 16px;
+
+    &__header {
+      font-weight: 300;
+    }
+
+    &__name {
+      margin-top: 11px;
+      margin-left: 11px;
+    }
+  }
+
+  &__select-service {
+    width: 180px;
+  }
+}

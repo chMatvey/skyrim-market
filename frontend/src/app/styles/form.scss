@@ -1,0 +1,65 @@
+@import "variables";
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 36px;
+
+  label {
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: 300;
+    color: #cccccc
+  }
+
+  input, .mat-select, textarea {
+    font-size: 16px;
+    height: 30px;
+    line-height: 14px;
+    color: #fff;
+    background: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  input, .mat-select {
+    border: 0;
+    border-bottom: 1px solid #fff;
+  }
+
+  textarea {
+    border: 1px solid #fff;
+    border-radius: 10px;
+    margin-top: 15px;
+    resize: none;
+    padding: 8px;
+    height: 140px;
+  }
+
+  .mat-select {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-top: 4px;
+    padding-bottom: 2px;
+
+    .mat-select-disabled {
+      color: $disabledColor !important;
+    }
+  }
+
+  &.disabled {
+    opacity: .6;
+
+    input, textarea, .mat-select {
+      color: $disabledColor !important;
+      border-color: $disabledColor;
+    }
+
+    .mat-select-disabled .mat-select-value {
+      color: $disabledColor;
+    }
+  }
+}

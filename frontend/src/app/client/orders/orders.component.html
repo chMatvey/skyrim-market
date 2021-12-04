@@ -1,0 +1,8 @@
+<div class="client-orders" [class.loading]="loading">
+  <ng-container *ngIf="orders">
+    <app-order-list [orders]="orders"
+                    (open)="openOrder($event)"></app-order-list>
+
+    <div *ngIf="noOrders" class="client-orders__no-orders">No active orders</div>
+  </ng-container>
+</div>
