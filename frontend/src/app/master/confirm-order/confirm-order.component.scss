@@ -1,0 +1,43 @@
+@import "src/app/styles/mixins";
+
+.confirm-order {
+  @include card();
+  width: 1059px;
+  height: 730px;
+  padding: 38px 76px;
+  display: flex;
+  justify-content: space-between;
+
+  &__form {
+    display: flex;
+    width: 75%;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .comment {
+      height: 65px;
+    }
+
+    &__actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      button {
+        width: 100px;
+        height: 35px;
+      }
+
+      .price {
+        label {
+          margin-right: 10px;
+        }
+
+        input {
+          @include input();
+          width: 80px;
+        }
+      }
+    }
+  }
+}

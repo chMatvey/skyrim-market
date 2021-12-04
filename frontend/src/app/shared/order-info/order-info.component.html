@@ -1,0 +1,18 @@
+<div class="form-control disabled">
+  <label>Service Type</label>
+  <div class="order-info__value">{{order.type | orderType}}</div>
+</div>
+
+<ng-container [ngSwitch]="orderType">
+  <ng-template ngSwitchCase="PICKPOCKETING">
+    <app-pickpocketing-order-info [order]="pickpocketingOrder"></app-pickpocketing-order-info>
+  </ng-template>
+
+  <ng-template ngSwitchCase="SWEEP">
+    <app-sweep-order-info [order]="sweepOrder"></app-sweep-order-info>
+  </ng-template>
+
+  <ng-template ngSwitchCase="FORGERY">
+    <app-forgery-order-info [order]="forgeryOrder"></app-forgery-order-info>
+  </ng-template>
+</ng-container>

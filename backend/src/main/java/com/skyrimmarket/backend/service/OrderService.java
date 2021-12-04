@@ -1,18 +1,14 @@
 package com.skyrimmarket.backend.service;
 
-import com.skyrimmarket.backend.model.Order;
+import com.skyrimmarket.backend.model.order.Order;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface OrderService {
-
-    Order get(long id);
-
-    List<Order> getAll();
+    Optional<Order> get(Long id);
 
     Order create(Order order);
 
     Order update(Order order);
-
-    void delete(long id);
 }

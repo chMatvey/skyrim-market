@@ -1,15 +1,26 @@
 package com.skyrimmarket.backend.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
+import javax.persistence.*;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
-@Getter
-public enum OrderStatus {
-    CREATED("CREATED"),
-    NEED_CHANGES("NEED_CHANGES"),
-    APPROVED("APPROVED"),
-    PAYED("PAYED");
+@RequiredArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Builder
+@Entity
+@Table(name = "order_status")
+public class OrderStatus {
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @EqualsAndHashCode.Include()
+    private Long id;
 
-    private final String name;
+    @NonNull
+    @Column(nullable = false, unique = true)
+    private String name;
 }

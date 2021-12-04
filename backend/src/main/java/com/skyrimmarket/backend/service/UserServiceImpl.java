@@ -1,34 +1,54 @@
 package com.skyrimmarket.backend.service;
 
-import com.skyrimmarket.backend.model.Role;
-import com.skyrimmarket.backend.model.user.Client;
-import com.skyrimmarket.backend.model.user.Employee;
-import com.skyrimmarket.backend.model.user.User;
+import com.skyrimmarket.backend.model.user.SkyrimUser;
 import com.skyrimmarket.backend.repository.UserRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
+import com.skyrimmarket.backend.web.error.UsernameAlreadyExist;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
+import java.util.Optional;
 
-import static com.skyrimmarket.backend.model.Role.CLIENT;
+import static com.skyrimmarket.backend.util.UserUtil.toUserDetails;
+import static java.lang.String.format;
 
 @Service
-@AllArgsConstructor
-public class UserServiceImpl implements UserService {
-
+@Transactional
+@Slf4j
+@RequiredArgsConstructor
+public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @PostConstruct
-    public void init() {
-        Client client = new Client("client", "client", CLIENT);
-        this.userRepository.save(client);
+    @Override
+    public SkyrimUser create(SkyrimUser user) {
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+            throw new UsernameAlreadyExist(user.getUsername());
+        }
+        log.info("Saving new user {} to database", user.getUsername());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
     }
 
     @Override
-    public User login(String username, String password) {
-        return userRepository.getUserByUsernameAndPassword(username, password)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+    public Optional<SkyrimUser> getByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<SkyrimUser> userOptional = getByUsername(username);
+        if (userOptional.isPresent()) {
+            log.info("User found in database: {}", username);
+            return toUserDetails(userOptional.get());
+        } else {
+            log.error("User not found in database: {}", username);
+            throw new UsernameNotFoundException(format("User %s not found", username));
+        }
     }
 }

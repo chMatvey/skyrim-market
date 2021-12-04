@@ -1,16 +1,16 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${DATABASE_URL}
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
+    url: ${SKYRIM_DB_URL}
+    username: ${SKYRIM_DB_USERNAME}
+    password: ${SKYRIM_DB_PASSWORD}
 
   jpa:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    generate-ddl: true
+    show-sql: true
+    properties:
+      dialect: PostgreSQLDialect
+      format_sql: true
     hibernate:
-      ddl-auto: create
-
-  aop:
-    proxy-target-class: false
+      ddl-auto: none

@@ -1,0 +1,10 @@
+<div class="my-orders" [class.loading]="loading">
+  <div class="my-orders__header">
+    My Orders
+  </div>
+
+  <app-order-list [orders]="orders"
+                  (open)="openOrder($event)"></app-order-list>
+
+  <div *ngIf="orders?.length === 0" class="my-orders__no-orders">No active orders</div>
+</div>

@@ -1,0 +1,11 @@
+@import "src/app/styles/mixins";
+
+.my-orders {
+  @include card();
+  @include order-list();
+
+  &__header {
+    margin-bottom: 16px;
+    font-size: 18px;
+  }
+}

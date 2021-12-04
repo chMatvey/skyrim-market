@@ -1,44 +1,55 @@
 package com.skyrimmarket.backend.util;
 
-import com.skyrimmarket.backend.dto.OrderDto;
-import com.skyrimmarket.backend.model.Order;
-import com.skyrimmarket.backend.model.OrderStatus;
-import com.skyrimmarket.backend.model.user.Client;
-import com.skyrimmarket.backend.model.user.Employee;
+import com.skyrimmarket.backend.model.order.Order;
+import com.skyrimmarket.backend.web.error.BadRequestException;
+import com.skyrimmarket.backend.web.error.NotFoundException;
 
-import static com.skyrimmarket.backend.model.OrderStatus.CREATED;
+import static java.lang.String.format;
 
 public class OrderUtil {
-    public static Order fromTo(OrderDto dto) {
-        return fromTo(dto, CREATED, null);
+    public static NotFoundException notFoundException(Long id) {
+        return new NotFoundException(format("Order not found by id: %d", id));
     }
 
-    public static Order fromTo(OrderDto dto, OrderStatus status, Long id) {
-        return Order.of(
-                id,
-                dto.getType(),
-                dto.getPerson(),
-                dto.getTitle(),
-                dto.getItem(),
-                dto.getDescription(),
-                status,
-                new Client(dto.getClient().getId()),
-                dto.getContractor() != null ? new Employee(dto.getContractor().getId()) : null,
-                dto.getCommentDto() != null ? CommentUtil.fromTo(dto.getCommentDto()) : null
-        );
+    public static void validateNewOrder(Order order) {
+        if (order.getClient() == null) {
+            throw new BadRequestException("Client not specified");
+        }
+        if (order.getPrice() != null) {
+            throw new BadRequestException("Price cannot be set");
+        }
+        if (order.getEndDate() != null) {
+            throw new BadRequestException("End date can be set after closing");
+        }
+        if (order.getDroppoint() != null) {
+            throw new BadRequestException("Drop-point cannot be set");
+        }
+        if (order.getContractor() != null) {
+            throw new BadRequestException("Contractor cannot be assigned");
+        }
+        if (order.getPayment() != null) {
+            throw new BadRequestException("Payment type cannot be chosen before approving");
+        }
+        if (order.getFeedback() != null) {
+            throw new BadRequestException("Feedback cannot be left before closing");
+        }
     }
 
-    public static OrderDto asTo(Order order) {
-       return new OrderDto(
-                order.getType(),
-                order.getPerson(),
-                order.getTitle(),
-                order.getItem(),
-                order.getDescription(),
-                order.getStatus(),
-                UserUtil.asTo(order.getClient()),
-                order.getContractor() != null ? UserUtil.asTo(order.getContractor()) : null,
-                order.getComment() != null ? CommentUtil.asTo(order.getComment()) : null
-        );
+    public static void validateUpdatedOrder(Order order) {
+        if (order.getClient() == null) {
+            throw new BadRequestException("Client not specified");
+        }
+        if (order.getEndDate() != null) {
+            throw new BadRequestException("End date can be set after closing");
+        }
+        if (order.getDroppoint() != null) {
+            throw new BadRequestException("Drop-point cannot be set");
+        }
+        if (order.getPayment() != null) {
+            throw new BadRequestException("Payment type cannot be chosen before approving");
+        }
+        if (order.getFeedback() != null) {
+            throw new BadRequestException("Feedback cannot be left before closing");
+        }
     }
 }

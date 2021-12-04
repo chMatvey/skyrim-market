@@ -1,0 +1,37 @@
+<div class="confirm-order" [class.loading]="loading">
+  <form *ngIf="order" class="confirm-order__form" [formGroup]="orderForm">
+    <app-order-info [order]="order"></app-order-info>
+
+    <div class="form-control">
+      <label for="comment">Comment</label>
+      <textarea class="comment" type="text" id="comment" formControlName="comment"></textarea>
+    </div>
+
+    <div class="form-control">
+      <label>Contractor</label>
+      <mat-select formControlName="contractor" [compareWith]="compareEntity">
+        <mat-option *ngFor="let contractor of contractors" [value]="contractor">
+          {{contractor.username}}
+        </mat-option>
+      </mat-select>
+    </div>
+
+    <div class="confirm-order__form__actions">
+      <button (click)="close()">Close</button>
+
+      <div class="price">
+        <label for="price" appRequired>Price</label>
+        <input type="number" id="price" formControlName="price">
+      </div>
+
+      <button [disabled]="orderForm.disabled"
+              (click)="decline()">Decline</button>
+
+      <button [disabled]="orderForm.disabled || commentInvalid"
+              (click)="comment()">Comment</button>
+
+      <button [disabled]="orderForm.disabled || approveInvalid"
+              (click)="approve()">Approve</button>
+    </div>
+  </form>
+</div>

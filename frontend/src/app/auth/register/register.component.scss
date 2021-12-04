@@ -1,0 +1,45 @@
+@import "src/app/styles/mixins";
+
+.register {
+  @include card();
+  width: 456px;
+  height: 444px;
+  padding: 38px 49px;
+
+  &__header {
+    @include header();
+    height: 28px;
+    margin-bottom: 30px;
+  }
+
+  &__form {
+    &__submit {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-top: 42px;
+
+      button {
+        width: 185px;
+        height: 35px;
+      }
+
+      &__redirect {
+        margin-top: 15px;
+
+        * {
+          font-size: 12px;
+          line-height: 13px;
+          font-weight: 300;
+          color: #e6e6e6;
+        }
+
+        span {
+          margin-right: 4px;
+          opacity: .6;
+        }
+      }
+    }
+  }
+}

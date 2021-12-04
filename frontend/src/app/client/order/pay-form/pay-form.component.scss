@@ -1,0 +1,32 @@
+.pay-form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &__control {
+    &.price {
+      display: flex;
+      margin-bottom: 36px;
+
+      span {
+        font-weight: 300;
+        margin-right: 6px;
+      }
+    }
+
+    &.payment {
+      flex: 1;
+    }
+
+    &.apply {
+      display: flex;
+      justify-content: center;
+      padding-bottom: 20px;
+
+      button {
+        width: 95px;
+        height: 35px;
+      }
+    }
+  }
+}

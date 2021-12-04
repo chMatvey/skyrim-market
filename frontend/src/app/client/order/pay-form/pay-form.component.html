@@ -1,0 +1,21 @@
+<form *ngIf="form" class="pay-form"
+      [formGroup]="form"
+      [class.loading]="loading">
+  <div class="pay-form__control price">
+    <span>TOTAL:</span>{{price}}
+  </div>
+
+  <div class="pay-form__control payment form-control">
+    <label>Choose way to pay</label>
+    <mat-select formControlName="payment">
+      <mat-option *ngFor="let payment of payments" [value]="payment">
+        {{payment.name}}
+      </mat-option>
+    </mat-select>
+  </div>
+
+  <div class="pay-form__control apply">
+    <button [disabled]="form.invalid"
+            (click)="apply()">Apply</button>
+  </div>
+</form>
