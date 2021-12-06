@@ -28,6 +28,10 @@ export function getToolbarStateByUserRole(role: UserRole): Toolbar {
           {
             name: 'Available Orders',
             ref: 'available-orders'
+          },
+          {
+            name: 'Completed Orders',
+            ref: 'completed-orders'
           }
         ]
       }

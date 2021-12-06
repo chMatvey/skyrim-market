@@ -3,7 +3,7 @@ package com.skyrimmarket.backend.web.order;
 import com.skyrimmarket.backend.model.order.Order;
 import com.skyrimmarket.backend.model.user.Employee;
 import com.skyrimmarket.backend.model.user.SkyrimUser;
-import com.skyrimmarket.backend.service.AuthorizationService;
+import com.skyrimmarket.backend.service.EmployeeService;
 import com.skyrimmarket.backend.service.order.EmployeeOrderService;
 import com.skyrimmarket.backend.web.form.EmployeeOrderForm;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+import static com.skyrimmarket.backend.util.UserUtil.userNameFromRequest;
 import static org.springframework.http.ResponseEntity.ok;
 
 @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
@@ -22,7 +23,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequiredArgsConstructor
 public class EmployeeOrderController {
     private final EmployeeOrderService orderService;
-    private final AuthorizationService authorizationService;
+    private final EmployeeService employeeService;
 
     @GetMapping("/{id}")
     public ResponseEntity<List<Order>> getContractorOrders(@PathVariable("id") Long id) {
@@ -34,10 +35,16 @@ public class EmployeeOrderController {
         return ok(orderService.getPayedOrders());
     }
 
+    @GetMapping("/completed")
+    public ResponseEntity<List<Order>> getCompletedOrders(HttpServletRequest request) {
+        Employee employee = employeeService.findByUsername(userNameFromRequest(request));
+        return ok(orderService.getCompletedOrders(employee.getId()));
+    }
+
     @GetMapping("/assign-to-me/{id}")
     public ResponseEntity<Order> assignToMe(@PathVariable("id") Long orderId, HttpServletRequest request) {
-        SkyrimUser currentUser = authorizationService.getCurrentUser(request);
-        return ok(orderService.assignToMe(orderId, (Employee) currentUser));
+        Employee employee = employeeService.findByUsername(userNameFromRequest(request));
+        return ok(orderService.assignToMe(orderId, employee));
     }
 
     @PatchMapping("/decline/{id}")

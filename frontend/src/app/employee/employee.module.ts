@@ -8,7 +8,9 @@ import { MyOrdersComponent } from "@app/employee/my-orders/my-orders.component";
 import { EmployeeRoutingModule } from "@app/employee/employee-routing.module";
 import { NgxsModule } from '@ngxs/store'
 import { AppState } from '@state/app.state'
-import { EmployeeState } from '@state/employee/employee.state'
+import { EmployeeState } from '@state/employee/employee.state';
+import { CompletedOrdersComponent } from './completed-orders/completed-orders.component';
+import { CompletedOrderComponent } from './completed-order/completed-order.component'
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { EmployeeState } from '@state/employee/employee.state'
     AvailableOrdersComponent,
     AvailableOrderComponent,
     MyOrderComponent,
-    MyOrdersComponent
+    MyOrdersComponent,
+    CompletedOrdersComponent,
+    CompletedOrderComponent
   ],
   imports: [
     SharedModule,

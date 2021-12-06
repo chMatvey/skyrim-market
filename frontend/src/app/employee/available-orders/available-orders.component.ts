@@ -14,7 +14,6 @@ import { Navigate } from '@ngxs/router-plugin'
   styleUrls: ['./available-orders.component.scss']
 })
 export class AvailableOrdersComponent implements OnInit {
-
   orders: Order[]
 
   loading: boolean

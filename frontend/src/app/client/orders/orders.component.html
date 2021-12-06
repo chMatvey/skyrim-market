@@ -1,8 +1,22 @@
 <div class="client-orders" [class.loading]="loading">
   <ng-container *ngIf="orders">
-    <app-order-list [orders]="orders"
-                    (open)="openOrder($event)"></app-order-list>
+    <div *ngIf="noOrders else ordersBlock" class="client-orders__no-orders">No active orders</div>
 
-    <div *ngIf="noOrders" class="client-orders__no-orders">No active orders</div>
+    <ng-template #ordersBlock>
+      <div class="client-orders__panel">
+        <mat-button-toggle-group [formControl]="filterControl">
+          <mat-button-toggle value="ALL">All</mat-button-toggle>
+          <mat-button-toggle value="COMPLETED">Completed</mat-button-toggle>
+          <mat-button-toggle [value]="['IN_PROGRESS', 'PAYED']">In progress</mat-button-toggle>
+          <mat-button-toggle value="APPROVED">Wait for payment</mat-button-toggle>
+          <mat-button-toggle value="NEED_CHANGES">Need changes</mat-button-toggle>
+          <mat-button-toggle value="CREATED">Wait for approve</mat-button-toggle>
+          <mat-button-toggle value="DECLINED">Declined</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <app-order-list [orders]="filteredOrders"
+                      (open)="openOrder($event)"></app-order-list>
+    </ng-template>
   </ng-container>
 </div>

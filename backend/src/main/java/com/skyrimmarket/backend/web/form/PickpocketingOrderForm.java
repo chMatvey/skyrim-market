@@ -28,7 +28,7 @@ public class PickpocketingOrderForm implements OrderForm {
         if (id == null) {
             return new PickpocketingOrder(person, title, item, description);
         } else {
-            Order notCastedOrder = orderService.get(id).orElseThrow(() -> notFoundException(id));
+            Order notCastedOrder = orderService.findById(id).orElseThrow(() -> notFoundException(id));
             if (!type.equals(notCastedOrder.getType())) {
                 throw new BadRequestException("Incorrect order type");
             }

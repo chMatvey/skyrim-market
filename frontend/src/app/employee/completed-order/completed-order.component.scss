@@ -1,0 +1,35 @@
+@import "src/app/styles/mixins";
+
+.completed-order {
+  @include card();
+  width: 1059px;
+  height: 730px;
+  padding: 46px 76px;
+  display: flex;
+  flex-direction: column;
+
+  &__description {
+    width: 200px;
+    margin-left: 24px;
+  }
+
+  &__control {
+    &.actions {
+      flex: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      height: 160px;
+      width: 680px;
+
+      button {
+        width: 80px;
+        height: 35px;
+
+        &.assign {
+          width: 120px;
+        }
+      }
+    }
+  }
+}
