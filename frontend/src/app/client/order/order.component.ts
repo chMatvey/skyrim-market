@@ -33,6 +33,7 @@ import APPROVED = OrderStatusEnum.APPROVED
 import COMPLETED = OrderStatusEnum.COMPLETED
 import NEED_CHANGES = OrderStatusEnum.NEED_CHANGES
 import DECLINED = OrderStatusEnum.DECLINED
+import { ClientOrderService } from '@services/order/client-order.service'
 
 @Component({
   selector: 'app-order',
@@ -57,7 +58,8 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
               private dialogService: MatDialog,
               private orderService: OrderService,
               private titleService: TitleService,
-              private itemService: ItemService) {
+              private itemService: ItemService,
+              private clientOrderService: ClientOrderService) {
     super()
   }
 
@@ -173,5 +175,16 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
     if (this.orderStatus) {
       this.store.dispatch(new Navigate(['/client/orders']))
     }
+  }
+
+  onDelete() {
+    this.clientOrderService.delete(this.order.id).pipe(withLoading(this))
+      .subscribe(
+        () => {
+          showNotification(this.dialogService, 'Order successfully deleted!')
+          this.store.dispatch(new Navigate(['/client/orders']))
+        },
+        error => showError(this.dialogService, toMessage(error))
+      )
   }
 }

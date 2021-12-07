@@ -11,14 +11,6 @@ export class OrderService {
 
   constructor(private http: HttpClient) { }
 
-  create(order: Order): Observable<Order> {
-    return this.http.post<Order>(`${apiUrl}/order`, order)
-  }
-
-  update(order: Order): Observable<Order> {
-    return this.http.put<Order>(`${apiUrl}/order`, order)
-  }
-
   get(id: number): Observable<Order> {
     return this.http.get<Order>(`${apiUrl}/order/${id}`)
   }

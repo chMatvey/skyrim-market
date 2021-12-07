@@ -49,14 +49,14 @@ export class ClientState {
 
   @Action(CreateOrder, {cancelUncompleted: true})
   createOrder({patchState}: StateContext<ClientStateModel>, {order}: CreateOrder) {
-    return this.orderService.create(order).pipe(
+    return this.clientOrderService.create(order).pipe(
       tap(order => patchState({order}))
     )
   }
 
   @Action(UpdateOrder, {cancelUncompleted: true})
   updateOrder({patchState}: StateContext<ClientStateModel>, {order}: UpdateOrder) {
-    return this.orderService.update(order).pipe(
+    return this.clientOrderService.update(order).pipe(
       tap(order => patchState({order}))
     )
   }

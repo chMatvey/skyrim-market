@@ -19,6 +19,10 @@ export class EmployeeOrderService {
     return this.httpClient.get<Order[]>(`${apiUrl}/order/contractor/payed`)
   }
 
+  completed(): Observable<Order[]> {
+    return this.httpClient.get<Order[]>(`${apiUrl}/order/contractor/completed`)
+  }
+
   assignToMe(orderId: number): Observable<Order> {
     return this.httpClient.get<Order>(`${apiUrl}/order/contractor/assign-to-me/${orderId}`)
   }

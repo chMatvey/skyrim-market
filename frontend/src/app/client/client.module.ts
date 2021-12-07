@@ -14,6 +14,7 @@ import { NgxsModule } from '@ngxs/store'
 import { AppState } from '@state/app.state'
 import { ClientState } from '@state/client/client.state';
 import { CommentComponent } from './order/comment/comment.component'
+import { MatButtonToggleModule } from '@angular/material/button-toggle'
 
 @NgModule({
   declarations: [

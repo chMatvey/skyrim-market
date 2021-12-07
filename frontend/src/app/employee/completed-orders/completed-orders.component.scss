@@ -1,12 +1,11 @@
 @import "src/app/styles/mixins";
 
-.client-orders {
+.completed-orders {
   @include card();
   @include order-list();
 
-  &__panel {
-    display: flex;
-    margin-bottom: 24px;
+  &__header {
+    margin-bottom: 16px;
+    font-size: 18px;
   }
 }
-
