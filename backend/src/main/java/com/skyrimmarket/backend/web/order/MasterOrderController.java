@@ -1,6 +1,7 @@
 package com.skyrimmarket.backend.web.order;
 
 import com.skyrimmarket.backend.model.order.Order;
+import com.skyrimmarket.backend.service.ClientOrderNotificationService;
 import com.skyrimmarket.backend.service.order.MasterOrderService;
 import com.skyrimmarket.backend.web.error.BadRequestException;
 import com.skyrimmarket.backend.web.form.MasterOrderForm;
@@ -19,6 +20,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequiredArgsConstructor
 public class MasterOrderController {
     private final MasterOrderService orderService;
+    private final ClientOrderNotificationService clientOrderNotificationService;
 
     @GetMapping("/created")
     public ResponseEntity<List<Order>> getCreatedOrders() {
@@ -27,7 +29,10 @@ public class MasterOrderController {
 
     @PatchMapping("/decline/{id}")
     public ResponseEntity<Order> decline(@PathVariable("id") Long id, @RequestBody MasterOrderForm form) {
-        return ok(orderService.decline(id, form.getComment()));
+        Order order = orderService.decline(id, form.getComment());
+        clientOrderNotificationService.sendOrderStatusUpdatedNotificationToClient(order);
+
+        return ok(order);
     }
 
     @PatchMapping("/comment/{id}")
@@ -35,7 +40,10 @@ public class MasterOrderController {
         if (form.getComment() == null) {
             throw new BadRequestException("Comments not specified");
         }
-        return ok(orderService.comment(id, form.getComment(), form.getPrice()));
+        Order order = orderService.comment(id, form.getComment(), form.getPrice());
+        clientOrderNotificationService.sendOrderStatusUpdatedNotificationToClient(order);
+
+        return ok(order);
     }
 
     @PatchMapping("/approve/{id}")
@@ -43,6 +51,9 @@ public class MasterOrderController {
         if (form.getPrice() == null) {
             throw new BadRequestException("Price not specified");
         }
-        return ok(orderService.approve(id, form.getPrice(), form.getContractor()));
+        Order order = orderService.approve(id, form.getPrice(), form.getContractor());
+        clientOrderNotificationService.sendOrderStatusUpdatedNotificationToClient(order);
+
+        return ok(order);
     }
 }

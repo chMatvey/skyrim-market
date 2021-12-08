@@ -27,7 +27,7 @@ public class UserUtil {
         return user;
     }
 
-    public static String userNameFromRequest(HttpServletRequest request) {
+    public static String usernameFromRequest(HttpServletRequest request) {
         String token = getAuthorizationTokenOrThrowException(request);
         return usernameFromToken(token);
     }
