@@ -3,6 +3,7 @@ package com.skyrimmarket.backend.web;
 import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.Employee;
 import com.skyrimmarket.backend.model.user.SkyrimUser;
+import com.skyrimmarket.backend.model.user.Student;
 import com.skyrimmarket.backend.service.UserService;
 import com.skyrimmarket.backend.web.error.UsernameAlreadyExist;
 import com.skyrimmarket.backend.web.error.BadRequestException;
@@ -46,6 +47,14 @@ public class UserController {
     public ResponseEntity<SkyrimUser> createEmployee(@RequestBody Employee employee) {
         URI uri = URI.create(fromCurrentContextPath().path("/api/user/employee").toUriString());
         Employee user = (Employee) userService.create(employee);
+        return created(uri).body(toView(user));
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_MASTER')")
+    @PostMapping("/student")
+    public ResponseEntity<SkyrimUser> createEmployee(@RequestBody Student student) {
+        URI uri = URI.create(fromCurrentContextPath().path("/api/user/student").toUriString());
+        Student user = (Student) userService.create(student);
         return created(uri).body(toView(user));
     }
 

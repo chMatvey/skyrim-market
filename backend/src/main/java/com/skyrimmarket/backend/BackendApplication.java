@@ -3,6 +3,7 @@ package com.skyrimmarket.backend;
 import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.Employee;
 import com.skyrimmarket.backend.model.user.Master;
+import com.skyrimmarket.backend.model.user.Student;
 import com.skyrimmarket.backend.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -30,6 +31,7 @@ public class BackendApplication {
 		return args -> {
 			String masterUsername = "master";
 			String employeeUsername = "employee";
+			String studentUsername = "student";
 			String clientUsername = "client";
 
 			if (isEmpty(userService.getByUsername(masterUsername))) {
@@ -40,6 +42,9 @@ public class BackendApplication {
 			}
 			if (isEmpty(userService.getByUsername(clientUsername))) {
 				userService.create(new Client(clientUsername, clientUsername));
+			}
+			if (isEmpty(userService.getByUsername(studentUsername))) {
+				userService.create(new Student(studentUsername, studentUsername));
 			}
 		};
 	}

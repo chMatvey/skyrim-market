@@ -2,13 +2,12 @@ package com.skyrimmarket.backend.web.order;
 
 import com.skyrimmarket.backend.model.order.Order;
 import com.skyrimmarket.backend.service.order.EmployeeOrderService;
+import com.skyrimmarket.backend.web.form.EmployeeOrderForm;
+import com.skyrimmarket.backend.web.form.MasterOrderForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,5 +28,11 @@ public class EmployeeOrderController {
     @GetMapping("/payed")
     public ResponseEntity<List<Order>> getPayedOrders() {
         return ok(orderService.getPayedOrders());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Order> setOrderToStudent(@PathVariable("id") Long orderId,
+                                                         @RequestBody EmployeeOrderForm form) {
+        return ok(orderService.setOrderToStudent(orderId, form.getContractor()));
     }
 }
