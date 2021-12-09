@@ -11,7 +11,6 @@ import { ForgeryOrder } from '@models/order/forgery-order'
   styleUrls: ['./order-info.component.scss']
 })
 export class OrderInfoComponent {
-
   @Input()
   order: Order
 

@@ -5,6 +5,8 @@
   width: 1059px;
   height: 730px;
   padding: 46px 76px;
+  display: flex;
+  flex-direction: column;
 
   &__description {
     width: 200px;
@@ -13,9 +15,12 @@
 
   &__control {
     &.actions {
-      margin-top: 110px;
+      flex: 1;
       display: flex;
       justify-content: space-between;
+      align-items: flex-end;
+      height: 160px;
+      width: 680px;
 
       button {
         width: 80px;

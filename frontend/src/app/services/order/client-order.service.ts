@@ -21,6 +21,6 @@ export class ClientOrderService {
   }
 
   pay(id: number, payment: Payment): Observable<Order> {
-    return this.http.post(`${apiUrl}/order/client/pay/${id}`, payment)
+    return this.http.patch(`${apiUrl}/order/client/pay/${id}`, payment)
   }
 }

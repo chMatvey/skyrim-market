@@ -30,17 +30,17 @@ public class ClientOrderController {
 
     @GetMapping("/decline/{id}")
     public ResponseEntity<Order> decline(@PathVariable("id") Long id, HttpServletRequest request) {
-        authorizationService.checkThatOrderLinkedWithCurrentUser(request, id);
+        authorizationService.checkThatOrderLinkedWithCurrentClient(request, id);
 
         return ok(orderService.decline(id));
     }
 
-    @PostMapping("/pay/{id}")
+    @PatchMapping("/pay/{id}")
     public ResponseEntity<Order> pay(@PathVariable("id") Long id, @RequestBody Payment payment, HttpServletRequest request) {
         if (payment == null) {
             throw new BadRequestException("Payment not specified");
         }
-        authorizationService.checkThatOrderLinkedWithCurrentUser(request, id);
+        authorizationService.checkThatOrderLinkedWithCurrentClient(request, id);
 
         return ok(orderService.pay(id, payment));
     }

@@ -20,14 +20,14 @@ export class MasterOrderService {
   }
 
   decline(id: number, form: Order): Observable<Order> {
-    return this.http.post<Order>(`${apiUrl}/order/master/decline/${id}`, form)
+    return this.http.patch<Order>(`${apiUrl}/order/master/decline/${id}`, form)
   }
 
   comment(id: number, form: Order): Observable<Order> {
-    return this.http.post<Order>(`${apiUrl}/order/master/comment/${id}`, form)
+    return this.http.patch<Order>(`${apiUrl}/order/master/comment/${id}`, form)
   }
 
   approve(id: number, form: Order): Observable<Order> {
-    return this.http.post<Order>(`${apiUrl}/order/master/approve/${id}`, form)
+    return this.http.patch<Order>(`${apiUrl}/order/master/approve/${id}`, form)
   }
 }

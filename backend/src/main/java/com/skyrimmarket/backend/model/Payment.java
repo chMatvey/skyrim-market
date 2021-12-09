@@ -10,6 +10,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@RequiredArgsConstructor
 @Builder
 @Entity
 @Table(name = "payments")
@@ -19,6 +20,7 @@ public class Payment {
     @EqualsAndHashCode.Include()
     private Long id;
 
+    @NonNull
     @Column(nullable = false, unique = true)
     private String name;
 }

@@ -19,7 +19,7 @@ import { FormComponent } from '@app/shared/form/form.component'
   styleUrls: ['./confirm-order.component.scss']
 })
 export class ConfirmOrderComponent extends FormComponent implements OnInit {
-  form: FormGroup
+  orderForm: FormGroup
   order: Order
 
   contractors: User[] = []
@@ -34,11 +34,11 @@ export class ConfirmOrderComponent extends FormComponent implements OnInit {
   }
 
   get commentInvalid(): boolean {
-    return this.form.get('comment').invalid
+    return this.orderForm.get('comment').invalid
   }
 
   get approveInvalid(): boolean {
-    return this.form.get('price').invalid
+    return this.orderForm.get('price').invalid
   }
 
   ngOnInit(): void {
@@ -50,7 +50,7 @@ export class ConfirmOrderComponent extends FormComponent implements OnInit {
       )
       .subscribe(order => {
         this.order = order
-        this.form = createMasterOrderForm(order)
+        this.orderForm = createMasterOrderForm(order)
       })
 
     this.contractorService.all().subscribe(contractors => this.contractors = contractors)
@@ -61,19 +61,19 @@ export class ConfirmOrderComponent extends FormComponent implements OnInit {
   }
 
   decline(): void {
-    const request$ = this.masterOrderService.decline(this.order.id, this.form.value)
+    const request$ = this.masterOrderService.decline(this.order.id, this.orderForm.value)
     this.sendForm(request$, 'Order successfully declined!')
       .subscribe(() => this.store.dispatch(new Navigate(['/master/orders'])))
   }
 
   comment(): void {
-    const request$ = this.masterOrderService.comment(this.order.id, this.form.value)
+    const request$ = this.masterOrderService.comment(this.order.id, this.orderForm.value)
     this.sendForm(request$, 'Order successfully commented!')
       .subscribe(({id}) => this.store.dispatch(new Navigate([`/master/order/${id}`])))
   }
 
   approve(): void {
-    const request$ = this.masterOrderService.approve(this.order.id, this.form.value)
+    const request$ = this.masterOrderService.approve(this.order.id, this.orderForm.value)
     this.sendForm(request$, 'Order successfully approved!')
       .subscribe(() => this.store.dispatch(new Navigate([`/master/orders`])))
   }

@@ -8,7 +8,7 @@
   <div class="pay-form__control payment form-control">
     <label>Choose way to pay</label>
     <mat-select formControlName="payment">
-      <mat-option *ngFor="let payment of payments" [value]="payment.value">
+      <mat-option *ngFor="let payment of payments" [value]="payment">
         {{payment.name}}
       </mat-option>
     </mat-select>

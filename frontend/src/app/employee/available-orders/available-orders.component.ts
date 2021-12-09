@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Order } from '@models/order/order';
-import { OrderService } from '@services/order.service';
-import { Router } from '@angular/router';
 import { withLoading } from '@utils/loading-util';
+import { EmployeeOrderService } from '@services/order/employee-order.service'
+import { Store } from '@ngxs/store'
+import { MatDialog } from '@angular/material/dialog'
+import { showError } from '@utils/notification-util'
+import { toMessage } from '@utils/http-util'
+import { Navigate } from '@ngxs/router-plugin'
 
 @Component({
   selector: 'app-available-orders',
@@ -15,20 +19,20 @@ export class AvailableOrdersComponent implements OnInit {
 
   loading: boolean
 
-  constructor(private orderService: OrderService,
-              private router: Router) {
+  constructor(private orderService: EmployeeOrderService,
+              private store: Store,
+              private dialogService: MatDialog) {
   }
 
   ngOnInit(): void {
-    this.orderService.getAvailableOrders()
-      .pipe(withLoading(this))
+    this.orderService.payed().pipe(withLoading(this))
       .subscribe(
         orders => this.orders = orders,
-        error => console.log(error)
+        error => showError(this.dialogService, toMessage(error))
       )
   }
 
   openOrder(id: number) {
-    this.router.navigate([`/employee/available-order/${id}`])
+    this.store.dispatch(new Navigate([`/employee/available-order/${id}`]))
   }
 }

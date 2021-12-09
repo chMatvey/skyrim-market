@@ -7,5 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class EmployeeOrderForm {
+    private final String comment;
+    private final String droppoint;
     private final Student contractor;
 }

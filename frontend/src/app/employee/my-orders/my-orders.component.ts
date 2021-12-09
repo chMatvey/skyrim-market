@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Order } from '@models/order/order';
-import { OrderService } from '@services/order.service';
-import { Router } from '@angular/router';
 import { withLoading } from '@utils/loading-util';
-import { UserService } from '@services/user.service';
+import { Store } from '@ngxs/store'
+import { MatDialog } from '@angular/material/dialog'
+import { EmployeeOrderService } from '@services/order/employee-order.service'
+import { userIdFromStore } from '@utils/store-util'
+import { showError } from '@utils/notification-util'
+import { toMessage } from '@utils/http-util'
+import { Navigate } from '@ngxs/router-plugin'
 
 @Component({
   selector: 'app-my-orders',
@@ -11,30 +15,24 @@ import { UserService } from '@services/user.service';
   styleUrls: ['./my-orders.component.scss']
 })
 export class MyOrdersComponent implements OnInit {
-
   orders: Order[]
 
   loading: boolean
 
-  constructor(private orderService: OrderService,
-              private router: Router,
-              private authService: UserService) {
-  }
-
-  get userId() {
-    return this.authService.user.id
+  constructor(private orderService: EmployeeOrderService,
+              private store: Store,
+              private dialogService: MatDialog) {
   }
 
   ngOnInit(): void {
-    this.orderService.getEmployeeOrders(this.userId)
-      .pipe(withLoading(this))
+    this.orderService.all(userIdFromStore(this.store)).pipe(withLoading(this))
       .subscribe(
         orders => this.orders = orders,
-        error => console.log(error)
+        error => showError(this.dialogService, toMessage(error))
       )
   }
 
   openOrder(id: number) {
-    this.router.navigate([`/employee/my-order/${id}`])
+    this.store.dispatch(new Navigate([`/employee/my-order/${id}`]))
   }
 }

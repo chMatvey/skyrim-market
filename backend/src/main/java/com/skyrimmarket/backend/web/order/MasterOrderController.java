@@ -25,12 +25,12 @@ public class MasterOrderController {
         return ok(orderService.getCreatedOrders());
     }
 
-    @PostMapping("/decline/{id}")
+    @PatchMapping("/decline/{id}")
     public ResponseEntity<Order> decline(@PathVariable("id") Long id, @RequestBody MasterOrderForm form) {
         return ok(orderService.decline(id, form.getComment()));
     }
 
-    @PostMapping("/comment/{id}")
+    @PatchMapping("/comment/{id}")
     public ResponseEntity<Order> comment(@PathVariable("id") Long id, @RequestBody MasterOrderForm form) {
         if (form.getComment() == null) {
             throw new BadRequestException("Comments not specified");
@@ -38,7 +38,7 @@ public class MasterOrderController {
         return ok(orderService.comment(id, form.getComment(), form.getPrice()));
     }
 
-    @PostMapping("/approve/{id}")
+    @PatchMapping("/approve/{id}")
     public ResponseEntity<Order> approve(@PathVariable("id") Long id, @RequestBody MasterOrderForm form) {
         if (form.getPrice() == null) {
             throw new BadRequestException("Price not specified");
