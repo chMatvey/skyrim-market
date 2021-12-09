@@ -19,11 +19,15 @@ public class ItemPriceService {
     private final ItemPriceRepository itemPriceRepository;
 
     public void storePrice(Order order) {
+        Double min_price = 100.0;
         itemOrder(order).ifPresent(itemOrder -> {
             Item item = itemOrder.getItem();
             Double price = itemOrder.getPrice();
-            if (item == null || order == null) {
+            if (item == null) {
                 throw new RuntimeException("Cannot store item order");
+            }
+            if (price == null || price <= min_price){
+                throw new RuntimeException("Price cannot be smaller than minimum price");
             }
             ItemPrice itemPrice = new ItemPrice(price, item);
             itemPriceRepository.save(itemPrice);
