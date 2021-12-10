@@ -67,7 +67,7 @@ public class BackendApplication {
 			List<String> users = List.of(masterUsername, employeeUsername, clientUsername);
 
 			for (String username : users) {
-				if (isEmpty(userService.getByUsername(username))) {
+				if (isEmpty(userService.findByUsername(username))) {
 					userService.create(new Master(username, username));
 				}
 			}

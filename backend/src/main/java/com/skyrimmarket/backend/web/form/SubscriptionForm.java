@@ -1,10 +1,12 @@
 package com.skyrimmarket.backend.web.form;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@RequiredArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SubscriptionForm {
-    private final String token;
+    private String token;
 }

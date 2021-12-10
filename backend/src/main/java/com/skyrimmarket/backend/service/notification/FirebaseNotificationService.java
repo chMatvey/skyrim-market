@@ -1,30 +1,32 @@
 package com.skyrimmarket.backend.service.notification;
 
 import com.google.firebase.messaging.*;
+import com.skyrimmarket.backend.service.notification.model.SkyrimNotificationMessage;
 import lombok.SneakyThrows;
 
 public class FirebaseNotificationService implements NotificationService {
     @SneakyThrows(FirebaseMessagingException.class)
     @Override
-    public void sendPersonal(SkyrimNotificationMessage<?> message, String clientToken) {
-        Message notification = Message.builder()
+    public void sendPersonal(SkyrimNotificationMessage skyrimMessage, String clientToken) {
+        Message message = Message.builder()
                 .setToken(clientToken)
-                .setWebpushConfig(createWebPushConfig(message))
+                .setWebpushConfig(createWebPushConfig(skyrimMessage))
                 .build();
-        FirebaseMessaging.getInstance().send(notification);
+        FirebaseMessaging.getInstance().send(message);
     }
 
-    private WebpushConfig createWebPushConfig(SkyrimNotificationMessage<?> message) {
+    private WebpushConfig createWebPushConfig(SkyrimNotificationMessage skyrimMessage) {
         return WebpushConfig.builder()
-                .setNotification(createWebPushNotification(message))
+                .setNotification(createWebPushNotification(skyrimMessage))
+                .putAllData(skyrimMessage.getMapData())
                 .build();
     }
 
-    private WebpushNotification createWebPushNotification(SkyrimNotificationMessage<?> message) {
+    private WebpushNotification createWebPushNotification(SkyrimNotificationMessage message) {
         return WebpushNotification.builder()
                 .setTitle(message.getTitle())
                 .setBody(message.getBody())
-                .setData(message.getData())
+                .setData(message.getObjectData())
                 .build();
     }
 }

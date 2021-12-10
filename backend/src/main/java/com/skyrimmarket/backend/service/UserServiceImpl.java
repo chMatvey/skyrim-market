@@ -36,19 +36,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Optional<SkyrimUser> getByUsername(String username) {
+    public Optional<SkyrimUser> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
     @Override
+    public SkyrimUser getByUsername(String username) {
+        return findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(format("User %s not found", username)));
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<SkyrimUser> userOptional = getByUsername(username);
-        if (userOptional.isPresent()) {
-            log.info("User found in database: {}", username);
-            return toUserDetails(userOptional.get());
-        } else {
-            log.error("User not found in database: {}", username);
-            throw new UsernameNotFoundException(format("User %s not found", username));
-        }
+        SkyrimUser user = getByUsername(username);
+        return toUserDetails(user);
     }
 }

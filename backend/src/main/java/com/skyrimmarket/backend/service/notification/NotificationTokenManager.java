@@ -16,4 +16,8 @@ public class NotificationTokenManager {
     public void setToken(String username, String token) {
         usernameTokenMap.put(username, token);
     }
+
+    public void deleteToken(String username) {
+        usernameTokenMap.remove(username);
+    }
 }

@@ -1,7 +1,7 @@
 package com.skyrimmarket.backend.web.order;
 
 import com.skyrimmarket.backend.model.order.Order;
-import com.skyrimmarket.backend.service.ClientOrderNotificationService;
+import com.skyrimmarket.backend.service.notification.ClientOrderNotificationService;
 import com.skyrimmarket.backend.service.order.MasterOrderService;
 import com.skyrimmarket.backend.web.error.BadRequestException;
 import com.skyrimmarket.backend.web.form.MasterOrderForm;
