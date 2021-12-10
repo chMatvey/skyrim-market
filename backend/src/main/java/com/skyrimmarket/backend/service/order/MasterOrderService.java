@@ -79,7 +79,8 @@ public class MasterOrderService implements OrderService {
                 orderStatusService.get(CREATED),
                 orderStatusService.get(NEED_CHANGES)
         );
-        boolean canNotChangeStatus = !allowedOrderStatuses.contains(order.getStatus());
+        OrderStatus orderStatus = order.getStatus();
+        boolean canNotChangeStatus = !allowedOrderStatuses.contains(orderStatus);
 
         if (canNotChangeStatus) {
             throw new BadRequestException("This order cannot be changed");
