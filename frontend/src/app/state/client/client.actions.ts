@@ -1,6 +1,7 @@
 import { Order } from '@models/order/order';
 import { OrderTypeString } from '@models/order-type-string'
 import { Payment } from '@models/payment'
+import { ClientOrderMessage } from '@models/message/client-order-message'
 
 export namespace Client {
   export class SetOrder {
@@ -41,5 +42,20 @@ export namespace Client {
   export class Reset {
     static readonly type = '[Client] reset'
     constructor() {}
+  }
+
+  export class AddOrderMessage {
+    static readonly type = '[Client] add order message'
+    constructor(public message: ClientOrderMessage) {}
+  }
+
+  export class RemoveOrderMessage {
+    static readonly type = '[Client] remove order message'
+    constructor(public message: ClientOrderMessage) {}
+  }
+
+  export class RemoveOrderMessagesById {
+    static readonly type = '[Client] remove order messages by id'
+    constructor(public orderId: number) {}
   }
 }

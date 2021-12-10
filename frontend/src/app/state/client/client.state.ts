@@ -6,6 +6,9 @@ import { tap } from 'rxjs/operators';
 import { Client } from '@state/client/client.actions'
 import { ClientOrderService } from '@services/order/client-order.service'
 import { OrderTypeString } from '@models/order-type-string'
+import { ClientOrderMessage } from '@models/message/client-order-message'
+import { clientInitialState } from '@state/client/initial-state'
+import { localStorageOrderMessagesField } from '@app/app.const'
 import CreateOrder = Client.CreateOrder
 import SetOrderType = Client.SetOrderType
 import Reset = Client.Reset
@@ -14,17 +17,18 @@ import UpdateOrder = Client.UpdateOrder
 import DeclineOrder = Client.DeclineOrder
 import PayOrder = Client.PayOrder
 import SetOrder = Client.SetOrder
+import AddOrderMessage = Client.AddOrderMessage
+import RemoveOrderMessage = Client.RemoveOrderMessage
+import RemoveOrderMessagesById = Client.RemoveOrderMessagesById
 
 export interface ClientStateModel<T extends Order = Order> {
-  order: T
+  order: T,
+  orderMessages: ClientOrderMessage[]
 }
 
-const defaults: ClientStateModel = {
-  order: null
-}
 
 @State<ClientStateModel>({
-  defaults,
+  defaults: clientInitialState(),
   name: 'client'
 })
 @Injectable()
@@ -40,6 +44,11 @@ export class ClientState {
   @Selector()
   static orderType(state: ClientStateModel): OrderTypeString | null {
     return state.order?.type ?? null
+  }
+
+  @Selector()
+  static orderMessages(state: ClientStateModel): ClientOrderMessage[] {
+    return state.orderMessages
   }
 
   @Action(SetOrder)
@@ -91,6 +100,31 @@ export class ClientState {
 
   @Action(Reset)
   reset({setState}: StateContext<ClientStateModel>) {
-    setState({...defaults})
+    setState(clientInitialState())
+  }
+
+  @Action(AddOrderMessage)
+  addOrderMessage({patchState, getState}: StateContext<ClientStateModel>, {message}: AddOrderMessage) {
+    const prevState = getState()
+    const orderMessages = [...prevState.orderMessages, message]
+    patchState({orderMessages})
+    localStorage.setItem(localStorageOrderMessagesField, JSON.stringify(orderMessages))
+  }
+
+  @Action(RemoveOrderMessage)
+  removeOrderMessage({patchState, getState}: StateContext<ClientStateModel>, {message}: RemoveOrderMessage) {
+    const prevState = getState()
+    const orderMessages = prevState.orderMessages
+      .filter(msg => msg.orderId !== message.orderId && msg.orderStatus !== message.orderStatus)
+    patchState({orderMessages})
+    localStorage.setItem(localStorageOrderMessagesField, JSON.stringify(orderMessages))
+  }
+
+  @Action(RemoveOrderMessagesById)
+  removeOrderMessagesById({patchState, getState}: StateContext<ClientStateModel>, {orderId}: RemoveOrderMessagesById) {
+    const prevState = getState()
+    const orderMessages = prevState.orderMessages.filter(msg => msg.orderId !== orderId)
+    patchState({orderMessages})
+    localStorage.setItem(localStorageOrderMessagesField, JSON.stringify(orderMessages))
   }
 }
