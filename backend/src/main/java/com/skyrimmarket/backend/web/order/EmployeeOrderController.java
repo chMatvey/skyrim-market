@@ -50,9 +50,9 @@ public class EmployeeOrderController {
         return ok(orderService.complete(orderId, orderForm.getDroppoint()));
     }
 
-    @PutMapping("/assign/{id}")
-    public ResponseEntity<Order> setOrderToStudent(@PathVariable("id") Long orderId,
-                                                   @RequestBody EmployeeOrderForm form) {
-        return ok(orderService.setOrderToStudent(orderId, form.getContractor()));
+    @PatchMapping("/assign-to-student/{id}")
+    public ResponseEntity<Order> assignOrderToStudent(@PathVariable("id") Long orderId,
+                                                      @RequestBody EmployeeOrderForm form) {
+        return ok(orderService.assignOrderToStudent(orderId, form.getContractor()));
     }
 }

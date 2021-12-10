@@ -39,7 +39,8 @@ public class EmployeeOrderService implements OrderService {
         return orderRepository.findAllByStatusName(PAYED.getName());
     }
 
-    public Order setOrderToStudent(Long id, Student contractor) {
+    @Transactional
+    public Order assignOrderToStudent(Long id, Student contractor) {
         Order order = findOrderByIdAndValidate(id);
         order.setContractor(contractor);
 

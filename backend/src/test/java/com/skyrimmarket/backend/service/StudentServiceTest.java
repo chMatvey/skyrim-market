@@ -1,0 +1,60 @@
+package com.skyrimmarket.backend.service;
+
+import com.skyrimmarket.backend.model.user.Employee;
+import com.skyrimmarket.backend.model.user.SkyrimRole;
+import com.skyrimmarket.backend.model.user.Student;
+import com.skyrimmarket.backend.repository.StudentRepository;
+import com.skyrimmarket.backend.repository.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.ArrayList;
+
+import static org.mockito.Mockito.*;
+
+@ExtendWith(SpringExtension.class)
+public class StudentServiceTest {
+
+    @MockBean
+    UserRepository userRepository;
+
+    @MockBean
+    StudentRepository studentRepository;
+
+    StudentService studentService;
+
+    @BeforeEach
+    void setUp() {
+        studentService = new StudentService(studentRepository);
+    }
+
+    @Test
+    void foundAllByMentor() {
+        Employee mentor = Employee.builder().username("Bob").password("qwerty").build();
+        Student student = Student.builder().username("Alisa").password("qwerty").role(SkyrimRole.STUDENT).mentor(mentor).build();
+        ArrayList<Student> studentList = new ArrayList<>();
+        studentList.add(student);
+        when(studentRepository.findAllByMentorId(mentor.getId())).thenReturn(studentList);
+
+        studentService.allByMentorId(mentor.getId());
+
+        verify(studentRepository).findAllByMentorId(mentor.getId());
+    }
+
+    @Test
+    void setMentor() {
+        Employee mentor = Employee.builder().username("Bob").password("qwerty").build();
+        Student student = Student.builder().username("Alisa").password("qwerty").build();
+
+        userRepository.save(mentor);
+        userRepository.save(student);
+
+        studentService.setMentor(student, mentor);
+
+        verify(studentRepository).save(student);
+    }
+
+}

@@ -2,6 +2,7 @@ package com.skyrimmarket.backend.service;
 
 import com.skyrimmarket.backend.model.user.SkyrimUser;
 import com.skyrimmarket.backend.repository.UserRepository;
+import com.skyrimmarket.backend.web.error.NotFoundException;
 import com.skyrimmarket.backend.web.error.UsernameAlreadyExist;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

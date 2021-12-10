@@ -13,6 +13,7 @@ import static javax.persistence.FetchType.LAZY;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 @Entity
 @DiscriminatorValue("ROLE_STUDENT")
@@ -31,8 +32,15 @@ public class Student extends Employee {
         super(username, password);
     }
 
+    @Builder
     public Student(long id, String username, String password, SkyrimRole role, Set<Order> tasks, Employee mentor) {
         super(id, username, password, role, tasks);
         this.mentor = mentor;
+    }
+
+    public static class StudentBuilder extends EmployeeBuilder {
+        StudentBuilder() {
+            super();
+        }
     }
 }
