@@ -3,7 +3,7 @@ package com.skyrimmarket.backend.web;
 import com.skyrimmarket.backend.model.user.SkyrimRole;
 import com.skyrimmarket.backend.model.user.SkyrimUser;
 import com.skyrimmarket.backend.service.UserService;
-import com.skyrimmarket.backend.service.notification.NotificationTokenManager;
+import com.skyrimmarket.backend.service.notification.NotificationManager;
 import com.skyrimmarket.backend.service.notification.handler.UserSubscriptionHandler;
 import com.skyrimmarket.backend.web.form.SubscriptionForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ import static java.util.function.Function.identity;
 @RequestMapping("/api/notification")
 public class NotificationController {
     @Autowired
-    private NotificationTokenManager notificationTokenManager;
+    private NotificationManager notificationTokenManager;
 
     @Autowired
     private UserService userService;

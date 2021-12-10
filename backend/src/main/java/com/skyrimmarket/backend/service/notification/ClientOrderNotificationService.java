@@ -4,12 +4,11 @@ import com.skyrimmarket.backend.model.OrderStatus;
 import com.skyrimmarket.backend.model.order.Order;
 import com.skyrimmarket.backend.service.notification.model.ClientOrderNotificationData;
 import com.skyrimmarket.backend.service.notification.model.SkyrimNotificationMessage;
-import com.skyrimmarket.backend.web.error.InternalServerErrorException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
+import java.util.Optional;
 
 import static com.skyrimmarket.backend.model.order.OrderStatusEnum.fromString;
 import static java.lang.String.format;
@@ -19,11 +18,9 @@ import static java.util.Optional.ofNullable;
 @RequiredArgsConstructor
 public class ClientOrderNotificationService {
     private final NotificationService notificationService;
-    private final NotificationTokenManager tokenManager;
+    private final NotificationManager notificationManager;
 
     public static final String TITLE = "Order status updated";
-
-    private final Map<String, List<SkyrimNotificationMessage>> waitingMessages = new ConcurrentHashMap<>();
 
     public void sendOrderStatusUpdatedNotificationToClient(Order order) {
         ClientOrderNotificationData notificationData =
@@ -39,22 +36,13 @@ public class ClientOrderNotificationService {
         orderUpdatedNotification.setMapData(dataMap);
 
         String clientUsername = order.getClient().getUsername();
-        Optional<String> personalTokenOptional = ofNullable(tokenManager.getToken(clientUsername));
+        Optional<String> personalTokenOptional = ofNullable(notificationManager.getToken(clientUsername));
 
         if (personalTokenOptional.isPresent()) {
             notificationService.sendPersonal(orderUpdatedNotification, personalTokenOptional.get());
         } else {
-            List<SkyrimNotificationMessage> userMessages =
-                    waitingMessages.computeIfAbsent(clientUsername, (username) -> new LinkedList<>());
-            userMessages.add(orderUpdatedNotification);
+            notificationManager.addWaitingMessage(clientUsername, orderUpdatedNotification);
         }
-    }
-
-    public void sendWaitingMessagesToUser(String username) {
-        String token = ofNullable(tokenManager.getToken(username))
-                .orElseThrow(() -> new InternalServerErrorException(format("Cannot extract firebase token for user: %s.", username)));
-        ofNullable(waitingMessages.remove(username))
-                .ifPresent(messages -> messages.forEach(msg -> notificationService.sendPersonal(msg, token)));
     }
 
     private String orderStatusUpdatedBodyByStatusName(OrderStatus orderStatus) {

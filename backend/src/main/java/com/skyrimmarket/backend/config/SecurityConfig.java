@@ -5,7 +5,7 @@ import com.skyrimmarket.backend.filter.CustomAuthenticationFilter;
 import com.skyrimmarket.backend.filter.CustomAuthorizationFilter;
 import com.skyrimmarket.backend.filter.CustomLogoutSuccessHandler;
 import com.skyrimmarket.backend.service.UserService;
-import com.skyrimmarket.backend.service.notification.NotificationTokenManager;
+import com.skyrimmarket.backend.service.notification.NotificationManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final UserService userService;
-    private final NotificationTokenManager notificationTokenManager;
+    private final NotificationManager notificationTokenManager;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

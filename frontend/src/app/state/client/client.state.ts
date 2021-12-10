@@ -106,7 +106,7 @@ export class ClientState {
   @Action(AddOrderMessage)
   addOrderMessage({patchState, getState}: StateContext<ClientStateModel>, {message}: AddOrderMessage) {
     const prevState = getState()
-    const orderMessages = [...prevState.orderMessages, message]
+    const orderMessages = [...prevState.orderMessages.filter(msg => msg.orderId !== message.orderId), message]
     patchState({orderMessages})
     localStorage.setItem(localStorageOrderMessagesField, JSON.stringify(orderMessages))
   }

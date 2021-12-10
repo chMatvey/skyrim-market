@@ -2,7 +2,7 @@ package com.skyrimmarket.backend.service.notification.handler;
 
 import com.skyrimmarket.backend.model.user.SkyrimRole;
 import com.skyrimmarket.backend.model.user.SkyrimUser;
-import com.skyrimmarket.backend.service.notification.ClientOrderNotificationService;
+import com.skyrimmarket.backend.service.notification.NotificationManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import static com.skyrimmarket.backend.model.user.SkyrimRole.CLIENT;
 @Service
 @RequiredArgsConstructor
 public class ClientSubscriptionHandler implements UserSubscriptionHandler {
-    private final ClientOrderNotificationService orderNotificationService;
+    private final NotificationManager notificationManager;
 
     @Override
     public SkyrimRole getRole() {
@@ -20,6 +20,6 @@ public class ClientSubscriptionHandler implements UserSubscriptionHandler {
 
     @Override
     public void handleSubscription(SkyrimUser user) {
-        orderNotificationService.sendWaitingMessagesToUser(user.getUsername());
+        notificationManager.sendWaitingMessagesToUser(user.getUsername());
     }
 }
