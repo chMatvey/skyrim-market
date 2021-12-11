@@ -34,3 +34,6 @@ build/
 
 ### Firebase config ###
 src/main/resources/serviceAccountKey.json
+
+### Docker env file ###
+env-file

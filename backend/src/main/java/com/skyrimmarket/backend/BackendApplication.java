@@ -8,7 +8,6 @@ import com.skyrimmarket.backend.service.UserService;
 import com.skyrimmarket.backend.service.notification.FakeNotificationService;
 import com.skyrimmarket.backend.service.notification.FirebaseNotificationService;
 import com.skyrimmarket.backend.service.notification.NotificationService;
-import com.sun.tools.javac.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -64,7 +63,7 @@ public class BackendApplication {
 			String masterUsername = "master";
 			String employeeUsername = "employee";
 			String clientUsername = "client";
-			List<String> users = List.of(masterUsername, employeeUsername, clientUsername);
+			String[] users = new String[]{masterUsername, employeeUsername, clientUsername};
 
 			for (String username : users) {
 				if (isEmpty(userService.findByUsername(username))) {
