@@ -46,3 +46,8 @@ Thumbs.db
 
 # package-lock.json
 package-lock.json
+
+# Firebase credentials
+src/manifest.json
+src/firebase-messaging-sw.js
+src/environments/firebase-config.ts

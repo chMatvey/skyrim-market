@@ -4,6 +4,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search'
 import { MatButtonToggleModule } from '@angular/material/button-toggle'
+import { MatBadgeModule } from '@angular/material/badge'
 
 @NgModule({
   imports: [
@@ -11,14 +12,16 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle'
     MatMenuModule,
     MatDialogModule,
     NgxMatSelectSearchModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatBadgeModule
   ],
   exports: [
     MatSelectModule,
     MatMenuModule,
     MatDialogModule,
     NgxMatSelectSearchModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatBadgeModule
   ]
 })
 export class MaterialModule { }

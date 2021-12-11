@@ -5,11 +5,10 @@ import com.skyrimmarket.backend.filter.CustomAuthenticationFilter;
 import com.skyrimmarket.backend.filter.CustomAuthorizationFilter;
 import com.skyrimmarket.backend.filter.CustomLogoutSuccessHandler;
 import com.skyrimmarket.backend.service.UserService;
+import com.skyrimmarket.backend.service.notification.NotificationManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -34,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final UserService userService;
+    private final NotificationManager notificationTokenManager;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -57,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
-        http.logout().logoutUrl("/api/logout").logoutSuccessHandler(new CustomLogoutSuccessHandler());
+        http.logout().logoutUrl("/api/logout").logoutSuccessHandler(new CustomLogoutSuccessHandler(notificationTokenManager));
     }
 
     @Bean

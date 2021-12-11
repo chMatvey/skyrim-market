@@ -18,7 +18,7 @@ import java.net.URI;
 import java.util.List;
 
 import static com.skyrimmarket.backend.util.OptionalUtil.isEmpty;
-import static com.skyrimmarket.backend.util.UserUtil.userNameFromRequest;
+import static com.skyrimmarket.backend.util.UserUtil.usernameFromRequest;
 import static java.lang.String.format;
 import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.ok;
@@ -38,7 +38,7 @@ public class ClientOrderController {
             throw new BadRequestException("Id must be null");
         }
         Order order = orderForm.toOrder(orderService);
-        Client client = clientService.findByUsername(userNameFromRequest(request));
+        Client client = clientService.findByUsername(usernameFromRequest(request));
         order.setClient(client);
         URI uri = URI.create(fromCurrentContextPath().path("/api/order").toUriString());
 
@@ -54,7 +54,7 @@ public class ClientOrderController {
             throw new NotFoundException(format("Order with id %d does not exist", orderForm.getId()));
         }
         Order order = orderForm.toOrder(orderService);
-        clientService.checkThatOrderLinkedWithCurrentUser(userNameFromRequest(request), order);
+        clientService.checkThatOrderLinkedWithCurrentUser(usernameFromRequest(request), order);
 
         return ok(orderService.update(order));
     }
@@ -66,7 +66,7 @@ public class ClientOrderController {
 
     @GetMapping("/decline/{id}")
     public ResponseEntity<Order> decline(@PathVariable("id") Long id, HttpServletRequest request) {
-        clientService.checkThatOrderLinkedWithCurrentUser(userNameFromRequest(request), id);
+        clientService.checkThatOrderLinkedWithCurrentUser(usernameFromRequest(request), id);
 
         return ok(orderService.decline(id));
     }
@@ -76,7 +76,7 @@ public class ClientOrderController {
         if (payment == null) {
             throw new BadRequestException("Payment not specified");
         }
-        clientService.checkThatOrderLinkedWithCurrentUser(userNameFromRequest(request), id);
+        clientService.checkThatOrderLinkedWithCurrentUser(usernameFromRequest(request), id);
 
         return ok(orderService.pay(id, payment));
     }

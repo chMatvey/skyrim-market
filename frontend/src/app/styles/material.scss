@@ -58,3 +58,7 @@ $frontend-theme: mat.define-light-theme((
     background-color: #1a1a1a;
   }
 }
+
+.mat-badge-content {
+  z-index: 999;
+}

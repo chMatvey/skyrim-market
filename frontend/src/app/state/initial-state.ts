@@ -3,6 +3,7 @@ import { localStorageUserField } from '../app.const';
 
 export function appInitialState(): AppStateModel {
   return {
-    user: JSON.parse(localStorage.getItem(localStorageUserField))
+    user: JSON.parse(localStorage.getItem(localStorageUserField)),
+    firebaseToken: null
   }
 }
