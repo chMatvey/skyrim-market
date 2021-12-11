@@ -126,7 +126,6 @@ class ClientOrderServiceTest {
         OrderStatus orderStatus = new OrderStatus();
         when(orderStatusRepository.findByName("CREATED")).thenReturn(Optional.of(orderStatus));
         SweepOrder order = new SweepOrder();
-        //order.setClient(new Client());
         order.setItem(new Item());;
         assertThrows(BadRequestException.class, () -> clientOrderService.update(order));
     }
@@ -137,7 +136,6 @@ class ClientOrderServiceTest {
         when(orderStatusRepository.findByName("CREATED")).thenReturn(Optional.of(orderStatus));
         SweepOrder order = new SweepOrder();
         order.setClient(new Client());
-        //order.setItem(new Item());;
         assertThrows(BadRequestException.class, () -> clientOrderService.update(order));
     }
 
@@ -171,10 +169,8 @@ class ClientOrderServiceTest {
         String paymentName = "123";
         payment.setName(paymentName);
         when(orderService.findById(id)).thenReturn(Optional.of(order));
-        //order.setContractor(new Employee());
         when(paymentRepository.findByName(paymentName)).thenReturn(Optional.of(payment));
         when(orderStatusRepository.findByName("PAYED")).thenReturn(Optional.of(orderStatus));
-        //when(orderStatusRepository.findByName("IN_PROGRESS")).thenReturn(Optional.of(orderStatus));
         clientOrderService.pay(id, payment);
         verify(orderRepository).save(order);
     }
@@ -190,7 +186,6 @@ class ClientOrderServiceTest {
         when(orderService.findById(id)).thenReturn(Optional.of(order));
         order.setContractor(new Employee());
         when(paymentRepository.findByName(paymentName)).thenReturn(Optional.of(payment));
-        //when(orderStatusRepository.findByName("PAYED")).thenReturn(Optional.of(orderStatus));
         when(orderStatusRepository.findByName("IN_PROGRESS")).thenReturn(Optional.of(orderStatus));
         clientOrderService.pay(id, payment);
         verify(orderRepository).save(order);

@@ -1,5 +1,6 @@
 package com.skyrimmarket.backend.service;
 
+import com.skyrimmarket.backend.model.order.SweepOrder;
 import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.SkyrimRole;
 import com.skyrimmarket.backend.model.user.SkyrimUser;
@@ -57,9 +58,12 @@ class UserServiceImplTest {
 
     @Test
     void loadedUserByUsername() {
-        //String username = "tatata";
-        //when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
-        //assertThrows(UsernameNotFoundException.class, () -> userService.loadUserByUsername(username));
+        String username = "tatata";
+        Client client = new Client();
+        client.setUsername(username);
+        client.setPassword("123");
+        when(userRepository.findByUsername(username)).thenReturn(Optional.of(client));
+        userService.loadUserByUsername(username);
     }
 
     @Test

@@ -50,7 +50,6 @@ class EmployeeOrderServiceTest {
         Employee employee = new Employee();
         SweepOrder order = new SweepOrder();
         OrderStatus orderStatus = new OrderStatus();
-        //order.setContractor(employee);
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
         when(orderStatusRepository.findByName("IN_PROGRESS")).thenReturn(Optional.of(orderStatus));
         employeeOrderService.assignToMe(orderId, employee);
@@ -63,7 +62,6 @@ class EmployeeOrderServiceTest {
         Employee employee = new Employee();
         SweepOrder order = new SweepOrder();
         OrderStatus orderStatus = new OrderStatus();
-        //order.setContractor(employee);
         when(orderRepository.findById(orderId)).thenReturn(Optional.empty());
         assertThrows(NotFoundException.class, () -> employeeOrderService.assignToMe(orderId, employee));
     }
