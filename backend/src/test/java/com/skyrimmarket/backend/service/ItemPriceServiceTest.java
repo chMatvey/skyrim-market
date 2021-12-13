@@ -1,17 +1,18 @@
 package com.skyrimmarket.backend.service;
 
 import com.skyrimmarket.backend.model.Item;
-import com.skyrimmarket.backend.model.ItemPrice;
 import com.skyrimmarket.backend.model.order.SweepOrder;
 import com.skyrimmarket.backend.repository.ItemPriceRepository;
-import com.skyrimmarket.backend.web.error.NotFoundException;
+import com.skyrimmarket.backend.web.error.BadRequestException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
@@ -33,30 +34,33 @@ class ItemPriceServiceTest {
         order.setItem(item);
         order.setPrice(1200.0);
         itemPriceService.storePrice(order);
-        verify(itemPriceRepository).save(new ItemPrice(10.0, item));
+        verify(itemPriceRepository).save(Mockito.any());
     }
 
     @Test
-    void notStoredPriceWithoutItem() {
+    void cannotStoreWithoutPrice() {
         SweepOrder order = new SweepOrder();
+        Item item = new Item();
+        order.setItem(item);
+        Exception exception = assertThrows(BadRequestException.class, () -> itemPriceService.storePrice(order));
+        assertEquals("400 BAD_REQUEST \"Price cannot be null or smaller than minimum price\"", exception.getMessage());
+    }
+
+    @Test
+    void cannotStoreWithPriseLessThanMinimalPrice() {
+        SweepOrder order = new SweepOrder();
+        Item item = new Item();
+        order.setItem(item);
         order.setPrice(120.0);
-        assertThrows(RuntimeException.class, () -> itemPriceService.storePrice(order));
+        Exception exception = assertThrows(BadRequestException.class, () -> itemPriceService.storePrice(order));
+        assertEquals("400 BAD_REQUEST \"Price cannot be null or smaller than minimum price\"", exception.getMessage());
     }
 
-    @Test
-    void notStoredPriceWithoutPrice() {
-        SweepOrder order = new SweepOrder();
-        Item item = new Item();
-        order.setItem(item);
-        assertThrows(RuntimeException.class, () -> itemPriceService.storePrice(order));
-    }
 
     @Test
-    void notStoredPriceWithPriceSmallerThanMinimum() {
+    void cannotStoreWithoutItem() {
         SweepOrder order = new SweepOrder();
-        Item item = new Item();
-        order.setPrice(20.0);
-        order.setItem(item);
-        assertThrows(RuntimeException.class, () -> itemPriceService.storePrice(order));
+        Exception exception = assertThrows(BadRequestException.class, () -> itemPriceService.storePrice(order));
+        assertEquals("400 BAD_REQUEST \"Cannot store order without item\"", exception.getMessage());
     }
 }
