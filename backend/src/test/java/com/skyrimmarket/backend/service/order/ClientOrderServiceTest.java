@@ -3,30 +3,30 @@ package com.skyrimmarket.backend.service.order;
 import com.skyrimmarket.backend.model.Item;
 import com.skyrimmarket.backend.model.OrderStatus;
 import com.skyrimmarket.backend.model.Payment;
-import com.skyrimmarket.backend.model.order.*;
+import com.skyrimmarket.backend.model.order.ForgeryOrder;
+import com.skyrimmarket.backend.model.order.PickpocketingOrder;
+import com.skyrimmarket.backend.model.order.SweepOrder;
 import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.Employee;
 import com.skyrimmarket.backend.repository.OrderRepository;
 import com.skyrimmarket.backend.repository.OrderStatusRepository;
 import com.skyrimmarket.backend.repository.PaymentRepository;
-import com.skyrimmarket.backend.service.*;
+import com.skyrimmarket.backend.service.ItemService;
+import com.skyrimmarket.backend.service.OrderServiceImpl;
+import com.skyrimmarket.backend.service.OrderStatusService;
+import com.skyrimmarket.backend.service.PaymentService;
 import com.skyrimmarket.backend.web.error.BadRequestException;
 import com.skyrimmarket.backend.web.error.NotFoundException;
-import lombok.experimental.Delegate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.core.parameters.P;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.persistence.EntityManager;
 import java.util.Optional;
 
-import static com.skyrimmarket.backend.model.order.OrderStatusEnum.IN_PROGRESS;
-import static com.skyrimmarket.backend.model.order.OrderStatusEnum.PAYED;
-import static com.skyrimmarket.backend.util.OrderUtil.notFoundException;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -116,7 +116,7 @@ class ClientOrderServiceTest {
         when(orderStatusRepository.findByName("CREATED")).thenReturn(Optional.of(orderStatus));
         SweepOrder order = new SweepOrder();
         order.setClient(new Client());
-        order.setItem(new Item());;
+        order.setItem(new Item());
         clientOrderService.update(order);
         verify(orderRepository).save(order);
     }
@@ -126,7 +126,7 @@ class ClientOrderServiceTest {
         OrderStatus orderStatus = new OrderStatus();
         when(orderStatusRepository.findByName("CREATED")).thenReturn(Optional.of(orderStatus));
         SweepOrder order = new SweepOrder();
-        order.setItem(new Item());;
+        order.setItem(new Item());
         assertThrows(BadRequestException.class, () -> clientOrderService.update(order));
     }
 
@@ -141,7 +141,7 @@ class ClientOrderServiceTest {
 
     @Test
     void declined() {
-        Long id = new Long(10);
+        Long id = 10L;
         OrderStatus orderStatus = new OrderStatus();
         SweepOrder order = new SweepOrder();
         when(orderService.findById(id)).thenReturn(Optional.of(order));
@@ -152,9 +152,8 @@ class ClientOrderServiceTest {
 
     @Test
     void notDeclined() {
-        Long id = new Long(10);
+        Long id = 10L;
         OrderStatus orderStatus = new OrderStatus();
-        SweepOrder order = new SweepOrder();
         when(orderService.findById(id)).thenReturn(Optional.empty());
         when(orderStatusRepository.findByName("DECLINED")).thenReturn(Optional.of(orderStatus));
         assertThrows(NotFoundException.class, () -> clientOrderService.decline(id));
@@ -163,7 +162,7 @@ class ClientOrderServiceTest {
     @Test
     void payed() {
         OrderStatus orderStatus = new OrderStatus();
-        Long id = new Long(10);
+        Long id = 10L;
         SweepOrder order = new SweepOrder();
         Payment payment = new Payment();
         String paymentName = "123";
@@ -178,7 +177,7 @@ class ClientOrderServiceTest {
     @Test
     void notPayedInProgress() {
         OrderStatus orderStatus = new OrderStatus();
-        Long id = new Long(10);
+        Long id = 10L;
         SweepOrder order = new SweepOrder();
         Payment payment = new Payment();
         String paymentName = "123";
@@ -193,9 +192,7 @@ class ClientOrderServiceTest {
 
     @Test
     void notPayedNotFoundException() {
-        OrderStatus orderStatus = new OrderStatus();
-        Long id = new Long(10);
-        SweepOrder order = new SweepOrder();
+        Long id = 10L;
         Payment payment = new Payment();
         String paymentName = "123";
         payment.setName(paymentName);

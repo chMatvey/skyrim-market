@@ -2,14 +2,10 @@ package com.skyrimmarket.backend.service;
 
 import com.skyrimmarket.backend.model.order.SweepOrder;
 import com.skyrimmarket.backend.model.user.Client;
-import com.skyrimmarket.backend.model.user.Employee;
 import com.skyrimmarket.backend.repository.ClientRepository;
 import com.skyrimmarket.backend.repository.OrderRepository;
-import com.skyrimmarket.backend.repository.PaymentRepository;
 import com.skyrimmarket.backend.web.error.BadRequestException;
 import com.skyrimmarket.backend.web.error.NotFoundException;
-import org.checkerframework.checker.nullness.Opt;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -57,7 +53,7 @@ class ClientServiceTest {
     @Test
     void passedCheckThatOrderLinkedWithCurrentUser() {
         String username = "User";
-        Long orderId = new Long(10);
+        Long orderId = 10L;
         SweepOrder order = new SweepOrder();
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
         clientService.checkThatOrderLinkedWithCurrentUser(username, orderId);
@@ -66,7 +62,7 @@ class ClientServiceTest {
     @Test
     void notPassedCheckThatOrderLinkedWithCurrentUser() {
         String username = "User";
-        Long orderId = new Long(10);
+        Long orderId = 10L;
         SweepOrder order = new SweepOrder();
         when(orderRepository.findById(orderId)).thenReturn(Optional.empty());
         assertThrows(NotFoundException.class, () -> clientService.checkThatOrderLinkedWithCurrentUser(username, orderId));

@@ -5,14 +5,11 @@ import com.skyrimmarket.backend.model.order.SweepOrder;
 import com.skyrimmarket.backend.model.user.Employee;
 import com.skyrimmarket.backend.repository.OrderRepository;
 import com.skyrimmarket.backend.repository.OrderStatusRepository;
-import com.skyrimmarket.backend.service.ClientService;
 import com.skyrimmarket.backend.service.OrderService;
 import com.skyrimmarket.backend.service.OrderServiceImpl;
 import com.skyrimmarket.backend.service.OrderStatusService;
 import com.skyrimmarket.backend.web.error.BadRequestException;
 import com.skyrimmarket.backend.web.error.NotFoundException;
-import lombok.experimental.Delegate;
-import org.aspectj.weaver.ast.Not;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,8 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
-import static com.skyrimmarket.backend.model.order.OrderStatusEnum.IN_PROGRESS;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -46,7 +42,7 @@ class EmployeeOrderServiceTest {
 
     @Test
     void assignedToMe() {
-        Long orderId = new Long(10);
+        Long orderId = 10L;
         Employee employee = new Employee();
         SweepOrder order = new SweepOrder();
         OrderStatus orderStatus = new OrderStatus();
@@ -58,7 +54,7 @@ class EmployeeOrderServiceTest {
 
     @Test
     void NotAssignedToMeNotFoundOrder() {
-        Long orderId = new Long(10);
+        Long orderId = 10L;
         Employee employee = new Employee();
         SweepOrder order = new SweepOrder();
         OrderStatus orderStatus = new OrderStatus();
@@ -68,7 +64,7 @@ class EmployeeOrderServiceTest {
 
     @Test
     void NotAssignedToMeAlreadyHaveContractor() {
-        Long orderId = new Long(10);
+        Long orderId = 10L;
         Employee employee = new Employee();
         SweepOrder order = new SweepOrder();
         OrderStatus orderStatus = new OrderStatus();
@@ -79,7 +75,7 @@ class EmployeeOrderServiceTest {
 
     @Test
     void declined() {
-        Long orderId = new Long(10);
+        Long orderId = 10L;
         SweepOrder order = new SweepOrder();
         OrderStatus orderStatus = new OrderStatus();
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
@@ -90,14 +86,14 @@ class EmployeeOrderServiceTest {
 
     @Test
     void notDeclinedNotFoundOrder(){
-        Long orderId = new Long(10);
+        Long orderId = 10L;
         when(orderRepository.findById(orderId)).thenReturn(Optional.empty());
         assertThrows(NotFoundException.class, () -> employeeOrderService.decline(orderId, "employee"));
     }
 
     @Test
     void completed() {
-        Long orderId = new Long(10);
+        Long orderId = 10L;
         SweepOrder order = new SweepOrder();
         OrderStatus orderStatus = new OrderStatus();
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
@@ -108,7 +104,7 @@ class EmployeeOrderServiceTest {
 
     @Test
     void notCompletedNotFoundOrder(){
-        Long orderId = new Long(10);
+        Long orderId = 10L;
         when(orderRepository.findById(orderId)).thenReturn(Optional.empty());
         assertThrows(NotFoundException.class, () -> employeeOrderService.complete(orderId, "employee"));
     }
