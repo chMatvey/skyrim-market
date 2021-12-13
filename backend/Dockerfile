@@ -15,4 +15,5 @@ VOLUME /tmp
 
 ARG JAR_FILE=/workspace/app/target/*.jar
 COPY --from=build ${JAR_FILE} app.jar
-ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -jar /app.jar ${0} ${@}"]
+
+CMD ["sh", "-c", "java -Dserver.port=$PORT ${JAVA_OPTS} -jar /app.jar"]
