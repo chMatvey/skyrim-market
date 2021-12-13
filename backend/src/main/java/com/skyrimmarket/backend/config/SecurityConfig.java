@@ -22,8 +22,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -72,10 +71,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.addAllowedOrigin("http://localhost:4200");
-        config.addAllowedOrigin("http://localhost:80");
+        config.addAllowedOrigin("http://localhost");
         config.addAllowedHeader("*");
         config.addExposedHeader(AUTHORIZATION);
         config.addAllowedMethod("*");
+        config.addAllowedMethod(POST);
+        config.addAllowedMethod(PUT);
+        config.addAllowedMethod(PATCH);
         source.registerCorsConfiguration("/**", config);
 
         return new CorsFilter(source);
