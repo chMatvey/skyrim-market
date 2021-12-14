@@ -1,8 +1,11 @@
+include /etc/nginx/mime.types;
+
 server {
   listen $PORT default_server;
 
   location / {
     root   /usr/share/nginx/html;
     index  index.html index.htm;
+    try_files $uri $uri/ /index.html;
   }
 }

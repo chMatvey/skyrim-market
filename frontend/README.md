@@ -32,4 +32,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
     docker build -t skyrim-market-frontend .
     
-    docker run --name skyrim-market-frontend -d -e "PORT=80" -p 80:80 --restart=always skyrim-market-frontend 
+    docker run --name skyrim-market-frontend -d -e "PORT=80" -p 80:80 skyrim-market-frontend 
