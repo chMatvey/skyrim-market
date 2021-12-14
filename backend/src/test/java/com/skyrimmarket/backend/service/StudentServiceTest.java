@@ -3,6 +3,7 @@ package com.skyrimmarket.backend.service;
 import com.skyrimmarket.backend.model.user.Employee;
 import com.skyrimmarket.backend.model.user.SkyrimRole;
 import com.skyrimmarket.backend.model.user.Student;
+import com.skyrimmarket.backend.repository.EmployeeRepository;
 import com.skyrimmarket.backend.repository.StudentRepository;
 import com.skyrimmarket.backend.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
@@ -24,11 +26,14 @@ public class StudentServiceTest {
     @MockBean
     StudentRepository studentRepository;
 
+    @MockBean
+    EmployeeRepository employeeRepository;
+
     StudentService studentService;
 
     @BeforeEach
     void setUp() {
-        studentService = new StudentService(studentRepository);
+        studentService = new StudentService(studentRepository, employeeRepository);
     }
 
     @Test
@@ -49,10 +54,13 @@ public class StudentServiceTest {
         Employee mentor = Employee.builder().username("Bob").password("qwerty").build();
         Student student = Student.builder().username("Alisa").password("qwerty").build();
 
+        when(studentRepository.findById(student.getId())).thenReturn(Optional.of(student));
+        when(employeeRepository.findById(mentor.getId())).thenReturn(Optional.of(mentor));
+
         userRepository.save(mentor);
         userRepository.save(student);
 
-        studentService.setMentor(student, mentor);
+        studentService.setMentor(student.getId(), mentor.getId());
 
         verify(studentRepository).save(student);
     }

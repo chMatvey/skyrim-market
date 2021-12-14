@@ -3,7 +3,12 @@ package com.skyrimmarket.backend;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.skyrimmarket.backend.model.user.Client;
+import com.skyrimmarket.backend.model.user.Employee;
 import com.skyrimmarket.backend.model.user.Master;
+import com.skyrimmarket.backend.repository.OrderRepository;
+import com.skyrimmarket.backend.repository.PaymentRepository;
+import com.skyrimmarket.backend.model.user.Student;
 import com.skyrimmarket.backend.service.UserService;
 import com.skyrimmarket.backend.service.notification.FakeNotificationService;
 import com.skyrimmarket.backend.service.notification.FirebaseNotificationService;
@@ -60,22 +65,19 @@ public class BackendApplication {
 	@Bean
 	CommandLineRunner run(UserService userService) {
 		return args -> {
-			String masterUsername = "master";
-			String employeeUsername = "employee";
-			String clientUsername = "client";
+				String masterUsername = "master";
+				String employeeUsername = "employee";
+				String clientUsername = "client";
 
-			if (isEmpty(userService.getByUsername(masterUsername))) {
-				userService.create(new Master(masterUsername, masterUsername));
-			}
-			if (isEmpty(userService.getByUsername(employeeUsername))) {
-				userService.create(new Employee(employeeUsername, employeeUsername));
-			}
-			if (isEmpty(userService.getByUsername(clientUsername))) {
-				userService.create(new Client(clientUsername, clientUsername));
-			}
-			if (isEmpty(userService.getByUsername(studentUsername))) {
-				userService.create(new Student(studentUsername, studentUsername));
-			}
+				if (isEmpty(userService.findByUsername(masterUsername))) {
+					userService.create(new Master(masterUsername, masterUsername));
+				}
+				if (isEmpty(userService.findByUsername(employeeUsername))) {
+					userService.create(new Employee(employeeUsername, employeeUsername));
+				}
+				if (isEmpty(userService.findByUsername(clientUsername))) {
+					userService.create(new Client(clientUsername, clientUsername));
+				}
 		};
 	}
 }

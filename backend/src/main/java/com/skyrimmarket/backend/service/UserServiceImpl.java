@@ -1,6 +1,8 @@
 package com.skyrimmarket.backend.service;
 
+import com.skyrimmarket.backend.model.user.Employee;
 import com.skyrimmarket.backend.model.user.SkyrimUser;
+import com.skyrimmarket.backend.model.user.Student;
 import com.skyrimmarket.backend.repository.UserRepository;
 import com.skyrimmarket.backend.web.error.NotFoundException;
 import com.skyrimmarket.backend.web.error.UsernameAlreadyExist;
@@ -34,6 +36,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         log.info("Saving new user {} to database", user.getUsername());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
+    }
+
+    @Override
+    public Student createStudent(Student student, Long mentorId) {
+        Employee mentor = (Employee) userRepository.findById(mentorId)
+                .orElseThrow(() -> new NotFoundException(String.format("Mentor with id %d is not present", mentorId)));
+        student.setMentor(mentor);
+        return userRepository.save(student);
     }
 
     @Override

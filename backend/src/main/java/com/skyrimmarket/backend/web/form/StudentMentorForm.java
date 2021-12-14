@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class StudentForm {
-    Student student;
-    Employee mentor;
+public class StudentMentorForm {
+    Long studentId;
+    Long mentorId;
 }

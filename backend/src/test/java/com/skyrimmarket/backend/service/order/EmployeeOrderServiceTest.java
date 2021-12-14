@@ -3,6 +3,7 @@ package com.skyrimmarket.backend.service.order;
 import com.skyrimmarket.backend.model.OrderStatus;
 import com.skyrimmarket.backend.model.order.SweepOrder;
 import com.skyrimmarket.backend.model.user.Employee;
+import com.skyrimmarket.backend.model.user.Student;
 import com.skyrimmarket.backend.repository.OrderRepository;
 import com.skyrimmarket.backend.repository.OrderStatusRepository;
 import com.skyrimmarket.backend.service.OrderService;
@@ -49,6 +50,19 @@ class EmployeeOrderServiceTest {
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
         when(orderStatusRepository.findByName("IN_PROGRESS")).thenReturn(Optional.of(orderStatus));
         employeeOrderService.assignToMe(orderId, employee);
+        verify(orderRepository).save(order);
+    }
+
+    @Test
+    void assignedToStudent() {
+        Long orderId = 10L;
+        Employee employee = new Employee();
+        Student student = Student.builder().mentor(employee).build();
+        SweepOrder order = new SweepOrder();
+        OrderStatus orderStatus = new OrderStatus();
+        when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
+        when(orderStatusRepository.findByName("IN_PROGRESS")).thenReturn(Optional.of(orderStatus));
+        employeeOrderService.assignToStudent(orderId, student);
         verify(orderRepository).save(order);
     }
 

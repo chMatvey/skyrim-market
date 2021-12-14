@@ -2,6 +2,7 @@ package com.skyrimmarket.backend.web.order;
 
 import com.skyrimmarket.backend.model.order.Order;
 import com.skyrimmarket.backend.model.user.Employee;
+import com.skyrimmarket.backend.model.user.Student;
 import com.skyrimmarket.backend.service.EmployeeService;
 import com.skyrimmarket.backend.service.notification.ClientOrderNotificationService;
 import com.skyrimmarket.backend.service.order.EmployeeOrderService;
@@ -51,6 +52,13 @@ public class EmployeeOrderController {
         return ok(order);
     }
 
+    @PatchMapping("/assign-to-student/{id}")
+    public ResponseEntity<Order> assignToStudent(@PathVariable("id") Long orderId,
+                                                 @RequestBody Long studentId) {
+        Student student = (Student) employeeService.findById(studentId);
+        return ok(orderService.assignToStudent(orderId, student));
+    }
+
     @PatchMapping("/decline/{id}")
     public ResponseEntity<Order> decline(@PathVariable("id") Long orderId, @RequestBody EmployeeOrderForm orderForm) {
         Order order = orderService.decline(orderId, orderForm.getComment());
@@ -65,11 +73,5 @@ public class EmployeeOrderController {
         clientOrderNotificationService.sendOrderStatusUpdatedNotificationToClient(order);
 
         return ok(order);
-    }
-
-    @PatchMapping("/assign-to-student/{id}")
-    public ResponseEntity<Order> assignOrderToStudent(@PathVariable("id") Long orderId,
-                                                      @RequestBody EmployeeOrderForm form) {
-        return ok(orderService.assignOrderToStudent(orderId, form.getContractor()));
     }
 }
