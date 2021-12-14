@@ -27,7 +27,7 @@ public class ForgeryOrderForm implements OrderForm {
         if (id == null) {
             return new ForgeryOrder(person, address, item, description);
         } else {
-            Order notCastedOrder = orderService.get(id).orElseThrow(() -> notFoundException(id));
+            Order notCastedOrder = orderService.findById(id).orElseThrow(() -> notFoundException(id));
             if (!type.equals(notCastedOrder.getType())) {
                 throw new BadRequestException("Incorrect order type");
             }

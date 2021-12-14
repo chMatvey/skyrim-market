@@ -1,8 +1,61 @@
 <div class="client-orders" [class.loading]="loading">
   <ng-container *ngIf="orders">
-    <app-order-list [orders]="orders"
-                    (open)="openOrder($event)"></app-order-list>
+    <div *ngIf="noOrders else ordersBlock" class="client-orders__no-orders">No active orders</div>
 
-    <div *ngIf="noOrders" class="client-orders__no-orders">No active orders</div>
+    <ng-template #ordersBlock>
+      <div class="client-orders__panel">
+        <mat-button-toggle-group [formControl]="filterControl" style="overflow: visible">
+          <mat-button-toggle value="ALL">All</mat-button-toggle>
+
+          <mat-button-toggle value="COMPLETED"
+                             matBadgeColor="warn"
+                             *ngIf="(completedCount$ | async) || -1; let count"
+                             [matBadgeHidden]="count < 1"
+                             [matBadge]="count">Completed</mat-button-toggle>
+
+          <mat-button-toggle [value]="['IN_PROGRESS', 'PAYED']"
+                             matBadgeColor="warn"
+                             *ngIf="(inProgressCount$ | async) || -1; let count"
+                             [matBadgeHidden]="count < 1"
+                             [matBadge]="count">In progress</mat-button-toggle>
+
+          <mat-button-toggle value="APPROVED"
+                             matBadgeColor="warn"
+                             *ngIf="(approvedCount$ | async) || -1; let count"
+                             [matBadgeHidden]="count < 1"
+                             [matBadge]="count">Wait for payment</mat-button-toggle>
+
+          <mat-button-toggle value="NEED_CHANGES"
+                             matBadgeColor="warn"
+                             *ngIf="(needChangesCount$ | async) || -1; let count"
+                             [matBadgeHidden]="count < 1"
+                             [matBadge]="count">Need changes</mat-button-toggle>
+
+          <mat-button-toggle value="CREATED">Wait for approve</mat-button-toggle>
+
+          <mat-button-toggle value="DECLINED"
+                             matBadgeColor="warn"
+                             *ngIf="(declinedCount$ | async) || -1; let count"
+                             [matBadgeHidden]="count < 1"
+                             [matBadge]="count">Declined</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <div *ngIf="orders?.length" class="client-orders__order-list">
+        <ng-container *ngIf="(orderMessages$ | async) || []; let messages">
+          <div *ngFor="let order of filteredOrders" class="client-orders__order-list__order form-control"
+               matBadgeColor="warn"
+               matBadge="!"
+               [matBadgeHidden]="isOrderBudgeHidden(messages, order)">
+            <div class="order-description" (click)="openOrder(order.id)">
+              <span class="order-description__name">Order: {{order.id}}</span>
+              <span class="order-description__date">Date: {{order.startDate ?? ''}}</span>
+              <span class="order-description__status">Status: {{orderStatus(order)}}</span>
+              <div class="order-description__text">Description: {{description(order) ?? ''}}</div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </ng-template>
   </ng-container>
 </div>

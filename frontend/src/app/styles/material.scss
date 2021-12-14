@@ -31,3 +31,34 @@ $frontend-theme: mat.define-light-theme((
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-themes($frontend-theme);
+
+.mat-button-toggle-appearance-standard {
+  background-color: #2b2b2b;;
+  color: #fff;
+
+  &:hover {
+    background-color: #1a1a1a;
+  }
+
+  &:not(.mat-button-toggle-disabled):hover .mat-button-toggle-focus-overlay {
+    opacity: 0!important;
+  }
+}
+
+.mat-button-toggle-checked.mat-button-toggle-appearance-standard {
+  color: #fff;
+  font-weight: bold;
+  background-color: #1e1e1e;
+
+  span {
+    text-decoration: underline;
+  }
+
+  &:hover {
+    background-color: #1a1a1a;
+  }
+}
+
+.mat-badge-content {
+  z-index: 999;
+}

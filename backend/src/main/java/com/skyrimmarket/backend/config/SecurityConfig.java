@@ -5,11 +5,10 @@ import com.skyrimmarket.backend.filter.CustomAuthenticationFilter;
 import com.skyrimmarket.backend.filter.CustomAuthorizationFilter;
 import com.skyrimmarket.backend.filter.CustomLogoutSuccessHandler;
 import com.skyrimmarket.backend.service.UserService;
+import com.skyrimmarket.backend.service.notification.NotificationManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,8 +22,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -34,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final UserService userService;
+    private final NotificationManager notificationTokenManager;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -57,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
-        http.logout().logoutUrl("/api/logout").logoutSuccessHandler(new CustomLogoutSuccessHandler());
+        http.logout().logoutUrl("/api/logout").logoutSuccessHandler(new CustomLogoutSuccessHandler(notificationTokenManager));
     }
 
     @Bean
@@ -71,10 +70,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:4200");  // TODO: lock down before deploying
+        config.addAllowedOrigin("http://localhost:4200");
+        config.addAllowedOrigin("http://localhost");
         config.addAllowedHeader("*");
         config.addExposedHeader(AUTHORIZATION);
         config.addAllowedMethod("*");
+        config.addAllowedMethod(POST);
+        config.addAllowedMethod(PUT);
+        config.addAllowedMethod(PATCH);
         source.registerCorsConfiguration("/**", config);
 
         return new CorsFilter(source);

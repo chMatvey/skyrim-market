@@ -7,8 +7,8 @@ import com.skyrimmarket.backend.model.user.SkyrimUser;
 import com.skyrimmarket.backend.model.user.Student;
 import com.skyrimmarket.backend.service.StudentService;
 import com.skyrimmarket.backend.service.UserService;
-import com.skyrimmarket.backend.web.error.NotFoundException;
-import com.skyrimmarket.backend.web.form.StudentForm;
+import com.skyrimmarket.backend.web.error.UsernameAlreadyExist;
+import com.skyrimmarket.backend.web.error.BadRequestException;
 import com.skyrimmarket.backend.web.form.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,14 +23,11 @@ import java.io.IOException;
 import java.net.URI;
 
 import static com.skyrimmarket.backend.util.ErrorUtil.addErrorBodyToResponse;
-import static com.skyrimmarket.backend.util.OptionalUtil.isEmpty;
 import static com.skyrimmarket.backend.util.SecurityUtil.*;
 import static com.skyrimmarket.backend.util.UserUtil.toUserDetails;
 import static com.skyrimmarket.backend.util.UserUtil.toView;
-import static java.lang.String.format;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.ResponseEntity.created;
-import static org.springframework.http.ResponseEntity.ok;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentContextPath;
 
 @RestController
@@ -38,7 +35,6 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-    private final StudentService studentService;
 
     @PostMapping("/client")
     public ResponseEntity<SkyrimUser> createClient(@RequestBody Client client) {
@@ -82,8 +78,7 @@ public class UserController {
         String refreshToken = getAuthorizationTokenOrThrowException(request);
         try {
             String username = usernameFromToken(refreshToken);
-            SkyrimUser skyrimUser = userService.getByUsername(username)
-                    .orElseThrow(() -> new UsernameNotFoundException(format("User %s not found", username)));
+            SkyrimUser skyrimUser = userService.getByUsername(username);
             UserDetails userDetails = toUserDetails(skyrimUser);
             String accessToken = createAccessToken(userDetails, request.getRequestURL().toString());
             UserResponse userResponse = createUserResponse(skyrimUser, accessToken, refreshToken);

@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    List<Order> findAllByClientId(Long clientId);
+    List<Order> findAllByClientIdOrderByStartDateDesc(Long clientId);
 
     List<Order> findAllByContractorIdAndStatusName(Long contractorId, String status);
 

@@ -11,7 +11,8 @@ import Login = App.Login
 import Logout = App.Logout
 
 export interface AppStateModel {
-  user: User
+  user: User,
+  firebaseToken: string
 }
 
 @State<AppStateModel>({
