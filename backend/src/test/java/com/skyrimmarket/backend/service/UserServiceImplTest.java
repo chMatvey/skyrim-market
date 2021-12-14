@@ -1,13 +1,9 @@
 package com.skyrimmarket.backend.service;
 
-import com.skyrimmarket.backend.model.order.SweepOrder;
 import com.skyrimmarket.backend.model.user.Client;
-import com.skyrimmarket.backend.model.user.SkyrimRole;
 import com.skyrimmarket.backend.model.user.SkyrimUser;
 import com.skyrimmarket.backend.repository.UserRepository;
-import com.skyrimmarket.backend.web.error.NotFoundException;
 import com.skyrimmarket.backend.web.error.UsernameAlreadyExist;
-import org.checkerframework.checker.nullness.Opt;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,8 +14,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class UserServiceImplTest {

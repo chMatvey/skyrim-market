@@ -65,19 +65,19 @@ public class BackendApplication {
 	@Bean
 	CommandLineRunner run(UserService userService) {
 		return args -> {
-				String masterUsername = "master";
-				String employeeUsername = "employee";
-				String clientUsername = "client";
+			String masterUsername = "master";
+			String employeeUsername = "employee";
+			String clientUsername = "client";
 
-				if (isEmpty(userService.findByUsername(masterUsername))) {
-					userService.create(new Master(masterUsername, masterUsername));
-				}
-				if (isEmpty(userService.findByUsername(employeeUsername))) {
-					userService.create(new Employee(employeeUsername, employeeUsername));
-				}
-				if (isEmpty(userService.findByUsername(clientUsername))) {
-					userService.create(new Client(clientUsername, clientUsername));
-				}
+			if (isEmpty(userService.findByUsername(masterUsername))) {
+				userService.create(new Master(masterUsername, masterUsername));
+			}
+			if (isEmpty(userService.findByUsername(employeeUsername))) {
+				userService.create(new Employee(employeeUsername, employeeUsername));
+			}
+			if (isEmpty(userService.findByUsername(clientUsername))) {
+				userService.create(new Client(clientUsername, clientUsername));
+			}
 		};
 	}
 }

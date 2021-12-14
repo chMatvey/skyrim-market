@@ -2,7 +2,6 @@ package com.skyrimmarket.backend.repository;
 
 import com.skyrimmarket.backend.model.order.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
