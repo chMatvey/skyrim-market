@@ -3,6 +3,8 @@ package com.skyrimmarket.backend;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.skyrimmarket.backend.model.user.Client;
+import com.skyrimmarket.backend.model.user.Employee;
 import com.skyrimmarket.backend.model.user.Master;
 import com.skyrimmarket.backend.service.UserService;
 import com.skyrimmarket.backend.service.notification.FakeNotificationService;
@@ -63,12 +65,15 @@ public class BackendApplication {
 			String masterUsername = "master";
 			String employeeUsername = "employee";
 			String clientUsername = "client";
-			String[] users = new String[]{masterUsername, employeeUsername, clientUsername};
 
-			for (String username : users) {
-				if (isEmpty(userService.findByUsername(username))) {
-					userService.create(new Master(username, username));
-				}
+			if (isEmpty(userService.findByUsername(masterUsername))) {
+				userService.create(new Master(masterUsername, masterUsername));
+			}
+			if (isEmpty(userService.findByUsername(employeeUsername))) {
+				userService.create(new Employee(employeeUsername, employeeUsername));
+			}
+			if (isEmpty(userService.findByUsername(clientUsername))) {
+				userService.create(new Client(clientUsername, clientUsername));
 			}
 		};
 	}
