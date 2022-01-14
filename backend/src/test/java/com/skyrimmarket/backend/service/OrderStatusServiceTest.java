@@ -3,7 +3,6 @@ package com.skyrimmarket.backend.service;
 import com.skyrimmarket.backend.model.OrderStatus;
 import com.skyrimmarket.backend.model.order.OrderStatusEnum;
 import com.skyrimmarket.backend.repository.OrderStatusRepository;
-import com.skyrimmarket.backend.web.error.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,7 +11,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)

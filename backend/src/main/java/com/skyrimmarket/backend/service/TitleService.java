@@ -3,7 +3,6 @@ package com.skyrimmarket.backend.service;
 import com.skyrimmarket.backend.model.Title;
 import com.skyrimmarket.backend.repository.TitleRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
