@@ -6,7 +6,6 @@ import com.skyrimmarket.backend.repository.OrderStatusRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,18 +16,21 @@ public class OrderStatusService {
 
     private final OrderStatusRepository orderStatusRepository;
 
-    @PostConstruct
-    void init() {
-        if (orderStatusRepository.findAll().isEmpty()) {
+    public OrderStatus get(OrderStatusEnum orderStatusEnum) {
+        return orderStatusRepository.findByName(orderStatusEnum.getName()).orElseThrow(IllegalArgumentException::new);
+    }
+
+    public List<OrderStatus> loadItemsIfNotExistAndReturnAll() {
+        List<OrderStatus> all = orderStatusRepository.findAll();
+
+        if (all.isEmpty()) {
             List<OrderStatus> orderStatusList = Arrays.stream(OrderStatusEnum.values())
                     .map(OrderStatusEnum::getName)
                     .map(OrderStatus::new)
                     .collect(Collectors.toList());
-            orderStatusRepository.saveAll(orderStatusList);
+            return orderStatusRepository.saveAllAndFlush(orderStatusList);
+        } else {
+            return all;
         }
-    }
-
-    public OrderStatus get(OrderStatusEnum orderStatusEnum) {
-        return orderStatusRepository.findByName(orderStatusEnum.getName()).orElseThrow(IllegalArgumentException::new);
     }
 }

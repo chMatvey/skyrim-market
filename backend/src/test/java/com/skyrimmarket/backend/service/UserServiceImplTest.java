@@ -39,7 +39,7 @@ class UserServiceImplTest {
         when(passwordEncoder.encode(user.getPassword())).thenReturn("1");
         userService.create(user);
 
-        verify(userRepository).save(user);
+        verify(userRepository).saveAndFlush(user);
     }
 
     @Test

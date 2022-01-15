@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EChartsOption } from 'echarts'
+import { PerformanceAnalytic } from '@models/analytic/performance-analytic'
+import { AnalyticService } from '@services/analytic.service'
 
 @Component({
   selector: 'app-performance',
@@ -9,10 +11,20 @@ import { EChartsOption } from 'echarts'
 export class PerformanceComponent implements OnInit {
   options: EChartsOption
 
-  constructor() {
+  constructor(private analyticService: AnalyticService) {
   }
 
   ngOnInit(): void {
+    this.analyticService.getPerformance()
+      .subscribe(result => this.initOptions(result))
+  }
+
+  initOptions(model: PerformanceAnalytic) {
+    const data = model.orderStatusPercents.map(data => ({
+      value: data.percent,
+      name: data.status
+    }))
+
     this.options = {
       title: {
         text: 'Performance',
@@ -31,12 +43,8 @@ export class PerformanceComponent implements OnInit {
           name: 'Result %',
           type: 'pie',
           radius: '50%',
-          data: [
-            { value: 80, name: 'Completed' },
-            { value: 10, name: 'Failed' },
-            { value: 10, name: 'Canceled' },
-          ],
-          color: ['#2FDD92', '#f44336', 'yellow']
+          data,
+          // color: ['#2FDD92', '#f44336', 'yellow']
         }
       ]
     }

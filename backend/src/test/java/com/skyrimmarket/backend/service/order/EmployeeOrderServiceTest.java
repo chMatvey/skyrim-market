@@ -27,8 +27,10 @@ class EmployeeOrderServiceTest {
 
     @MockBean
     OrderRepository orderRepository;
+
     @MockBean
     OrderStatusRepository orderStatusRepository;
+
     OrderStatusService orderStatusService;
     OrderService orderService;
     EmployeeOrderService employeeOrderService;
