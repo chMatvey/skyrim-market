@@ -62,3 +62,10 @@ $frontend-theme: mat.define-light-theme((
 .mat-badge-content {
   z-index: 999;
 }
+
+.mat-tab-group {
+  .mat-tab-label-content {
+    color: #fff;
+    font-size: 24px;
+  }
+}

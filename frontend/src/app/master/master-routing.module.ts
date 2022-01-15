@@ -21,6 +21,11 @@ const routes: Routes = [
       {
         path: 'order/:id',
         component: ConfirmOrderComponent
+      },
+      {
+        path: 'analytic',
+        loadChildren: () => import('./analytic/analytic.module')
+          .then(module => module.AnalyticModule)
       }
     ]
   },
