@@ -40,9 +40,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public Student createStudent(Student student, Long mentorId) {
-        Employee mentor = (Employee) userRepository.findById(mentorId)
+        SkyrimUser mentor = userRepository.findById(mentorId)
                 .orElseThrow(() -> new NotFoundException(String.format("Mentor with id %d is not present", mentorId)));
-        student.setMentor(mentor);
+        if (mentor instanceof Employee) {
+            student.setMentor((Employee) mentor);
+        }
+        else {
+            throw new NotFoundException(String.format("Mentor with id %d is not present", mentorId));
+        }
         return userRepository.save(student);
     }
 
