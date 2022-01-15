@@ -5,7 +5,6 @@ import com.skyrimmarket.backend.repository.TitleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,17 +14,20 @@ import java.util.stream.Collectors;
 public class TitleService {
     private final TitleRepository titleRepository;
 
-    @PostConstruct
-    void init() {
-        if (titleRepository.count() == 0) {
+    public List<Title> all() {
+        return titleRepository.findAll();
+    }
+
+    public List<Title> loadTitlesIfNotExistAndReturnAll() {
+        List<Title> allTitles = titleRepository.findAll();
+
+        if (allTitles.isEmpty()) {
             List<Title> titleList = Arrays.stream(new String[]{"Court magician", "Thane", "Jarl", "Trader"})
                     .map(Title::new)
                     .collect(Collectors.toList());
-            titleRepository.saveAll(titleList);
+            return titleRepository.saveAllAndFlush(titleList);
+        } else {
+            return allTitles;
         }
-    }
-
-    public List<Title> all() {
-        return titleRepository.findAll();
     }
 }

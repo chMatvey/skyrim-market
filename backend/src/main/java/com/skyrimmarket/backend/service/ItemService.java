@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -17,16 +16,6 @@ import java.util.stream.Collectors;
 public class ItemService {
     private final ItemRepository itemRepository;
 
-    @PostConstruct
-    void init() {
-        if (itemRepository.count() == 0) {
-            List<Item> items = Arrays.stream(new String[]{"Iron Sword", "Iron Axe", "Dragon Sword", "Elven Bow", "Ebony Dagger"})
-                    .map(Item::new)
-                    .collect(Collectors.toList());
-            itemRepository.saveAll(items);
-        }
-    }
-
     @Transactional
     public Item findExistedByNameOrSave(Item item) {
         Optional<Item> itemOptional = itemRepository.findByNameIgnoreCase(item.getName());
@@ -35,5 +24,18 @@ public class ItemService {
 
     public List<Item> all() {
         return itemRepository.findAll();
+    }
+
+    public List<Item> loadItemsIfNotExistAndReturnAll() {
+        List<Item> allItems = itemRepository.findAll();
+
+        if (allItems.isEmpty()) {
+            List<Item> items = Arrays.stream(new String[]{"Iron Sword", "Iron Axe", "Dragon Sword", "Elven Bow", "Ebony Dagger"})
+                    .map(Item::new)
+                    .collect(Collectors.toList());
+            return itemRepository.saveAllAndFlush(items);
+        } else {
+            return allItems;
+        }
     }
 }

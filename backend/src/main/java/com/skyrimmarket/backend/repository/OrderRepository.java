@@ -11,4 +11,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findAllByContractorIdAndStatusName(Long contractorId, String status);
 
     List<Order> findAllByStatusName(String status);
+
+    Long countAllByStatusName(String statusName);
 }

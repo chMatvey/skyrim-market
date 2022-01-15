@@ -41,7 +41,11 @@ export function getToolbarStateByUserRole(role: UserRole): Toolbar {
         links: [
           {
             name: 'Orders',
-            ref: 'orders'
+            ref: '/master/orders'
+          },
+          {
+            name: 'Analytic',
+            ref: 'analytic'
           }
         ]
       }

@@ -24,6 +24,11 @@ const routes: Routes = [
         component: ConfirmOrderComponent
       },
       {
+        path: 'analytic',
+        loadChildren: () => import('./analytic/analytic.module')
+          .then(module => module.AnalyticModule)
+      },
+      {
         path: 'employees',
         component: EmployeesForMasterComponent
       }

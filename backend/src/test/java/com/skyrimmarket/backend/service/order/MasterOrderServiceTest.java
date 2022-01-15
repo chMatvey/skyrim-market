@@ -27,6 +27,7 @@ import static org.mockito.Mockito.when;
 class MasterOrderServiceTest {
     @MockBean
     OrderRepository orderRepository;
+
     OrderStatusService orderStatusService;
     ItemPriceService itemPriceService;
     OrderService orderService;
@@ -35,6 +36,7 @@ class MasterOrderServiceTest {
 
     @MockBean
     OrderStatusRepository orderStatusRepository;
+
     @MockBean
     ItemPriceRepository itemPriceRepository;
 

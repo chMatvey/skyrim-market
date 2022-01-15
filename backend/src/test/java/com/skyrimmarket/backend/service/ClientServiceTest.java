@@ -22,8 +22,13 @@ import static org.mockito.Mockito.when;
 class ClientServiceTest {
     @MockBean
     ClientRepository clientRepository;
+
     @MockBean
     OrderRepository orderRepository;
+
+    @MockBean
+    OrderStatusService orderStatusService;
+
     OrderService orderService;
     ClientService clientService;
 

@@ -5,6 +5,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search'
 import { MatButtonToggleModule } from '@angular/material/button-toggle'
 import { MatBadgeModule } from '@angular/material/badge'
+import { MatTabsModule } from '@angular/material/tabs'
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { MatBadgeModule } from '@angular/material/badge'
     MatDialogModule,
     NgxMatSelectSearchModule,
     MatButtonToggleModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatTabsModule
   ],
   exports: [
     MatSelectModule,
@@ -21,7 +23,8 @@ import { MatBadgeModule } from '@angular/material/badge'
     MatDialogModule,
     NgxMatSelectSearchModule,
     MatButtonToggleModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatTabsModule
   ]
 })
 export class MaterialModule { }

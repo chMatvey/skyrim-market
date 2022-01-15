@@ -19,7 +19,7 @@ import static java.util.Optional.of;
 public class ItemPriceService {
     private final ItemPriceRepository itemPriceRepository;
 
-    private static final double MIN_PRICE = 500;
+    public static final double MIN_PRICE = 500;
 
     public void storePrice(Order order) {
         itemOrder(order).ifPresent(itemOrder -> {
