@@ -5,7 +5,6 @@ import com.skyrimmarket.backend.model.user.*;
 import com.skyrimmarket.backend.service.StudentService;
 import com.skyrimmarket.backend.service.UserService;
 import com.skyrimmarket.backend.web.form.EmployeeForm;
-import com.skyrimmarket.backend.web.form.StudentMentorForm;
 import com.skyrimmarket.backend.web.form.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
+import java.util.List;
 
 import static com.skyrimmarket.backend.util.ErrorUtil.addErrorBodyToResponse;
 import static com.skyrimmarket.backend.util.SecurityUtil.*;
@@ -55,10 +55,21 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ROLE_MASTER')")
-    @PutMapping
-    public ResponseEntity<Student> setMentor(@RequestBody StudentMentorForm studentMentorForm) {
+    @GetMapping("/student/mentor/{studentId}/{mentorId}")
+    public ResponseEntity<Student> setMentor(@PathVariable Long studentId, @PathVariable Long mentorId) {
+        return ok(studentService.setMentor(studentId, mentorId));
+    }
 
-        return ok(studentService.setMentor(studentMentorForm.getStudentId(), studentMentorForm.getMentorId()));
+    @PreAuthorize("hasRole('ROLE_MASTER')")
+    @GetMapping("/employee/")
+    public ResponseEntity<List<SkyrimUser>> getEmployees() {
+        return ok(userService.findAllByRole(SkyrimRole.EMPLOYEE));
+    }
+
+    @PreAuthorize("hasRole('ROLE_MASTER')")
+    @GetMapping("/student/")
+    public ResponseEntity<List<SkyrimUser>> getStudents() {
+        return ok(userService.findAllByRole(SkyrimRole.STUDENT));
     }
 
     @GetMapping("/token/refresh")

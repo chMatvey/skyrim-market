@@ -1,8 +1,10 @@
 package com.skyrimmarket.backend.service;
 
+import com.skyrimmarket.backend.model.user.SkyrimRole;
 import com.skyrimmarket.backend.model.user.SkyrimUser;
 import com.skyrimmarket.backend.model.user.Student;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
@@ -13,4 +15,6 @@ public interface UserService {
     Optional<SkyrimUser> findByUsername(String username);
 
     SkyrimUser getByUsername(String username);
+
+    List<SkyrimUser> findAllByRole(SkyrimRole role);
 }

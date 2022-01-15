@@ -1,6 +1,7 @@
 package com.skyrimmarket.backend.service;
 
 import com.skyrimmarket.backend.model.user.Employee;
+import com.skyrimmarket.backend.model.user.SkyrimRole;
 import com.skyrimmarket.backend.model.user.SkyrimUser;
 import com.skyrimmarket.backend.model.user.Student;
 import com.skyrimmarket.backend.repository.UserRepository;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.skyrimmarket.backend.util.UserUtil.toUserDetails;
@@ -54,6 +56,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public Optional<SkyrimUser> findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public List<SkyrimUser> findAllByRole(SkyrimRole role) {
+        return userRepository.findAllByRole(role);
     }
 
     @Override

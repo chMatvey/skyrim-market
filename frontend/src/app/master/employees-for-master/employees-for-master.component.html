@@ -1,0 +1,32 @@
+<div class="master-employees" [class.loading]="loading">
+  <ng-container *ngIf="employees">
+    <div *ngIf="noEmployees else employeesBlock" class="master-employees__no-employees">No available employees</div>
+
+    <ng-template #employeesBlock>
+      <div class="master-employees__panel">
+        <mat-button-toggle-group [formControl]="filterControl" style="overflow: visible">
+          <mat-button-toggle value="STUDENT"
+                             matBadgeColor="warn"
+                             *ngIf="(student | async) || -1; let count"
+                             [matBadgeHidden]="count < 1"
+                             [matBadge]="count">Students</mat-button-toggle>
+
+          <mat-button-toggle value="CONTRACTORS"
+                             matBadgeColor="warn"
+                             *ngIf="(employeeCount$ | async) || -1; let count"
+                             [matBadgeHidden]="count < 1"
+                             [matBadge]="count">Employees</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <div *ngIf="employees?.length" class="master-employees__employee-list">
+          <div *ngFor="let employee of filteredEmployees" class="master-employees__employee-list__employee form-control">
+            <div class="employee-description" (click)="openEmployee(employee.id)">
+              <span class="employee-description__id">employee: {{employee.id}}</span>
+              <span class="employee-description__name">Name: {{employee.username ?? ''}}</span>
+            </div>
+          </div>
+      </div>
+    </ng-template>
+  </ng-container>
+</div>
