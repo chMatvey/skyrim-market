@@ -14,6 +14,8 @@ public interface UserService {
 
     Optional<SkyrimUser> findByUsername(String username);
 
+    SkyrimUser findById(Long id);
+
     SkyrimUser getByUsername(String username);
 
     List<SkyrimUser> findAllByRole(SkyrimRole role);

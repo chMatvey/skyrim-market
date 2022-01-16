@@ -5,6 +5,7 @@ import com.skyrimmarket.backend.model.user.Student;
 import com.skyrimmarket.backend.repository.EmployeeRepository;
 import com.skyrimmarket.backend.repository.StudentRepository;
 import com.skyrimmarket.backend.repository.UserRepository;
+import com.skyrimmarket.backend.web.error.BadRequestException;
 import com.skyrimmarket.backend.web.error.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,10 @@ public class StudentService {
 
     public List<Student> allByMentorId(Long mentorId) {
         return studentRepository.findAllByMentorId(mentorId);
+    }
+
+    public Student findById(Long id) {
+        return studentRepository.findById(id).orElseThrow(() -> new BadRequestException(format("Student user not found by id: %d", id)));
     }
 
     public Student setMentor(Long studentId, Long employeeId) {

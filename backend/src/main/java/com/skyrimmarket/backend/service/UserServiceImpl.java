@@ -59,6 +59,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public SkyrimUser findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(format("User %d not found", id)));
+    }
+
+    @Override
     public List<SkyrimUser> findAllByRole(SkyrimRole role) {
         return userRepository.findAllByRole(role);
     }

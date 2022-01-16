@@ -31,7 +31,6 @@ public class UserControllerTest {
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     private MockMvc userMockMvc;
-    private EmployeeForm employeeForm;
 
     @BeforeEach
     void setUp() {
@@ -40,29 +39,5 @@ public class UserControllerTest {
                 .standaloneSetup(userController)
                 .setMessageConverters(jacksonMessageConverter)
                 .build();
-    }
-
-    @Test
-    void createEmployee() throws Exception {
-        EmployeeForm employeeForm = new EmployeeForm("employeetest", "employeetest", false, null);
-        String json = new ObjectMapper().writeValueAsString(employeeForm);
-        userMockMvc
-                .perform(post("/api/user/employee").contentType(APPLICATION_JSON_VALUE).content(json))
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(content().contentType(APPLICATION_JSON_VALUE))
-                .andExpect(jsonPath("$.username").value("employeetest"))
-                .andExpect(jsonPath("$.role").value("EMPLOYEE"));
-    }
-
-    @Test
-    void createStudent() throws Exception {
-        EmployeeForm employeeForm = new EmployeeForm("usertest", "usertest", true, 2L);
-        String json = new ObjectMapper().writeValueAsString(employeeForm);
-        userMockMvc
-                .perform(post("/api/user/employee").contentType(APPLICATION_JSON_VALUE).content(json))
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(content().contentType(APPLICATION_JSON_VALUE))
-                .andExpect(jsonPath("$.username").value("usertest"))
-                .andExpect(jsonPath("$.role").value("STUDENT"));
     }
 }
