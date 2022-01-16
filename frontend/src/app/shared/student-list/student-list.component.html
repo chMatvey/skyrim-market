@@ -1,0 +1,8 @@
+<div *ngIf="students?.length" class="student-list">
+  <div *ngFor="let student of students" class="student-list__student form-control">
+    <div class="student-description" (click)="openStudent(student.id)">
+      <span class="student-description__id">Student: {{student.id}}</span>
+      <span class="student-description__name">Name: {{student.username ?? ''}}</span>
+    </div>
+  </div>
+</div>

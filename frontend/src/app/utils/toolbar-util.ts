@@ -46,6 +46,14 @@ export function getToolbarStateByUserRole(role: UserRole): Toolbar {
           {
             name: 'Analytic',
             ref: 'analytic'
+          },
+          {
+            name: 'Employees',
+            ref: 'employees'
+          },
+          {
+            name: 'Students',
+            ref: 'students'
           }
         ]
       }

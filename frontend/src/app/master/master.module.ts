@@ -8,12 +8,14 @@ import { NgxsModule } from '@ngxs/store'
 import { AppState } from '@state/app.state'
 import { MasterState } from '@state/master/master.state'
 import {EmployeesForMasterComponent} from "@app/master/employees-for-master/employees-for-master.component";
+import {StudentsForMasterComponent} from "@app/master/students-for-master/students-for-master.component";
 
 @NgModule({
   declarations: [
     MasterComponent,
     OrdersForMasterComponent,
     EmployeesForMasterComponent,
+    StudentsForMasterComponent,
     ConfirmOrderComponent
   ],
   imports: [

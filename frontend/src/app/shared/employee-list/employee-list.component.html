@@ -1,0 +1,8 @@
+<div *ngIf="employees?.length" class="employee-list">
+  <div *ngFor="let employee of employees" class="employee-list__employee form-control">
+    <div class="employee-description" (click)="openEmployee(employee.id)">
+      <span class="employee-description__id">Employee: {{employee.id}}</span>
+      <span class="employee-description__name">Name: {{employee.username ?? ''}}</span>
+    </div>
+  </div>
+</div>
