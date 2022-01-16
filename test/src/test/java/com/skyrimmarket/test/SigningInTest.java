@@ -1,5 +1,6 @@
 package com.skyrimmarket.test;
 
+import com.skyrimmarket.test.page.LoginPage;
 import net.jodah.failsafe.internal.util.Assert;
 import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.AfterEach;
@@ -39,9 +40,10 @@ public class SigningInTest {
 
     @Test
     void signInClient(){
-        driver.findElement(By.xpath("//*[@id=\"username\"]")).sendKeys("client");
-        driver.findElement(By.id("password")).sendKeys("client");
-        driver.findElement(By.className("login__form__submit")).click();
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.usernameInput.sendKeys("client");
+        loginPage.passwordInput.sendKeys("client");
+        loginPage.loginButton.click();
 
         WebElement firstResult = new WebDriverWait(driver, Duration.ofSeconds(4))
                 .until(driver -> driver.findElement(By.tagName("app-client")));

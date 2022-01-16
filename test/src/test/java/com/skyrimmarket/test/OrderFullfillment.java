@@ -1,5 +1,15 @@
 package com.skyrimmarket.test;
 
+import com.skyrimmarket.test.page.LoginPage;
+import com.skyrimmarket.test.page.client.ClientMainPage;
+import com.skyrimmarket.test.page.client.ClientMakeOrderPage;
+import com.skyrimmarket.test.page.client.ClientMyOrdersPage;
+import com.skyrimmarket.test.page.client.ClientPayOrderPage;
+import com.skyrimmarket.test.page.employee.EmployeeAvailableOrderPage;
+import com.skyrimmarket.test.page.employee.EmployeeMyOrderPage;
+import com.skyrimmarket.test.page.employee.EmployeeOrdersPage;
+import com.skyrimmarket.test.page.master.MasterOrderPage;
+import com.skyrimmarket.test.page.master.MasterOrdersPage;
 import net.jodah.failsafe.internal.util.Assert;
 import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.AfterEach;
@@ -12,7 +22,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
+import java.util.concurrent.TimeUnit;
 import java.awt.*;
 import java.time.Duration;
 import java.util.HashMap;
@@ -37,275 +47,244 @@ public class OrderFullfillment {
         driver.get("https://skyrim-market.herokuapp.com");
     }
 
-    @AfterEach
-    void driverDown(){
-        //driver.close();
-    }
-
     void login(ChromeDriver driver, String username, String password){
-        driver.findElement(By.id("username")).sendKeys(username);
-        driver.findElement(By.id("password")).sendKeys(password);
-        driver.findElement(By.className("login__form__submit")).click();
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.usernameInput.sendKeys(username);
+        loginPage.passwordInput.sendKeys(password);
+        loginPage.loginButton.click();
     }
 
-    void waitUntil(By byLocator){
-        WebElement firstResult = new WebDriverWait(driver, Duration.ofSeconds(5))
-            .until(driver -> driver.findElement(byLocator));
-    }
-
-    WebElement findByXpath(String xpath){
-        return driver.findElement(By.xpath(xpath));
-    }
-
-    int clientCreateOrder(ChromeDriver driver){
+    void openClientOrder(int orderId){
         login(driver, "client", "client");
-        waitUntil(By.xpath("/html/body/app-root/div/div[2]/app-client/app-toolbar/div/div[1]/div/a[1]"));
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/app-toolbar/div/div[1]/div/a[1]")).click();
-        waitUntil(By.xpath("/html/body/app-root/div/div[2]/app-client/div/app-order/div/div/div[1]/div/mat-select/div/div[1]"));
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/div/app-order/div/div/div[1]/div/mat-select/div/div[1]")).click();
-        // Выбор Pickpocketing
-        waitUntil(By.xpath("/html/body/div[2]/div[2]/div/div/div/mat-option[1]/span"));
-        driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/div/div/mat-option[1]/span")).click();
-        // Entering name of robbed person
-        waitUntil(By.xpath("//*[@id=\"person\"]"));
-        driver.findElement(By.xpath("//*[@id=\"person\"]")).sendKeys("Balgruuf the Greater");
-        // Entering title of robbed person: Jarl
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/div/app-order/div/div/app-pickpocketing-order-form/form/div[2]/mat-select/div/div[1]")).click();
-        waitUntil(By.xpath("/html/body/div[2]/div[2]/div/div/div/mat-option[3]/span"));
-        driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/div/div/mat-option[3]/span")).click();
-        // Entering stealed item: dragon sword
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/div/app-order/div/div/app-pickpocketing-order-form/form/div[3]/app-search-select/mat-select/div/div[1]")).click();
-        waitUntil(By.xpath("/html/body/div[2]/div[2]/div/div/div/mat-option[1]/span/ngx-mat-select-search/div/input"));
-        driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/div/div/mat-option[1]/span/ngx-mat-select-search/div/input")).sendKeys("Dragon Sword");
-        driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/div/div/mat-option[3]/span")).click();
-        // Entering description
-        driver.findElement(By.xpath("//*[@id=\"description\"]")).sendKeys("Hidden in the chest of the court magician's room.");
-        // Press create order
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/div/app-order/div/div/div[2]/button[2]")).click();
-
-        // Notification
-        waitUntil(By.xpath("/html/body/div[2]/div[2]/div/mat-dialog-container/app-notification-popup/div/app-close-popup/div/img"));
-        driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/mat-dialog-container/app-notification-popup/div/app-close-popup/div/img")).click();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
-
-        String link = driver.getCurrentUrl();
-        int orderId = Integer.valueOf(link.split("/")[link.split("/").length - 1]);
-        // Logout
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/app-toolbar/div/div[2]/div[1]")).click();
-        waitUntil(By.xpath("/html/body/div[2]/div[2]/div/div/div/button"));
-        driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/div/div/button")).click();
-        return orderId;
-    }
-
-    void masterDeclineOrder(ChromeDriver driver, int orderId){
-        // Login
-        login(driver, "master", "master");
-        // Choose Orders
-        waitUntil(By.xpath("/html/body/app-root/div/div[2]/app-master/app-toolbar/div/div[1]/div/a"));
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-master/app-toolbar/div/div[1]/div/a")).click();
-        // Select all orders
-        waitUntil(By.xpath("//div[@class=\"order-list__order form-control ng-star-inserted\"]"));
-
-        int real_numba = -1;
-        int num = driver.findElements(By.xpath("//div[@class=\"order-list__order form-control ng-star-inserted\"]")).size();
-        for (int i = 0; i < num; ++i){
-            WebElement el = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-master/div/app-orders-for-master/div/app-order-list/div/div["
-                    + String.valueOf(i + 1) + "]/div/span[1]"));
-            int orId = Integer.valueOf(el.getText().split(" ")[1]);
-            if (orId == orderId){
-                real_numba = i + 1;
-            }
-        }
-
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-master/div/app-orders-for-master/div/app-order-list/div/div[" +
-                String.valueOf(real_numba) + "]/div")).click();
-        waitUntil(By.xpath("//*[@id=\"comment\"]"));
-        driver.findElement(By.xpath("//*[@id=\"comment\"]")).sendKeys("There no dragon sword in this place");
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-master/div/app-confirm-order/div/form/div[3]/button[3]")).click();
-        waitUntil(By.xpath("/html/body/div[2]/div[2]/div/mat-dialog-container/app-notification-popup/div/app-close-popup/div/img"));
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
-        driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/mat-dialog-container/app-notification-popup/div/app-close-popup/div/img")).click();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
-
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-master/app-toolbar/div/div[2]/div[1]")).click();
-        waitUntil(By.xpath("/html/body/div[2]/div[2]/div/div/div/button"));
-        driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/div/div/button")).click();
-    }
-
-    void clientChangeOrder(ChromeDriver driver, int orderId){
-        login(driver, "client", "client");
-        waitUntil(By.xpath("/html/body/app-root/div/div[2]/app-client/app-toolbar/div/div[1]/div/a[2]"));
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/app-toolbar/div/div[1]/div/a[2]")).click();
-
-        waitUntil(By.xpath("/html/body/app-root/div/div[2]/app-client/div/app-orders/div/div[1]/mat-button-toggle-group/mat-button-toggle[5]/button"));
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/div/app-orders/div/div[1]/mat-button-toggle-group/mat-button-toggle[5]/button")).click();
-
-        waitUntil(By.xpath("//div[@class=\"client-orders__order-list ng-star-inserted\"]"));
-
-        int real_numba = -1;
-        int num = driver.findElements(By.xpath("//div[@class=\"order-description\"]")).size();
+        ClientMainPage clientMainPage = new ClientMainPage(driver);
+        clientMainPage.myOrdersButton.click();
+        ClientMyOrdersPage clientMyOrdersPage = new ClientMyOrdersPage(driver);
+        int orderNumber = -1;
+        int num = clientMyOrdersPage.getOrdersCount();
         if (num >= 2) {
             for (int i = 0; i < num; ++i) {
-                WebElement el = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/div/app-orders/div/div[2]/div["
-                        + String.valueOf(i + 1) + "]/div/span[1]"));
+                WebElement el = clientMyOrdersPage.getOrder(i + 1);
                 String text = el.getText();
                 int orId = Integer.valueOf(el.getText().split(" ")[1]);
                 if (orId == orderId) {
-                    real_numba = i + 1;
+                    orderNumber = i + 1;
                 }
             }
-            driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/div/app-orders/div/div[2]/div["
-                    + String.valueOf(real_numba) + "]/div")).click();
+            clientMyOrdersPage.getOrder(orderNumber).click();
         }
         else{
-            driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/div/app-orders/div/div[2]/div/div")).click();
+            clientMyOrdersPage.singleOrder.click();
         }
-        waitUntil(By.xpath("/html/body/app-root/div/div[2]/app-client/div/app-order/div/div/app-pickpocketing-order-form/form/div[3]/app-search-select/mat-select/div/div[1]"));
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/div/app-order/div/div/app-pickpocketing-order-form/form/div[3]/app-search-select/mat-select/div/div[1]")).click();
-        waitUntil(By.xpath("/html/body/div[2]/div[2]/div/div/div/mat-option[6]/span"));
-        driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/div/div/mat-option[6]/span")).click();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/div/app-order/div/div[1]/div[2]/button[3]")).click();
-        waitUntil(By.xpath("/html/body/div[2]/div[2]/div/mat-dialog-container/app-notification-popup/div/app-close-popup/div/img"));
-        driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/mat-dialog-container/app-notification-popup/div/app-close-popup/div/img")).click();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
-
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/app-toolbar/div/div[2]/div[1]")).click();
-        waitUntil(By.xpath("/html/body/div[2]/div[2]/div/div/div/button"));
-        driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/div/div/button")).click();
-    }
-
-    void masterAcceptOrder(ChromeDriver driver, int orderId){
-        login(driver, "master", "master");
-        waitUntil(By.xpath("/html/body/app-root/div/div[2]/app-master/app-toolbar/div/div[1]/div/a"));
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-master/app-toolbar/div/div[1]/div/a")).click();
-        // Select all orders
-        waitUntil(By.xpath("//div[@class=\"order-list__order form-control ng-star-inserted\"]"));
-
-        int real_numba = -1;
-        int num = driver.findElements(By.xpath("//div[@class=\"order-description\"]")).size();
-        for (int i = 0; i < num; ++i){
-            WebElement el = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-master/div/app-orders-for-master/div/app-order-list/div/div["
-                    + String.valueOf(i + 1) + "]/div/span[1]"));
-            int orId = Integer.valueOf(el.getText().split(" ")[1]);
-            if (orId == orderId){
-                real_numba = i + 1;
-            }
-        }
-
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-master/div/app-orders-for-master/div/app-order-list/div/div[" +
-                String.valueOf(real_numba) + "]/div")).click();
-
-        waitUntil(By.xpath("//*[@id=\"price\"]"));
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(4));
-        driver.findElement(By.xpath("//*[@id=\"price\"]")).sendKeys("1000");
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(4));
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-master/div/app-confirm-order/div/form/div[3]/button[4]")).click();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(4));
-        waitUntil(By.xpath("/html/body/div[2]/div[2]/div/mat-dialog-container/app-notification-popup/div/app-close-popup/div/img"));
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(4));
-        driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/mat-dialog-container/app-notification-popup/div/app-close-popup/div/img")).click();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(4));
-
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-master/app-toolbar/div/div[2]/div[1]")).click();
-        waitUntil(By.xpath("/html/body/div[2]/div[2]/div/div/div/button"));
-        driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/div/div/button")).click();
-    }
-
-    void clientPayOrder(ChromeDriver driver, int orderId){
-        login(driver, "client", "client");
-        waitUntil(By.xpath("/html/body/app-root/div/div[2]/app-client/app-toolbar/div/div[1]/div/a[2]"));
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/app-toolbar/div/div[1]/div/a[2]")).click();
-
-        waitUntil(By.xpath("/html/body/app-root/div/div[2]/app-client/div/app-orders/div/div[1]/mat-button-toggle-group/mat-button-toggle[4]/button"));
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/div/app-orders/div/div[1]/mat-button-toggle-group/mat-button-toggle[4]/button")).click();
-
-        waitUntil(By.xpath("//div[@class=\"client-orders__order-list ng-star-inserted\"]"));
-
-        int real_numba = -1;
-        int num = driver.findElements(By.xpath("//div[@class=\"order-description\"]")).size();
-        if (num >= 2) {
-            for (int i = 0; i < num; ++i) {
-                WebElement el = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/div/app-orders/div/div[2]/div["
-                        + String.valueOf(i + 1) + "]/div/span[1]"));
-                String text = el.getText();
-                int orId = Integer.valueOf(el.getText().split(" ")[1]);
-                if (orId == orderId) {
-                    real_numba = i + 1;
-                }
-            }
-            driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/div/app-orders/div/div[2]/div["
-                    + String.valueOf(real_numba) + "]/div")).click();
-        }
-        else{
-            driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/div/app-orders/div/div[2]/div/div")).click();
-        }
-        waitUntil(By.xpath("/html/body/app-root/div/div[2]/app-client/div/app-order/div/div[2]/app-pay-form/form/div[2]/mat-select/div/div[1]/span"));
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/div/app-order/div/div[2]/app-pay-form/form/div[2]/mat-select/div/div[1]/span")).click();
-
-        waitUntil(By.xpath("/html/body/div[2]/div[2]/div/div/div/mat-option/span"));
-        driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/div/div/mat-option/span")).click();
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/div/app-order/div/div[2]/app-pay-form/form/div[3]/button")).click();
-        waitUntil(By.xpath("/html/body/div[2]/div[2]/div/mat-dialog-container/app-notification-popup/div/app-close-popup/div/img"));
-        driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/mat-dialog-container/app-notification-popup/div/app-close-popup/div/img")).click();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/app-toolbar/div/div[2]/div[1]")).click();
-        waitUntil(By.xpath("/html/body/div[2]/div[2]/div/div/div/button"));
-        driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/div/div/button")).click();
-    }
-
-    void employeeAssignOrder(ChromeDriver driver, int orderId){
-        login(driver, "employee", "employee");
-        waitUntil(By.xpath("/html/body/app-root/div/div[2]/app-employee/app-toolbar/div/div[1]/div/a[2]"));
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-employee/app-toolbar/div/div[1]/div/a[2]")).click();
-
-
-        int real_numba = -1;
-        int num = driver.findElements(By.xpath("//div[@class=\"order-description\"]")).size();
-        if (num >= 2) {
-            for (int i = 0; i < num; ++i) {
-                WebElement el = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-employee/div/app-available-orders/div/app-order-list/div/div["
-                        + String.valueOf(i + 1) + "]/div/span[1]"));
-                int orId = Integer.valueOf(el.getText().split(" ")[1]);
-                if (orId == orderId) {
-                    real_numba = i + 1;
-                }
-            }
-            driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-employee/div/app-available-orders/div/app-order-list/div/div[" +
-                    String.valueOf(real_numba) + "]/div")).click();
-        }
-        else{
-            driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-employee/div/app-available-orders/div/app-order-list/div/div/div")).click();
-        }
-
-        waitUntil(By.xpath("/html/body/app-root/div/div[2]/app-employee/div/app-available-order/div/div/button[2]"));
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-employee/div/app-available-order/div/div/button[2]")).click();
-        waitUntil(By.xpath("/html/body/div/div[2]/div/mat-dialog-container/app-notification-popup/div/app-close-popup/div/img"));
-        driver.findElement(By.xpath("/html/body/div/div[2]/div/mat-dialog-container/app-notification-popup/div/app-close-popup/div/img")).click();
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-employee/div/app-my-order/div/form/div[1]/input")).sendKeys("In the chest on hostage, room 3");
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-employee/div/app-my-order/div/form/div[2]/input")).sendKeys("Good order");
-        driver.findElement(By.xpath("//html/body/app-root/div/div[2]/app-employee/div/app-my-order/div/form/div[3]/button[3]")).click();
-        waitUntil(By.xpath("/html/body/div/div[2]/div/mat-dialog-container/app-notification-popup/div/app-close-popup/div/img"));
-        driver.findElement(By.xpath("/html/body/div/div[2]/div/mat-dialog-container/app-notification-popup/div/app-close-popup/div/img")).click();
-
-        waitUntil(By.xpath("/html/body/app-root/div/div[2]/app-employee/app-toolbar/div/div[2]/div[1]"));
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-employee/app-toolbar/div/div[2]/div[1]")).click();
-        waitUntil(By.xpath("/html/body/div/div[2]/div/div/div/button"));
-        driver.findElement(By.xpath("/html/body/div/div[2]/div/div/div/button")).click();
-
     }
 
     @Test
-    void FulfillmentOrder(){
-        int orderId = 3;
-        orderId = clientCreateOrder(driver);
-        masterDeclineOrder(driver, orderId);
-        clientChangeOrder(driver, orderId);
-        masterAcceptOrder(driver, orderId);
-        clientPayOrder(driver, orderId);
-        employeeAssignOrder(driver, orderId);
+    void createOrder() throws InterruptedException {
+        int order_type_id = 1;                                      // 1: Pickpocketing, 2: Sweep, 3: Forgery
+        login(driver, "client", "client");
+        ClientMainPage clientMainPage = new ClientMainPage(driver);
+        clientMainPage.makeOrderButton.click();
+        ClientMakeOrderPage clientMakeOrderPage = new ClientMakeOrderPage(driver);
+        clientMakeOrderPage.selectServiceButton.click();
+        TimeUnit.MILLISECONDS.sleep(200);
+        clientMakeOrderPage.selectOrderType(order_type_id).click();
+        switch (order_type_id){
+            case 1:
+                clientMakeOrderPage.personEdit.sendKeys("Balgruuf the Greater");
+                clientMakeOrderPage.robbedPickpoketingTitleEdit.click();
+                TimeUnit.MILLISECONDS.sleep(200);
+                clientMakeOrderPage.getRobbedTitle(2).click();
+                clientMakeOrderPage.itemPickpoketingEdit.click();
+                TimeUnit.MILLISECONDS.sleep(200);
+                clientMakeOrderPage.getItem(4).click();
+                clientMakeOrderPage.descriptionPickpoketingTextEdit.sendKeys("Hidden in the chest of the court magician's room.");
+                clientMakeOrderPage.createOrderButton.click();
+                TimeUnit.MILLISECONDS.sleep(1000);
+                clientMakeOrderPage.exitNotification.click();
+                TimeUnit.MILLISECONDS.sleep(200);
+                clientMakeOrderPage.usernameButton.click();
+                TimeUnit.MILLISECONDS.sleep(200);
+                clientMakeOrderPage.logoutButton.click();
+                break;
+            case 2:
+                clientMakeOrderPage.addressEdit.sendKeys("Vaitran, Mainhall, Grand Wizard's room");
+                clientMakeOrderPage.robbedSweepTitleEdit.click();
+                TimeUnit.MILLISECONDS.sleep(200);
+                clientMakeOrderPage.getRobbedTitle(2).click();
+                clientMakeOrderPage.itemSweepEdit.click();
+                TimeUnit.MILLISECONDS.sleep(200);
+                clientMakeOrderPage.getItem(4).click();
+                clientMakeOrderPage.descriptionSweepTextEdit.sendKeys("Hidden in the chest of the court magician's room.");
+                clientMakeOrderPage.createOrderButton.click();
+                TimeUnit.MILLISECONDS.sleep(1000);
+                clientMakeOrderPage.exitNotification.click();
+                TimeUnit.MILLISECONDS.sleep(200);
+                clientMakeOrderPage.usernameButton.click();
+                TimeUnit.MILLISECONDS.sleep(200);
+                clientMakeOrderPage.logoutButton.click();
+                break;
+            case 3:
+                clientMakeOrderPage.personEdit.sendKeys("Balgruuf the Greater");
+                clientMakeOrderPage.addressEdit.sendKeys("Vaitran, Mainhall, Grand Wizard's room");
+                clientMakeOrderPage.itemForgeryEdit.click();
+                TimeUnit.MILLISECONDS.sleep(200);
+                clientMakeOrderPage.getItem(4).click();
+                clientMakeOrderPage.descriptionForgeryTextEdit.sendKeys("Hidden in the chest of the court magician's room.");
+                clientMakeOrderPage.createOrderButton.click();
+                TimeUnit.MILLISECONDS.sleep(1000);
+                clientMakeOrderPage.exitNotification.click();
+                TimeUnit.MILLISECONDS.sleep(200);
+                clientMakeOrderPage.usernameButton.click();
+                TimeUnit.MILLISECONDS.sleep(200);
+                clientMakeOrderPage.logoutButton.click();
+                break;
+        }
+    }
+
+    @Test
+    void masterCommentOrder() throws InterruptedException{
+        login(driver, "master", "master");
+        MasterOrdersPage masterOrdersPage = new MasterOrdersPage(driver);
+        masterOrdersPage.ordersButton.click();
+        TimeUnit.MILLISECONDS.sleep(100);
+        masterOrdersPage.getOrder(1).click();
+        MasterOrderPage masterOrderPage = new MasterOrderPage(driver);
+        masterOrderPage.commentText.sendKeys("Wrong, change title");
+        masterOrderPage.commentButton.click();
+        TimeUnit.MILLISECONDS.sleep(1000);
+        masterOrderPage.notificationExit.click();
+        TimeUnit.MILLISECONDS.sleep(100);
+        masterOrderPage.usernameButton.click();
+        TimeUnit.MILLISECONDS.sleep(200);
+        masterOrderPage.logoutButton.click();
+    }
+
+    @Test
+    void clientChangeOrder() throws  InterruptedException{
+        login(driver, "client", "client");
+        ClientMyOrdersPage clientMyOrdersPage = new ClientMyOrdersPage(driver);
+        clientMyOrdersPage.myOrdersButton.click();
+        clientMyOrdersPage.chooseFilter(5);
+        clientMyOrdersPage.singleOrder.click();
+        ClientMakeOrderPage clientMakeOrderPage = new ClientMakeOrderPage(driver);
+        String orderType = clientMakeOrderPage.orderType.getText();
+        String needOrderType = "Forgery";
+        if (!orderType.equals(needOrderType)) {
+            System.out.println(clientMakeOrderPage.orderType.getText());
+            clientMakeOrderPage.robbedSweepTitleEdit.click();
+            TimeUnit.MILLISECONDS.sleep(200);
+            clientMakeOrderPage.getRobbedTitle(1).click();
+        }
+        clientMakeOrderPage.applyOrderButton.click();
+        TimeUnit.MILLISECONDS.sleep(1000);
+        clientMakeOrderPage.exitNotification.click();
+        TimeUnit.MILLISECONDS.sleep(100);
+        clientMakeOrderPage.usernameButton.click();
+        TimeUnit.MILLISECONDS.sleep(200);
+        clientMakeOrderPage.logoutButton.click();
+    }
+
+    @Test
+    void masterAcceptOrder() throws InterruptedException{
+        login(driver, "master", "master");
+        MasterOrdersPage masterOrdersPage = new MasterOrdersPage(driver);
+        masterOrdersPage.ordersButton.click();
+        masterOrdersPage.getOrder(1).click();
+        MasterOrderPage masterOrderPage = new MasterOrderPage(driver);
+        TimeUnit.MILLISECONDS.sleep(100);
+        masterOrderPage.priceEdit.sendKeys(Keys.LEFT_CONTROL + "A");
+        masterOrderPage.priceEdit.sendKeys("500");
+        TimeUnit.MILLISECONDS.sleep(100);
+        masterOrderPage.approveButton.click();
+        TimeUnit.MILLISECONDS.sleep(1000);
+        masterOrderPage.notificationExit.click();
+        TimeUnit.MILLISECONDS.sleep(100);
+        masterOrderPage.usernameButton.click();
+        TimeUnit.MILLISECONDS.sleep(200);
+        masterOrderPage.logoutButton.click();
+    }
+
+    @Test
+    void masterAcceptOrderWithEmployee() throws InterruptedException{
+        login(driver, "master", "master");
+        MasterOrdersPage masterOrdersPage = new MasterOrdersPage(driver);
+        masterOrdersPage.ordersButton.click();
+        masterOrdersPage.getOrder(1).click();
+        MasterOrderPage masterOrderPage = new MasterOrderPage(driver);
+        TimeUnit.MILLISECONDS.sleep(100);
+        masterOrderPage.chooseContractor(1);
+        TimeUnit.MILLISECONDS.sleep(100);
+        masterOrderPage.priceEdit.sendKeys(Keys.LEFT_CONTROL + "A");
+        masterOrderPage.priceEdit.sendKeys("500");
+        TimeUnit.MILLISECONDS.sleep(100);
+        masterOrderPage.approveButton.click();
+        TimeUnit.MILLISECONDS.sleep(1000);
+        masterOrderPage.notificationExit.click();
+        TimeUnit.MILLISECONDS.sleep(100);
+        masterOrderPage.usernameButton.click();
+        TimeUnit.MILLISECONDS.sleep(200);
+        masterOrderPage.logoutButton.click();
+    }
+
+    @Test
+    void clientPayOrder() throws  InterruptedException{
+        login(driver, "client", "client");
+        ClientMyOrdersPage clientMyOrdersPage = new ClientMyOrdersPage(driver);
+        clientMyOrdersPage.myOrdersButton.click();
+        clientMyOrdersPage.chooseFilter(4);
+        clientMyOrdersPage.singleOrder.click();
+        ClientPayOrderPage clientPayOrderPage = new ClientPayOrderPage(driver);
+        TimeUnit.MILLISECONDS.sleep(500);
+        clientPayOrderPage.payWayComboBox.click();
+        TimeUnit.MILLISECONDS.sleep(500);
+        clientPayOrderPage.payWayCash.click();
+        clientPayOrderPage.applyButton.click();
+        TimeUnit.MILLISECONDS.sleep(1000);
+        clientPayOrderPage.exitNotification.click();
+        TimeUnit.MILLISECONDS.sleep(100);
+        clientPayOrderPage.usernameButton.click();
+        TimeUnit.MILLISECONDS.sleep(200);
+        clientPayOrderPage.logoutButton.click();
+    }
+
+    @Test
+    void employeeAssignOrder() throws InterruptedException{
+        login(driver, "employee", "employee");
+        EmployeeOrdersPage employeeOrdersPage = new EmployeeOrdersPage(driver);
+        employeeOrdersPage.availableOrdersButton.click();
+        TimeUnit.MILLISECONDS.sleep(100);
+        employeeOrdersPage.getOrder(1, 2).click();
+        TimeUnit.MILLISECONDS.sleep(100);
+        EmployeeAvailableOrderPage employeeAvailableOrderPage = new EmployeeAvailableOrderPage(driver);
+        employeeAvailableOrderPage.assignToMeButton.click();
+        TimeUnit.MILLISECONDS.sleep(1000);
+        employeeAvailableOrderPage.exitNotification.click();
+        TimeUnit.MILLISECONDS.sleep(100);
+        employeeAvailableOrderPage.usernameButton.click();
+        TimeUnit.MILLISECONDS.sleep(200);
+        employeeAvailableOrderPage.logoutButton.click();
+    }
+
+    @Test
+    void employeeCompleteOrder() throws InterruptedException{
+        login(driver, "employee", "employee");
+        EmployeeOrdersPage employeeOrdersPage = new EmployeeOrdersPage(driver);
+        employeeOrdersPage.myOrdersButton.click();
+        TimeUnit.MILLISECONDS.sleep(100);
+        employeeOrdersPage.getOrder(1, 1).click();
+        TimeUnit.MILLISECONDS.sleep(100);
+        EmployeeMyOrderPage employeeMyOrderPage = new EmployeeMyOrderPage(driver);
+        TimeUnit.MILLISECONDS.sleep(100);
+        employeeMyOrderPage.wheresItemEdit.sendKeys("Under the bed on the tavern in RiverWood");
+        TimeUnit.MILLISECONDS.sleep(100);
+        employeeMyOrderPage.commentEdit.sendKeys("Completed");
+        TimeUnit.MILLISECONDS.sleep(100);
+        employeeMyOrderPage.completeButton.click();
+        TimeUnit.MILLISECONDS.sleep(1000);
+        employeeMyOrderPage.exitNotification.click();
+        TimeUnit.MILLISECONDS.sleep(100);
+        employeeMyOrderPage.usernameButton.click();
+        TimeUnit.MILLISECONDS.sleep(200);
+        employeeMyOrderPage.logoutButton.click();
     }
 
 }
