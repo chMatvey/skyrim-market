@@ -1,0 +1,14 @@
+<div class="completed-order" [class.loading]="loading">
+  <ng-container *ngIf="(order$ | async) as order">
+    <app-order-info [order]="order"></app-order-info>
+
+    <div class="form-control disabled">
+      <label>Droppoint</label>
+      <div class="value">{{order.droppoint}}</div>
+    </div>
+
+    <div class="completed-order__control actions">
+      <button (click)="close()">Close</button>
+    </div>
+  </ng-container>
+</div>

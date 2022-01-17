@@ -1,5 +1,5 @@
-import { UserRole } from '@models/user-role';
-import { Toolbar } from '@models/template/toolbar';
+import {UserRole} from '@models/user-role';
+import {Toolbar} from '@models/template/toolbar';
 
 export function getToolbarStateByUserRole(role: UserRole): Toolbar {
   switch (role) {
@@ -28,6 +28,20 @@ export function getToolbarStateByUserRole(role: UserRole): Toolbar {
           {
             name: 'Available Orders',
             ref: 'available-orders'
+          },
+          {
+            name: 'Completed Orders',
+            ref: 'completed-orders'
+          }
+        ]
+      }
+    case UserRole.STUDENT:
+      return {
+        logoRef: '/student',
+        links: [
+          {
+            name: 'My Orders',
+            ref: 'my-orders'
           },
           {
             name: 'Completed Orders',
