@@ -12,10 +12,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.List;
 
 import static com.skyrimmarket.backend.util.UserUtil.toView;
+import static com.skyrimmarket.backend.util.UserUtil.usernameFromRequest;
 import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.ok;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentContextPath;
@@ -69,5 +71,11 @@ public class EmployeeController {
     @GetMapping("/student")
     public ResponseEntity<List<Student>> getStudents() {
         return ok(studentService.findAll());
+    }
+
+    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
+    @GetMapping("/employee/students")
+    public ResponseEntity<List<Student>> findStudentsByMentor(HttpServletRequest request) {
+        return ok(studentService.findAllByMentor(usernameFromRequest(request)));
     }
 }

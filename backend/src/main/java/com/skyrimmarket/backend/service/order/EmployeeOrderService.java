@@ -37,14 +37,6 @@ public class EmployeeOrderService implements OrderService {
         return orderRepository.findAllByStatusName(PAYED.getName());
     }
 
-    @Transactional
-    public Order assignToStudent(Long id, Student student) {
-        Order order = findOrderByIdAndValidate(id);
-        order.setContractor(student);
-
-        return orderRepository.save(order);
-    }
-
     private Order findOrderByIdAndValidate(Long id) {
         return orderRepository.findById(id).orElseThrow(() -> notFoundException(id));
     }
@@ -58,6 +50,17 @@ public class EmployeeOrderService implements OrderService {
         order.setContractor(employee);
         order.setStatus(orderStatusService.get(IN_PROGRESS));
 
+        return orderRepository.save(order);
+    }
+
+    @Transactional
+    public Order assignToStudent(Long id, Student student) {
+        Order order = findOrderByIdAndValidate(id);
+        if (order.getContractor() != null) {
+            throw new BadRequestException("Order already taken to work by other contractor");
+        }
+        order.setContractor(student);
+        order.setStatus(orderStatusService.get(IN_PROGRESS));
         return orderRepository.save(order);
     }
 

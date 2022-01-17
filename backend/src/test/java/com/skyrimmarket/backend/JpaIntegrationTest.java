@@ -8,7 +8,6 @@ import com.skyrimmarket.backend.model.order.OrderStatusEnum;
 import com.skyrimmarket.backend.model.order.SweepOrder;
 import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.Employee;
-import com.skyrimmarket.backend.model.user.SkyrimRole;
 import com.skyrimmarket.backend.model.user.Student;
 import com.skyrimmarket.backend.repository.*;
 import org.junit.jupiter.api.Test;
@@ -76,7 +75,7 @@ public class JpaIntegrationTest {
         Student student = userRepository.save(Student.builder().username("Alexa").password("qwerty").mentor(mentor).build());
 
         Student savedStudent = userRepository.save(student);
-        Student foundStudent = studentRepository.findAllByMentorId(mentor.getId()).get(0);
+        Student foundStudent = studentRepository.findAllByMentorUsername(mentor.getUsername()).get(0);
         assertEquals(savedStudent, foundStudent);
     }
 

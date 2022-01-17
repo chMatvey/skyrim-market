@@ -42,11 +42,11 @@ public class StudentServiceTest {
         Student student = Student.builder().username("Alisa").password("qwerty").role(SkyrimRole.STUDENT).mentor(mentor).build();
         ArrayList<Student> studentList = new ArrayList<>();
         studentList.add(student);
-        when(studentRepository.findAllByMentorId(mentor.getId())).thenReturn(studentList);
+        when(studentRepository.findAllByMentorUsername(mentor.getUsername())).thenReturn(studentList);
 
-        studentService.allByMentorId(mentor.getId());
+        studentService.findAllByMentor(mentor.getUsername());
 
-        verify(studentRepository).findAllByMentorId(mentor.getId());
+        verify(studentRepository).findAllByMentorUsername(mentor.getUsername());
     }
 
     @Test

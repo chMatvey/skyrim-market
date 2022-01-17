@@ -4,7 +4,6 @@ import com.skyrimmarket.backend.model.user.Employee;
 import com.skyrimmarket.backend.model.user.Student;
 import com.skyrimmarket.backend.repository.EmployeeRepository;
 import com.skyrimmarket.backend.repository.StudentRepository;
-import com.skyrimmarket.backend.repository.UserRepository;
 import com.skyrimmarket.backend.web.error.BadRequestException;
 import com.skyrimmarket.backend.web.error.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +24,8 @@ public class StudentService {
     private final StudentRepository studentRepository;
     private final EmployeeRepository employeeRepository;
 
-    public List<Student> allByMentorId(Long mentorId) {
-        return studentRepository.findAllByMentorId(mentorId);
+    public List<Student> findAllByMentor(String mentor) {
+        return studentRepository.findAllByMentorUsername(mentor);
     }
 
     public Student findById(Long id) {
