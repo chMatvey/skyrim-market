@@ -67,7 +67,7 @@ public class EmployeeController {
 
     @PreAuthorize("hasRole('ROLE_MASTER')")
     @GetMapping("/student")
-    public ResponseEntity<List<SkyrimUser>> getStudents() {
-        return ok(userService.findAllByRole(SkyrimRole.STUDENT));
+    public ResponseEntity<List<Student>> getStudents() {
+        return ok(studentService.findAll());
     }
 }

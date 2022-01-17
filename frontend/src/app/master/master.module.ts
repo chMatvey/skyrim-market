@@ -9,6 +9,8 @@ import { AppState } from '@state/app.state'
 import { MasterState } from '@state/master/master.state'
 import {EmployeesForMasterComponent} from "@app/master/employees-for-master/employees-for-master.component";
 import {StudentsForMasterComponent} from "@app/master/students-for-master/students-for-master.component";
+import {CreateEmployeeComponent} from "@app/master/create-employee/create-employee.component";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [
@@ -16,12 +18,14 @@ import {StudentsForMasterComponent} from "@app/master/students-for-master/studen
     OrdersForMasterComponent,
     EmployeesForMasterComponent,
     StudentsForMasterComponent,
+    CreateEmployeeComponent,
     ConfirmOrderComponent
   ],
-  imports: [
-    SharedModule,
-    MasterRoutingModule,
-    NgxsModule.forFeature([AppState, MasterState])
-  ]
+    imports: [
+        SharedModule,
+        MasterRoutingModule,
+        NgxsModule.forFeature([AppState, MasterState]),
+        MatCheckboxModule
+    ]
 })
 export class MasterModule { }

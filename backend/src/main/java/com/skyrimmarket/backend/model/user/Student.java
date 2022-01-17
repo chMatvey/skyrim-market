@@ -1,6 +1,7 @@
 package com.skyrimmarket.backend.model.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
+import com.google.api.client.json.JsonString;
 import com.skyrimmarket.backend.model.order.Order;
 import lombok.*;
 
@@ -22,8 +23,8 @@ public class Student extends Employee {
     @OneToMany(cascade = ALL, mappedBy = "contractor", fetch = LAZY)
     private Set<Order> tasks;
 
-    @JsonIgnore
     @ManyToOne
+    @JsonIgnoreProperties("role")
     private Employee mentor;
 
     private final SkyrimRole role = STUDENT;

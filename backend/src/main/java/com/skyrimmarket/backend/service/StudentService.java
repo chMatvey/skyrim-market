@@ -33,6 +33,10 @@ public class StudentService {
         return studentRepository.findById(id).orElseThrow(() -> new BadRequestException(format("Student user not found by id: %d", id)));
     }
 
+    public List<Student> findAll() {
+        return studentRepository.findAll();
+    }
+
     public Student setMentor(Long studentId, Long employeeId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new  NotFoundException(format("Student with id %d does not exist", studentId)));

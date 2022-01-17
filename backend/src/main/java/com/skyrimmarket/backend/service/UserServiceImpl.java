@@ -50,7 +50,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         else {
             throw new NotFoundException(String.format("Mentor with id %d is not present", mentorId));
         }
-        return userRepository.save(student);
+        log.info("Saving new user {} to database", student.getUsername());
+        student.setPassword(passwordEncoder.encode(student.getPassword()));
+        return userRepository.saveAndFlush(student);
     }
 
     @Override

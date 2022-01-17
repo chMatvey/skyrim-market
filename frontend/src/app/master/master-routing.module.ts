@@ -6,6 +6,7 @@ import { OrdersForMasterComponent } from '@app/master/orders-for-master/orders-f
 import { EmployeesForMasterComponent } from '@app/master/employees-for-master/employees-for-master.component';
 import { WelcomeComponent } from '@app/shared/welcome/welcome.component';
 import {StudentsForMasterComponent} from "@app/master/students-for-master/students-for-master.component";
+import {CreateEmployeeComponent} from "@app/master/create-employee/create-employee.component";
 
 const routes: Routes = [
   {
@@ -44,6 +45,10 @@ const routes: Routes = [
       {
         path: 'student/:id',
         component: ConfirmOrderComponent
+      },
+      {
+        path: 'employees/create',
+        component: CreateEmployeeComponent
       }
     ]
   },
