@@ -1,6 +1,5 @@
 <div class="students-for-master" [class.loading]="loading">
-  <app-student-list [students]="students"
-                  (open)="openStudent($event)"></app-student-list>
+  <app-student-list [students]="students"></app-student-list>
 
   <div *ngIf="students?.length === 0" class="students-for-master__no-students">No active students</div>
 </div>

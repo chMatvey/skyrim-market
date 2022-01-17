@@ -3,7 +3,6 @@ import {Student} from '@models/employee/student';
 import {withLoading} from '@utils/loading-util';
 import {MasterEmployeeService} from '@services/employee/master-employee.service'
 import {Store} from '@ngxs/store'
-import {Navigate} from '@ngxs/router-plugin'
 
 @Component({
   selector: 'app-students-for-master',
@@ -15,8 +14,7 @@ export class StudentsForMasterComponent implements OnInit {
 
   loading: boolean
 
-  constructor(private employeeService: MasterEmployeeService,
-              private store: Store) {
+  constructor(private employeeService: MasterEmployeeService) {
   }
 
   get noStudents(): boolean {
@@ -30,9 +28,5 @@ export class StudentsForMasterComponent implements OnInit {
         students => this.students = students,
         error => console.log(error)
       )
-  }
-
-  openStudent(id: number) {
-    this.store.dispatch(new Navigate([`/user/student/${id}`]))
   }
 }

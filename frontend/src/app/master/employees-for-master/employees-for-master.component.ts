@@ -15,8 +15,7 @@ export class EmployeesForMasterComponent implements OnInit {
 
   loading: boolean
 
-  constructor(private employeeService: MasterEmployeeService,
-              private store: Store) {
+  constructor(private employeeService: MasterEmployeeService) {
   }
 
   get noEmployees(): boolean {
@@ -30,9 +29,5 @@ export class EmployeesForMasterComponent implements OnInit {
         employees => this.employees = employees,
         error => console.log(error)
       )
-  }
-
-  openEmployee(id: number) {
-    this.store.dispatch(new Navigate([`/user/employee/${id}`]))
   }
 }

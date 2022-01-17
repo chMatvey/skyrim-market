@@ -1,6 +1,5 @@
 <div class="employees-for-master" [class.loading]="loading">
-  <app-employee-list [employees]="employees"
-                  (open)="openEmployee($event)"></app-employee-list>
+  <app-employee-list [employees]="employees"></app-employee-list>
 
   <div *ngIf="employees?.length === 0" class="employees-for-master__no-employees">No active employees</div>
 </div>

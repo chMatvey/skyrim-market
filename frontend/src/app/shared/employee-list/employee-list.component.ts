@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Employee } from '@models/employee/employee';
+import {Component, Input} from '@angular/core';
+import {Employee} from '@models/employee/employee';
 
 @Component({
   selector: 'app-employee-list',
@@ -11,13 +11,7 @@ export class EmployeeListComponent {
   @Input()
   employees: Employee[]
 
-  @Output()
-  open = new EventEmitter<number>()
-
   employeeUsername(employee: Employee): string {
     return employee.username
-  }
-  openEmployee(id: number): void {
-    this.open.emit(id)
   }
 }

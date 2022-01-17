@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Student } from '@models/employee/student';
 
 @Component({
@@ -11,14 +11,7 @@ export class StudentListComponent {
   @Input()
   students: Student[]
 
-  @Output()
-  open = new EventEmitter<number>()
-
   studentUsername(student: Student): string {
     return student.username
-  }
-
-  openStudent(id: number): void {
-    this.open.emit(id)
   }
 }
