@@ -19,10 +19,6 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @DiscriminatorValue("ROLE_STUDENT")
 public class Student extends Employee {
-    @JsonIgnore
-    @OneToMany(cascade = ALL, mappedBy = "contractor", fetch = LAZY)
-    private Set<Order> tasks;
-
     @ManyToOne
     @JsonIgnoreProperties("role")
     private Employee mentor;
