@@ -1,25 +1,25 @@
-import {Component, OnInit} from "@angular/core";
-import {BaseComponent} from "@app/shared/base/base.component";
-import {Employee} from "@models/employee/employee";
-import {FormGroup} from "@angular/forms";
-import {Dropdown} from "@models/template/dropdown";
-import {ActivatedRoute} from "@angular/router";
-import {Store} from "@ngxs/store";
-import {MatDialog} from "@angular/material/dialog";
-import {MasterEmployeeService} from "@services/employee/master-employee.service";
-import { tap, withLatestFrom} from "rxjs/operators";
-import {withLoading} from "@utils/loading-util";
-import {showError, showNotification} from "@utils/notification-util";
-import {toMessage} from "@utils/http-util";
-import {Navigate} from "@ngxs/router-plugin";
-import {MasterState} from "@state/master/master.state";
-import {EmployeeTypeString} from "@models/employee-type-string";
-import {getEmployeeTypes} from "@utils/employee-type-util";
-import {createEmployeeCreateForm} from "@utils/employee-util";
-import {Master} from "@state/master/master.actions";
+import { Component, OnInit } from "@angular/core";
+import { BaseComponent } from "@app/shared/base/base.component";
+import { Employee } from "@models/employee/employee";
+import { FormGroup } from "@angular/forms";
+import { Dropdown } from "@models/template/dropdown";
+import { ActivatedRoute } from "@angular/router";
+import { Store } from "@ngxs/store";
+import { MatDialog } from "@angular/material/dialog";
+import { MasterEmployeeService } from "@services/employee/master-employee.service";
+import { tap, withLatestFrom } from "rxjs/operators";
+import { withLoading } from "@utils/loading-util";
+import { showError, showNotification } from "@utils/notification-util";
+import { toMessage } from "@utils/http-util";
+import { Navigate } from "@ngxs/router-plugin";
+import { MasterState } from "@state/master/master.state";
+import { EmployeeTypeString } from "@models/employee-type-string";
+import { getEmployeeTypes } from "@utils/employee-type-util";
+import { createEmployeeCreateForm } from "@utils/employee-util";
+import { Master } from "@state/master/master.actions";
 import SetEmployeeType = Master.SetEmployeeType;
-import {StudentForm} from "@models/employee/student-form";
-import {UserRole} from "@models/user-role";
+import { StudentForm } from "@models/employee/student-form";
+import { UserRole } from "@models/user-role";
 
 @Component({
   selector: 'app-create-employee',
@@ -60,13 +60,12 @@ export class CreateEmployeeComponent extends BaseComponent implements OnInit {
     let employee;
 
     if (this.employeeType == "STUDENT") {
-      employee =  this.employeeForm.value as StudentForm
+      employee = this.employeeForm.value as StudentForm
       employee.role = UserRole.STUDENT
       employee.mentorId = this.employeeForm.value.mentor.id
       employee.isStudent = true
-    }
-    else {
-      employee =  this.employeeForm.value as Employee
+    } else {
+      employee = this.employeeForm.value as Employee
       employee.isStudent = false
     }
 
@@ -89,8 +88,7 @@ export class CreateEmployeeComponent extends BaseComponent implements OnInit {
   get mentorInvalid(): boolean {
     if (this.employeeType == "STUDENT") {
       return this.employeeForm.get('mentor').invalid
-    }
-    else {
+    } else {
       return false
     }
   }
@@ -103,6 +101,6 @@ export class CreateEmployeeComponent extends BaseComponent implements OnInit {
     this.employeeType = value
     this.store.dispatch(new SetEmployeeType(value))
       .pipe(withLatestFrom(this.store.select(MasterState.employee)))
-      .subscribe(([,employee]) => this.employeeForm = createEmployeeCreateForm())
+      .subscribe(([, employee]) => this.employeeForm = createEmployeeCreateForm())
   }
 }

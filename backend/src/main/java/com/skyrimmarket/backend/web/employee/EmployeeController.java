@@ -34,13 +34,8 @@ public class EmployeeController {
     @PostMapping("/employee")
     public ResponseEntity<SkyrimUser> createEmployee(@RequestBody EmployeeForm employee) {
         URI uri = URI.create(fromCurrentContextPath().path("/api/user/employee").toUriString());
-        if (employee.getIsStudent()) {
-            Student user = (Student) userService.createStudent(Student.builder().username(employee.getUsername()).password(employee.getPassword()).role(SkyrimRole.STUDENT).build(), employee.getMentorId());
-            return created(uri).body(toView(user));
-        } else {
-            Employee user = (Employee) userService.create(Employee.builder().username(employee.getUsername()).password(employee.getPassword()).role(SkyrimRole.EMPLOYEE).build());
-            return created(uri).body(toView(user));
-        }
+        SkyrimUser user = userService.createEmployee(employee);
+        return created(uri).body(toView(user));
     }
 
     @PreAuthorize("hasRole('ROLE_MASTER')")

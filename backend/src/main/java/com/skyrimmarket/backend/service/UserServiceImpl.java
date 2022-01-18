@@ -7,6 +7,7 @@ import com.skyrimmarket.backend.model.user.Student;
 import com.skyrimmarket.backend.repository.UserRepository;
 import com.skyrimmarket.backend.web.error.NotFoundException;
 import com.skyrimmarket.backend.web.error.UsernameAlreadyExist;
+import com.skyrimmarket.backend.web.form.EmployeeForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +21,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.skyrimmarket.backend.util.UserUtil.toUserDetails;
+import static com.skyrimmarket.backend.util.UserUtil.toView;
 import static java.lang.String.format;
+import static org.springframework.http.ResponseEntity.created;
 
 @Service
 @Transactional
@@ -41,18 +44,23 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Student createStudent(Student student, Long mentorId) {
-        SkyrimUser mentor = userRepository.findById(mentorId)
-                .orElseThrow(() -> new NotFoundException(String.format("Mentor with id %d is not present", mentorId)));
-        if (mentor instanceof Employee) {
-            student.setMentor((Employee) mentor);
+    public SkyrimUser createEmployee(EmployeeForm employeeForm) {
+        Employee user = Employee.builder().username(employeeForm.getUsername()).password(employeeForm.getPassword()).role(SkyrimRole.EMPLOYEE).build();
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+            throw new UsernameAlreadyExist(user.getUsername());
         }
-        else {
-            throw new NotFoundException(String.format("Mentor with id %d is not present", mentorId));
+        if (employeeForm.getIsStudent()) {
+            SkyrimUser mentor = userRepository.findById(employeeForm.getMentorId())
+                    .orElseThrow(() -> new NotFoundException(String.format("Mentor with id %d is not present", employeeForm.getMentorId())));
+            if (mentor instanceof Employee) {
+                user = Student.builder().username(employeeForm.getUsername()).password(employeeForm.getPassword()).role(SkyrimRole.STUDENT).mentor((Employee) mentor).build();
+            } else {
+                throw new NotFoundException(String.format("Mentor with id %d is not present", employeeForm.getMentorId()));
+            }
         }
-        log.info("Saving new user {} to database", student.getUsername());
-        student.setPassword(passwordEncoder.encode(student.getPassword()));
-        return userRepository.saveAndFlush(student);
+        log.info("Saving new user {} to database", user.getUsername());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.saveAndFlush(user);
     }
 
     @Override

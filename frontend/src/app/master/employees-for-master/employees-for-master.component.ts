@@ -1,9 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {Employee} from '@models/employee/employee';
-import {withLoading} from '@utils/loading-util';
-import {MasterEmployeeService} from '@services/employee/master-employee.service'
-import {Store} from '@ngxs/store'
-import {Navigate} from '@ngxs/router-plugin'
+import { Component, OnInit } from '@angular/core';
+import { Employee } from '@models/employee/employee';
+import { withLoading } from '@utils/loading-util';
+import { MasterEmployeeService } from '@services/employee/master-employee.service'
 
 @Component({
   selector: 'app-employees-for-master',

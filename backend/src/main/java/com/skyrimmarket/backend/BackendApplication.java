@@ -77,7 +77,7 @@ public class BackendApplication {
         return args -> {
             String masterUsername = "master";
             String employeeUsername = "employee";
-			String studentUsername = "student";
+            String studentUsername = "student";
             String clientUsername = "client";
 
             if (isEmpty(userService.findByUsername(masterUsername))) {
@@ -89,9 +89,9 @@ public class BackendApplication {
             if (isEmpty(userService.findByUsername(clientUsername))) {
                 userService.create(new Client(clientUsername, clientUsername));
             }
-			if (isEmpty(userService.findByUsername(studentUsername))) {
-				userService.create(new Student(studentUsername, studentUsername));
-			}
+            if (isEmpty(userService.findByUsername(studentUsername))) {
+                userService.create(new Student(studentUsername, studentUsername));
+            }
 
             List<Item> items = itemService.loadItemsIfNotExistAndReturnAll();
             List<Title> titles = titleService.loadTitlesIfNotExistAndReturnAll();

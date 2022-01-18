@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static java.lang.String.format;
-import static org.springframework.util.ObjectUtils.isEmpty;
 
 @Service
 @Transactional

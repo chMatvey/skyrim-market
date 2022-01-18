@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { OrderService } from '@services/order.service';
@@ -11,8 +11,8 @@ import { Store } from '@ngxs/store'
 import { Navigate } from '@ngxs/router-plugin'
 import { showError, showNotification } from '@utils/notification-util'
 import { toMessage } from '@utils/http-util'
-import {Student} from "@models/employee/student";
-import {EmployeeStudentService} from "@services/employee/employee-student.service";
+import { Student } from "@models/employee/student";
+import { EmployeeStudentService } from "@services/employee/employee-student.service";
 
 @Component({
   selector: 'app-available-order',
