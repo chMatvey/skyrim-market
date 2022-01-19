@@ -16,7 +16,6 @@ import java.util.List;
 import static java.lang.String.format;
 
 @Service
-@Transactional
 @Slf4j
 @RequiredArgsConstructor
 public class StudentService {
