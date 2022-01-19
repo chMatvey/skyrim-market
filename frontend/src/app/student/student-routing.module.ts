@@ -5,7 +5,7 @@ import { MyOrderComponent } from "@app/student/my-order/my-order.component";
 import { WelcomeComponent } from '@app/shared/welcome/welcome.component';
 import { CompletedOrdersComponent } from '@app/student/completed-orders/completed-orders.component'
 import { CompletedOrderComponent } from '@app/student/completed-order/completed-order.component'
-import {StudentComponent} from "@app/student/student.component";
+import { StudentComponent } from "@app/student/student.component";
 
 const routes: Routes = [
   {

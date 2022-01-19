@@ -8,7 +8,7 @@ import { AppState } from '@state/app.state'
 import { EmployeeState } from '@state/employee/employee.state';
 import { CompletedOrdersComponent } from './completed-orders/completed-orders.component';
 import { CompletedOrderComponent } from './completed-order/completed-order.component'
-import {StudentComponent} from "@app/student/student.component";
+import { StudentComponent } from "@app/student/student.component";
 
 @NgModule({
   declarations: [
@@ -24,4 +24,5 @@ import {StudentComponent} from "@app/student/student.component";
     NgxsModule.forFeature([AppState, EmployeeState])
   ]
 })
-export class StudentModule { }
+export class StudentModule {
+}

@@ -19,9 +19,8 @@ import { ForgeryOrderInfoComponent } from './order-info/forgery-order-info/forge
 import { PickpocketingOrderInfoComponent } from './order-info/pickpocketing-order-info/pickpocketing-order-info.component';
 import { SweepOrderInfoComponent } from './order-info/sweep-order-info/sweep-order-info.component';
 import { OrderTypePipe } from './order-type/order-type.pipe';
-import {EmployeeComponent} from "@app/employee/employee.component";
-import {EmployeeListComponent} from "@app/shared/employee-list/employee-list.component";
-import {StudentListComponent} from "@app/shared/student-list/student-list.component";
+import { EmployeeListComponent } from "@app/shared/employee-list/employee-list.component";
+import { StudentListComponent } from "@app/shared/student-list/student-list.component";
 
 @NgModule({
   declarations: [
@@ -68,4 +67,5 @@ import {StudentListComponent} from "@app/shared/student-list/student-list.compon
     MaterialModule
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+}

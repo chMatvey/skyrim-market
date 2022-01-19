@@ -78,11 +78,7 @@ export class AvailableOrderComponent implements OnInit {
       )
   }
 
-  onStudentAssignedChange(value: Student) {
-    this.assignedStudent = value
-  }
-
   get studentInvalid(): boolean {
-    return this.assignedStudent == null
+    return this.assignedStudent === null
   }
 }

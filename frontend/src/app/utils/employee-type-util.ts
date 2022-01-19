@@ -1,5 +1,5 @@
-import {Dropdown} from "@models/template/dropdown";
-import {EmployeeTypeString} from "@models/employee-type-string";
+import { Dropdown } from "@models/template/dropdown";
+import { EmployeeTypeString } from "@models/employee-type-string";
 
 export function getEmployeeTypes(): Dropdown<EmployeeTypeString>[] {
   return [

@@ -1,7 +1,7 @@
 import { Order } from '@models/order/order'
 import { OrderStatusEnum } from '@models/order-status-enum'
-import {UserRole} from "@models/user-role";
-import {User} from "@models/user";
+import { UserRole } from "@models/user-role";
+import { User } from "@models/user";
 
 export type StatusFilter = OrderStatusEnum | 'ALL'
 

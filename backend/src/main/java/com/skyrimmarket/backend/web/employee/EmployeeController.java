@@ -24,13 +24,13 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 
 @RestController
 @RequestMapping("/api/user")
+@PreAuthorize("hasRole('ROLE_MASTER')")
 @RequiredArgsConstructor
 public class EmployeeController {
     private final UserService userService;
     private final EmployeeService employeeService;
     private final StudentService studentService;
 
-    @PreAuthorize("hasAuthority('ROLE_MASTER')")
     @PostMapping("/employee")
     public ResponseEntity<SkyrimUser> createEmployee(@RequestBody EmployeeForm employee) {
         URI uri = URI.create(fromCurrentContextPath().path("/api/user/employee").toUriString());
@@ -38,31 +38,26 @@ public class EmployeeController {
         return created(uri).body(toView(user));
     }
 
-    @PreAuthorize("hasRole('ROLE_MASTER')")
     @GetMapping("/student/mentor/{studentId}/{mentorId}")
     public ResponseEntity<Student> setMentor(@PathVariable Long studentId, @PathVariable Long mentorId) {
         return ok(studentService.setMentor(studentId, mentorId));
     }
 
-    @PreAuthorize("hasRole('ROLE_MASTER')")
     @GetMapping("/employee")
     public ResponseEntity<List<SkyrimUser>> getEmployees() {
         return ok(userService.findAllByRole(SkyrimRole.EMPLOYEE));
     }
 
-    @PreAuthorize("hasRole('ROLE_MASTER')")
     @GetMapping("/employee/{id}")
     public ResponseEntity<Employee> findEmployeeById(@PathVariable Long id) {
         return ok(employeeService.findById(id));
     }
 
-    @PreAuthorize("hasRole('ROLE_MASTER')")
     @GetMapping("/student/{id}")
     public ResponseEntity<Student> findStudentById(@PathVariable Long id) {
         return ok(studentService.findById(id));
     }
 
-    @PreAuthorize("hasRole('ROLE_MASTER')")
     @GetMapping("/student")
     public ResponseEntity<List<Student>> getStudents() {
         return ok(studentService.findAll());

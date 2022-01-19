@@ -9,7 +9,6 @@
       <div class="student">
         <label>Student: </label>
         <mat-select formControlName="assigned-student"
-                    (valueChange)="onStudentAssignedChange($event)"
                     [ngModel]="assignedStudent"
                     [disabled]="loading">
           <mat-option *ngFor="let student of students" [value]="student">

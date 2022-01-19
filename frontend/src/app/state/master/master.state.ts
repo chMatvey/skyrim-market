@@ -1,13 +1,8 @@
 import { Injectable } from '@angular/core'
-import {Action, Selector, State, StateContext} from '@ngxs/store'
-import {MasterEmployeeService} from "@services/employee/master-employee.service";
-import {Order} from "@models/order/order";
-import {ClientStateModel} from "@state/client/client.state";
-import {Employee} from "@models/employee/employee";
-import {Master} from "@state/master/master.actions";
+import { Action, Selector, State, StateContext } from '@ngxs/store'
+import { Employee } from "@models/employee/employee";
+import { Master } from "@state/master/master.actions";
 import SetEmployeeType = Master.SetEmployeeType;
-import {OrderTypeString} from "@models/order-type-string";
-import {EmployeeTypeString} from "@models/employee-type-string";
 
 export interface MasterStateModel<T extends Employee = Employee> {
   employee: T

@@ -1,5 +1,5 @@
-import {UserRole} from '@models/user-role';
-import {Toolbar} from '@models/template/toolbar';
+import { UserRole } from '@models/user-role';
+import { Toolbar } from '@models/template/toolbar';
 
 export function getToolbarStateByUserRole(role: UserRole): Toolbar {
   switch (role) {
