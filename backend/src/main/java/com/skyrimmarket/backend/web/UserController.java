@@ -1,9 +1,10 @@
 package com.skyrimmarket.backend.web;
 
-import com.skyrimmarket.backend.model.user.Client;
-import com.skyrimmarket.backend.model.user.Employee;
-import com.skyrimmarket.backend.model.user.SkyrimUser;
+
+import com.skyrimmarket.backend.model.user.*;
+import com.skyrimmarket.backend.service.StudentService;
 import com.skyrimmarket.backend.service.UserService;
+import com.skyrimmarket.backend.web.form.EmployeeForm;
 import com.skyrimmarket.backend.web.form.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
+import java.util.List;
 
 import static com.skyrimmarket.backend.util.ErrorUtil.addErrorBodyToResponse;
 import static com.skyrimmarket.backend.util.SecurityUtil.*;
@@ -22,6 +24,7 @@ import static com.skyrimmarket.backend.util.UserUtil.toUserDetails;
 import static com.skyrimmarket.backend.util.UserUtil.toView;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.ResponseEntity.created;
+import static org.springframework.http.ResponseEntity.ok;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentContextPath;
 
 @RestController
@@ -29,19 +32,12 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final StudentService studentService;
 
     @PostMapping("/client")
     public ResponseEntity<SkyrimUser> createClient(@RequestBody Client client) {
         URI uri = URI.create(fromCurrentContextPath().path("/api/user/client").toUriString());
         Client user = (Client) userService.create(client);
-        return created(uri).body(toView(user));
-    }
-
-    @PreAuthorize("hasAuthority('ROLE_MASTER')")
-    @PostMapping("/employee")
-    public ResponseEntity<SkyrimUser> createEmployee(@RequestBody Employee employee) {
-        URI uri = URI.create(fromCurrentContextPath().path("/api/user/employee").toUriString());
-        Employee user = (Employee) userService.create(employee);
         return created(uri).body(toView(user));
     }
 

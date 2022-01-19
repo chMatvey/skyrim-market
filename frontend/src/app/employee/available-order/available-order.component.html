@@ -5,6 +5,17 @@
     <div class="available-order__control actions">
       <button (click)="close()">Close</button>
       <button class="assign" (click)="assignToMe()">Assign to me</button>
+      <button class="assign-student" [disabled]="studentInvalid" (click)="assignToStudent()">Assign to student</button>
+      <div class="student">
+        <label>Student: </label>
+        <mat-select formControlName="assigned-student"
+                    [ngModel]="assignedStudent"
+                    [disabled]="loading">
+          <mat-option *ngFor="let student of students" [value]="student">
+            {{student.username}}
+          </mat-option>
+        </mat-select>
+      </div>
     </div>
   </ng-container>
 </div>

@@ -1,9 +1,13 @@
 package com.skyrimmarket.backend.service.order;
 
+
 import com.skyrimmarket.backend.model.order.Order;
+import com.skyrimmarket.backend.model.user.Student;
+import com.skyrimmarket.backend.model.order.OrderStatusEnum;
 import com.skyrimmarket.backend.model.user.Employee;
 import com.skyrimmarket.backend.repository.OrderRepository;
 import com.skyrimmarket.backend.service.OrderService;
+import com.skyrimmarket.backend.service.StudentService;
 import com.skyrimmarket.backend.service.OrderStatusService;
 import com.skyrimmarket.backend.web.error.BadRequestException;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +37,10 @@ public class EmployeeOrderService implements OrderService {
         return orderRepository.findAllByStatusName(PAYED.getName());
     }
 
+    private Order findOrderByIdAndValidate(Long id) {
+        return orderRepository.findById(id).orElseThrow(() -> notFoundException(id));
+    }
+
     @Transactional
     public Order assignToMe(Long orderId, Employee employee) {
         Order order = orderService.findById(orderId).orElseThrow(() -> notFoundException(orderId));
@@ -42,6 +50,17 @@ public class EmployeeOrderService implements OrderService {
         order.setContractor(employee);
         order.setStatus(orderStatusService.get(IN_PROGRESS));
 
+        return orderRepository.save(order);
+    }
+
+    @Transactional
+    public Order assignToStudent(Long id, Student student) {
+        Order order = findOrderByIdAndValidate(id);
+        if (order.getContractor() != null) {
+            throw new BadRequestException("Order already taken to work by other contractor");
+        }
+        order.setContractor(student);
+        order.setStatus(orderStatusService.get(IN_PROGRESS));
         return orderRepository.save(order);
     }
 

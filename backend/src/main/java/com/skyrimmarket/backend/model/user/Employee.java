@@ -2,10 +2,7 @@ package com.skyrimmarket.backend.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.skyrimmarket.backend.model.order.Order;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -18,6 +15,7 @@ import static javax.persistence.FetchType.LAZY;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 @Entity
 @DiscriminatorValue("ROLE_EMPLOYEE")

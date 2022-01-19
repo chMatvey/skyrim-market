@@ -9,6 +9,8 @@ export function getUrlByUserRole(role: UserRole): string {
       return 'employee'
     case UserRole.MASTER:
       return 'master'
+    case UserRole.STUDENT:
+      return 'student'
     default:
       throw new Error('Unknown Role')
   }

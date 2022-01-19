@@ -1,0 +1,6 @@
+@import "src/app/styles/mixins";
+
+.students-for-master {
+  @include card();
+  @include employee-list();
+}

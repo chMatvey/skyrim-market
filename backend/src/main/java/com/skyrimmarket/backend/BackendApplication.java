@@ -9,6 +9,7 @@ import com.skyrimmarket.backend.model.Title;
 import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.Employee;
 import com.skyrimmarket.backend.model.user.Master;
+import com.skyrimmarket.backend.model.user.Student;
 import com.skyrimmarket.backend.service.ItemService;
 import com.skyrimmarket.backend.service.OrderStatusService;
 import com.skyrimmarket.backend.service.TitleService;
@@ -76,6 +77,7 @@ public class BackendApplication {
         return args -> {
             String masterUsername = "master";
             String employeeUsername = "employee";
+            String studentUsername = "student";
             String clientUsername = "client";
 
             if (isEmpty(userService.findByUsername(masterUsername))) {
@@ -86,6 +88,9 @@ public class BackendApplication {
             }
             if (isEmpty(userService.findByUsername(clientUsername))) {
                 userService.create(new Client(clientUsername, clientUsername));
+            }
+            if (isEmpty(userService.findByUsername(studentUsername))) {
+                userService.create(new Student(studentUsername, studentUsername));
             }
 
             List<Item> items = itemService.loadItemsIfNotExistAndReturnAll();
