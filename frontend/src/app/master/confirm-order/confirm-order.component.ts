@@ -69,7 +69,7 @@ export class ConfirmOrderComponent extends FormComponent implements OnInit {
   comment(): void {
     const request$ = this.masterOrderService.comment(this.order.id, this.orderForm.value)
     this.sendForm(request$, 'Order successfully commented!')
-      .subscribe(({id}) => this.store.dispatch(new Navigate([`/master/order/${id}`])))
+      .subscribe(({id}) => this.store.dispatch(new Navigate([`/master/orders`])))
   }
 
   approve(): void {
