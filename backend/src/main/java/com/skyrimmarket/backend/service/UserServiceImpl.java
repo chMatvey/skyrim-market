@@ -1,12 +1,11 @@
 package com.skyrimmarket.backend.service;
 
-import com.skyrimmarket.backend.model.user.Employee;
-import com.skyrimmarket.backend.model.user.SkyrimRole;
-import com.skyrimmarket.backend.model.user.SkyrimUser;
-import com.skyrimmarket.backend.model.user.Student;
+import com.skyrimmarket.backend.model.user.*;
 import com.skyrimmarket.backend.repository.UserRepository;
+import com.skyrimmarket.backend.web.error.BadRequestException;
 import com.skyrimmarket.backend.web.error.NotFoundException;
 import com.skyrimmarket.backend.web.error.UsernameAlreadyExist;
+import com.skyrimmarket.backend.web.form.ClientRegistrationForm;
 import com.skyrimmarket.backend.web.form.EmployeeForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.skyrimmarket.backend.util.UserUtil.toUserDetails;
-import static com.skyrimmarket.backend.util.UserUtil.toView;
 import static java.lang.String.format;
-import static org.springframework.http.ResponseEntity.created;
 
 @Service
 @Transactional
@@ -49,7 +46,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             throw new UsernameAlreadyExist(user.getUsername());
         }
-        if (employeeForm.getIsStudent()) {
+        if (employeeForm.getIsStudent() && employeeForm.getMentorId() != null) {
             SkyrimUser mentor = userRepository.findById(employeeForm.getMentorId())
                     .orElseThrow(() -> new NotFoundException(String.format("Mentor with id %d is not present", employeeForm.getMentorId())));
             if (mentor instanceof Employee) {
@@ -61,6 +58,26 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         log.info("Saving new user {} to database", user.getUsername());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public Client registerClient(ClientRegistrationForm form) {
+        if (userRepository.findByUsername(form.getUsername()).isPresent()) {
+            throw new UsernameAlreadyExist(form.getUsername());
+        }
+
+        if (!form.getPassword().equals(form.getConfirmPassword())) {
+            throw new BadRequestException("Passwords mismatch");
+        }
+
+        Client client = Client.builder()
+                .username(form.getUsername())
+                .password(form.getPassword())
+                .build();
+
+        log.info("Saving new user {} to database", client.getUsername());
+        client.setPassword(passwordEncoder.encode(client.getPassword()));
+        return userRepository.save(client);
     }
 
     @Override

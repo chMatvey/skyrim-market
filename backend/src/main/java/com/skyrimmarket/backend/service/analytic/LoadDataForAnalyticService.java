@@ -25,7 +25,7 @@ import static java.lang.String.format;
 @Service
 @RequiredArgsConstructor
 public class LoadDataForAnalyticService {
-    private final static int ORDER_COUNT = 500;
+    private final static int ORDER_COUNT = 100;
 
     private final OrderRepository orderRepository;
 
