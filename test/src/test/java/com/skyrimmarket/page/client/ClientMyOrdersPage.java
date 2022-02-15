@@ -1,10 +1,9 @@
-package com.skyrimmarket.test.page.client;
+package com.skyrimmarket.page.client;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 import java.util.concurrent.TimeUnit;
 
@@ -27,6 +26,11 @@ public class ClientMyOrdersPage extends ClientMainPage{
     public WebElement getOrder(int position){
         return driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-client/div/app-orders/div/div[2]/div["
                 + position + "]/div/span[1]"));
+    }
+
+    public int getOrderId(int position){
+        String el = getOrder(position).getText().split(" ")[1];
+        return Integer.parseInt(el);
     }
 
     public ClientMyOrdersPage(ChromeDriver driver){

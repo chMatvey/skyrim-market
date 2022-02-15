@@ -1,4 +1,4 @@
-package com.skyrimmarket.test.page;
+package com.skyrimmarket.page;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -17,6 +17,12 @@ public class LoginPage {
 
     @FindBy(xpath = "/html/body/app-root/div/div[2]/app-login/div/form/div[3]/div/a")
     public  WebElement registerButton;
+
+    @FindBy(xpath = "/html/body/div/div[2]/div/mat-dialog-container/app-error-popup/div/p")
+    public WebElement errorPopup;
+
+    @FindBy(xpath = "/html/body/div/div[2]/div/mat-dialog-container/app-error-popup/div/app-close-popup/div/img")
+    public WebElement closeErrorPopup;
 
     public LoginPage(ChromeDriver driver){
         PageFactory.initElements(driver, this);

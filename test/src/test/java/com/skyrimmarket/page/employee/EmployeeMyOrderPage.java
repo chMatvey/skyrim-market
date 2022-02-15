@@ -1,12 +1,8 @@
-package com.skyrimmarket.test.page.employee;
+package com.skyrimmarket.page.employee;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-
-import java.util.concurrent.TimeUnit;
 
 public class EmployeeMyOrderPage extends EmployeeMainPage{
 
