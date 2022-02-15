@@ -1,4 +1,4 @@
-package com.skyrimmarket.backend.web.employee;
+package com.skyrimmarket.backend.web;
 
 
 import com.skyrimmarket.backend.model.user.*;

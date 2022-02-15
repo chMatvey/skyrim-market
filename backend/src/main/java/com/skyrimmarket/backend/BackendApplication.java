@@ -19,6 +19,7 @@ import com.skyrimmarket.backend.service.notification.FakeNotificationService;
 import com.skyrimmarket.backend.service.notification.FirebaseNotificationService;
 import com.skyrimmarket.backend.service.notification.NotificationService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -42,6 +43,12 @@ public class BackendApplication {
         SpringApplication.run(BackendApplication.class, args);
     }
 
+    @Value("${enable-firebase}")
+    Boolean enableFirebase;
+
+    @Value("${enable-analytic}")
+    Boolean enableAnalytic;
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -52,7 +59,7 @@ public class BackendApplication {
         Optional<InputStream> firebaseJsonConfigStreamOptional =
                 ofNullable(getClass().getClassLoader().getResourceAsStream("serviceAccountKey.json"));
 
-        if (firebaseJsonConfigStreamOptional.isPresent()) {
+        if (enableFirebase && firebaseJsonConfigStreamOptional.isPresent()) {
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(firebaseJsonConfigStreamOptional.get()))
                     .build();
@@ -94,21 +101,23 @@ public class BackendApplication {
                 userService.create(Student.builder().username(studentUsername).password(studentUsername).mentor(employee).build());
             }
 
-            List<Item> items = itemService.loadItemsIfNotExistAndReturnAll();
-            List<Title> titles = titleService.loadTitlesIfNotExistAndReturnAll();
-            List<OrderStatus> orderStatuses = orderStatusService.loadItemsIfNotExistAndReturnAll();
+            if (enableAnalytic) {
+                List<Item> items = itemService.loadItemsIfNotExistAndReturnAll();
+                List<Title> titles = titleService.loadTitlesIfNotExistAndReturnAll();
+                List<OrderStatus> orderStatuses = orderStatusService.loadItemsIfNotExistAndReturnAll();
 
-            String analyticClientUsername = "test-analytic";
-            String analyticEmployeeUsername = "test-employee";
-            String analyticUserPassword = "test";
+                String analyticClientUsername = "test-analytic";
+                String analyticEmployeeUsername = "test-employee";
+                String analyticUserPassword = "test";
 
-            Client analyticClient = (Client) userService.findByUsername(analyticClientUsername)
-                    .orElseGet(() -> userService.create(new Client(analyticClientUsername, analyticUserPassword)));
+                Client analyticClient = (Client) userService.findByUsername(analyticClientUsername)
+                        .orElseGet(() -> userService.create(new Client(analyticClientUsername, analyticUserPassword)));
 
-            Employee analyticContractor = (Employee) userService.findByUsername(analyticEmployeeUsername)
-                    .orElseGet(() -> userService.create(new Employee(analyticEmployeeUsername, analyticUserPassword)));
+                Employee analyticContractor = (Employee) userService.findByUsername(analyticEmployeeUsername)
+                        .orElseGet(() -> userService.create(new Employee(analyticEmployeeUsername, analyticUserPassword)));
 
-            loadDataForAnalyticService.loadData(analyticClient, analyticContractor, items, titles, orderStatuses);
+                loadDataForAnalyticService.loadData(analyticClient, analyticContractor, items, titles, orderStatuses);
+            }
         };
     }
 }

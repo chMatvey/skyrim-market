@@ -1,9 +1,12 @@
+enable-firebase: true
+enable-analytic: true
+
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${SKYRIM_DB_URL}
-    username: ${SKYRIM_DB_USERNAME}
-    password: ${SKYRIM_DB_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: password
 
   jpa:
     database: postgresql
@@ -13,4 +16,4 @@ spring:
       dialect: PostgreSQLDialect
       format_sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop
