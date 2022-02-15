@@ -50,9 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors();
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().antMatchers("/**").permitAll();
-        http.authorizeRequests().antMatchers( "/api**").authenticated();
-        http.authorizeRequests().antMatchers(POST, "/api/login/**").permitAll();
+        http.authorizeRequests().antMatchers(GET, "/").permitAll();
+        http.authorizeRequests().antMatchers(POST, "/api/login").permitAll();
         http.authorizeRequests().antMatchers(POST, "/api/user/client").permitAll();
         http.authorizeRequests().antMatchers(GET, "/api/user/token/refresh").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
@@ -73,8 +72,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.addAllowedOrigin("http://localhost:4200");
-        config.addAllowedOrigin("http://localhost:8080");
-        config.addAllowedOrigin("http://localhost");
         config.addAllowedOrigin("https://skyrim-market.herokuapp.com");
         config.addAllowedHeader("*");
         config.addExposedHeader(AUTHORIZATION);
