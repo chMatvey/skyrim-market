@@ -1,16 +1,16 @@
 <div class="create-employee" [class.loading]="loading">
-  <form class="create-employee__form" [formGroup]="employeeForm" [class.loading]="loading">
-    <div class="create-employee__select-service form-control">
-      <label>Select type of employee</label>
-      <mat-select (valueChange)="onEmployeeTypeChange($event)"
-                  [ngModel]="employeeType"
-                  [disabled]="loading">
-        <mat-option *ngFor="let type of employeeTypes" [value]="type.value">
-          {{type.name}}
-        </mat-option>
-      </mat-select>
-    </div>
+  <div class="create-employee__select-service form-control">
+    <label>Select type of employee</label>
+    <mat-select (valueChange)="onEmployeeTypeChange($event)"
+                [ngModel]="employeeType"
+                [disabled]="loading">
+      <mat-option *ngFor="let type of employeeTypes" [value]="type.value">
+        {{type.name}}
+      </mat-option>
+    </mat-select>
+  </div>
 
+  <form class="create-employee__form" [formGroup]="employeeForm" [class.loading]="loading">
     <div class="form-control">
       <label for="username">Username</label>
 
