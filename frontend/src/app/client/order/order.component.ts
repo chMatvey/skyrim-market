@@ -23,6 +23,7 @@ import { Title } from '@models/title'
 import { Item } from '@models/Item'
 import { OrderService } from '@services/order.service'
 import { getOrderTypes } from '@utils/order-type-util'
+import { ClientOrderService } from '@services/order/client-order.service'
 import Reset = Client.Reset
 import SetOrderType = Client.SetOrderType
 import DeclineOrder = Client.DeclineOrder
@@ -33,7 +34,6 @@ import APPROVED = OrderStatusEnum.APPROVED
 import COMPLETED = OrderStatusEnum.COMPLETED
 import NEED_CHANGES = OrderStatusEnum.NEED_CHANGES
 import DECLINED = OrderStatusEnum.DECLINED
-import { ClientOrderService } from '@services/order/client-order.service'
 
 @Component({
   selector: 'app-order',
@@ -172,9 +172,7 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
 
   onCancel() {
     this.store.dispatch(new Reset())
-    if (this.orderStatus) {
-      this.store.dispatch(new Navigate(['/client/orders']))
-    }
+    this.store.dispatch(new Navigate(['/client/orders']))
   }
 
   onDelete() {

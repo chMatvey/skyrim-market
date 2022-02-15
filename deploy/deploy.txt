@@ -1,0 +1,27 @@
+1. Собрать фронт, подложить ресурсы в resources/static бэкенда ng build
+2. Собрать бэк командой mvn package
+3. Скопировать jar на гелиос, в папке с jar:
+
+scp -P 2222 {jar file name} {helios user s**}@se.ifmo.ru:/home/{helios user s**}/{project directory}
+
+4. Прокинуть порт: 
+
+ssh -L 9999:localhost:8080 {helios user s**}@se.ifmo.ru -p 2222
+
+5. Подключиться к гелиосу, дальше команды в нем.
+
+ssh {helios user s**}@se.ifmo.ru -p 2222
+{helios password}
+
+6. Задать переменные в терминале:
+
+export SKYRIM_DB_PASSWORD="{helios password}"
+export SKYRIM_DB_USERNAME="{helios user s**}"
+export SKYRIM_DB_URL="jdbc:postgresql://pg/studs?currentSchema={helios user s**}"
+
+7. Запустить приложение, в папке с jar:
+
+java -jar {jar file name}
+
+8. Зайти в приложение с локального компа - localhost:9999/
+

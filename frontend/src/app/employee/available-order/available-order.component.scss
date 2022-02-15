@@ -24,6 +24,7 @@
 
       .student {
         width: 200px;
+        margin-bottom: 0;
       }
 
       button {
@@ -32,6 +33,10 @@
 
         &.assign {
           width: 120px;
+        }
+
+        &.assign-student {
+          width: 160px;
         }
       }
     }

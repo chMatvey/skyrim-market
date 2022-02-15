@@ -6,10 +6,7 @@ import com.google.firebase.FirebaseOptions;
 import com.skyrimmarket.backend.model.Item;
 import com.skyrimmarket.backend.model.OrderStatus;
 import com.skyrimmarket.backend.model.Title;
-import com.skyrimmarket.backend.model.user.Client;
-import com.skyrimmarket.backend.model.user.Employee;
-import com.skyrimmarket.backend.model.user.Master;
-import com.skyrimmarket.backend.model.user.Student;
+import com.skyrimmarket.backend.model.user.*;
 import com.skyrimmarket.backend.service.ItemService;
 import com.skyrimmarket.backend.service.OrderStatusService;
 import com.skyrimmarket.backend.service.TitleService;
@@ -19,6 +16,7 @@ import com.skyrimmarket.backend.service.notification.FakeNotificationService;
 import com.skyrimmarket.backend.service.notification.FirebaseNotificationService;
 import com.skyrimmarket.backend.service.notification.NotificationService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -42,6 +40,12 @@ public class BackendApplication {
         SpringApplication.run(BackendApplication.class, args);
     }
 
+    @Value("${enable-firebase}")
+    Boolean enableFirebase;
+
+    @Value("${load-analytic-data}")
+    Boolean loadAnalyticData;
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -52,17 +56,22 @@ public class BackendApplication {
         Optional<InputStream> firebaseJsonConfigStreamOptional =
                 ofNullable(getClass().getClassLoader().getResourceAsStream("serviceAccountKey.json"));
 
-        if (firebaseJsonConfigStreamOptional.isPresent()) {
-            FirebaseOptions options = FirebaseOptions.builder()
-                    .setCredentials(GoogleCredentials.fromStream(firebaseJsonConfigStreamOptional.get()))
-                    .build();
+        if (enableFirebase) {
+            if (firebaseJsonConfigStreamOptional.isPresent()) {
+                FirebaseOptions options = FirebaseOptions.builder()
+                        .setCredentials(GoogleCredentials.fromStream(firebaseJsonConfigStreamOptional.get()))
+                        .build();
 
-            FirebaseApp.initializeApp(options);
-            log.info("Firebase successfully initialized");
+                FirebaseApp.initializeApp(options);
+                log.info("Firebase successfully initialized");
 
-            return new FirebaseNotificationService();
+                return new FirebaseNotificationService();
+            } else {
+                log.error("Cannot find Firebase config json.");
+                throw new RuntimeException("Cannot initialize Firebase.");
+            }
         } else {
-            log.warn("Cannot find Firebase config json. Used Fake Notification Service.");
+            log.warn("Skipped Firebase. Using Fake Notification Service.");
 
             return new FakeNotificationService();
         }
@@ -77,37 +86,38 @@ public class BackendApplication {
         return args -> {
             String masterUsername = "master";
             String employeeUsername = "employee";
-            String studentUsername = "student";
             String clientUsername = "client";
+            String studentUsername = "student";
 
             if (isEmpty(userService.findByUsername(masterUsername))) {
                 userService.create(new Master(masterUsername, masterUsername));
             }
-            if (isEmpty(userService.findByUsername(employeeUsername))) {
-                userService.create(new Employee(employeeUsername, employeeUsername));
-            }
+            Employee employee = (Employee) userService.findByUsername(employeeUsername)
+                    .orElseGet(() -> userService.create(new Employee(employeeUsername, employeeUsername)));
             if (isEmpty(userService.findByUsername(clientUsername))) {
                 userService.create(new Client(clientUsername, clientUsername));
             }
             if (isEmpty(userService.findByUsername(studentUsername))) {
-                userService.create(new Student(studentUsername, studentUsername));
+                userService.create(Student.builder().username(studentUsername).password(studentUsername).mentor(employee).build());
             }
 
             List<Item> items = itemService.loadItemsIfNotExistAndReturnAll();
             List<Title> titles = titleService.loadTitlesIfNotExistAndReturnAll();
             List<OrderStatus> orderStatuses = orderStatusService.loadItemsIfNotExistAndReturnAll();
 
-            String analyticClientUsername = "test-analytic";
-            String analyticEmployeeUsername = "test-employee";
-            String analyticUserPassword = "test";
+            if (loadAnalyticData) {
+                String analyticClientUsername = "test-analytic";
+                String analyticEmployeeUsername = "test-employee";
+                String analyticUserPassword = "test";
 
-            Client analyticClient = (Client) userService.findByUsername(analyticClientUsername)
-                    .orElseGet(() -> userService.create(new Client(analyticClientUsername, analyticUserPassword)));
+                Client analyticClient = (Client) userService.findByUsername(analyticClientUsername)
+                        .orElseGet(() -> userService.create(new Client(analyticClientUsername, analyticUserPassword)));
 
-            Employee analyticContractor = (Employee) userService.findByUsername(analyticEmployeeUsername)
-                    .orElseGet(() -> userService.create(new Employee(analyticEmployeeUsername, analyticUserPassword)));
+                Employee analyticContractor = (Employee) userService.findByUsername(analyticEmployeeUsername)
+                        .orElseGet(() -> userService.create(new Employee(analyticEmployeeUsername, analyticUserPassword)));
 
-            loadDataForAnalyticService.loadData(analyticClient, analyticContractor, items, titles, orderStatuses);
+                loadDataForAnalyticService.loadData(analyticClient, analyticContractor, items, titles, orderStatuses);
+            }
         };
     }
 }
