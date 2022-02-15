@@ -4,6 +4,7 @@ import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.Employee;
 import com.skyrimmarket.backend.model.user.SkyrimUser;
 import com.skyrimmarket.backend.service.UserService;
+import com.skyrimmarket.backend.web.form.ClientRegistrationForm;
 import com.skyrimmarket.backend.web.form.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +32,9 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/client")
-    public ResponseEntity<SkyrimUser> createClient(@RequestBody Client client) {
+    public ResponseEntity<SkyrimUser> registerClient(@RequestBody ClientRegistrationForm form) {
         URI uri = URI.create(fromCurrentContextPath().path("/api/user/client").toUriString());
-        Client user = (Client) userService.create(client);
+        Client user = userService.registerClient(form);
         return created(uri).body(toView(user));
     }
 

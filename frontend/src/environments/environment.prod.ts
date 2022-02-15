@@ -2,6 +2,6 @@ import { firebaseConfig } from './firebase-config'
 
 export const environment = {
   production: true,
-  server: 'https://skyrim-market-api.herokuapp.com',
+  server: 'http://localhost:8080',
   firebaseConfig
 };

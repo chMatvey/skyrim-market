@@ -1,8 +1,11 @@
 package com.skyrimmarket.backend.service;
 
+import com.skyrimmarket.backend.model.user.Client;
 import com.skyrimmarket.backend.model.user.SkyrimUser;
 import com.skyrimmarket.backend.repository.UserRepository;
+import com.skyrimmarket.backend.web.error.BadRequestException;
 import com.skyrimmarket.backend.web.error.UsernameAlreadyExist;
+import com.skyrimmarket.backend.web.form.ClientRegistrationForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,6 +36,26 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         log.info("Saving new user {} to database", user.getUsername());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public Client registerClient(ClientRegistrationForm form) {
+        if (userRepository.findByUsername(form.getUsername()).isPresent()) {
+            throw new UsernameAlreadyExist(form.getUsername());
+        }
+
+        if (!form.getPassword().equals(form.getConfirmPassword())) {
+            throw new BadRequestException("Passwords mismatch");
+        }
+
+        Client client = Client.builder()
+                .username(form.getUsername())
+                .password(form.getPassword())
+                .build();
+
+        log.info("Saving new user {} to database", client.getUsername());
+        client.setPassword(passwordEncoder.encode(client.getPassword()));
+        return userRepository.save(client);
     }
 
     @Override
