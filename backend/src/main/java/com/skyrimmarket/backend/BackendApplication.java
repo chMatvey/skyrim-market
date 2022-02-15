@@ -46,8 +46,8 @@ public class BackendApplication {
     @Value("${enable-firebase}")
     Boolean enableFirebase;
 
-    @Value("${enable-analytic}")
-    Boolean enableAnalytic;
+    @Value("${load-analytic-data}")
+    Boolean loadAnalyticData;
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -59,17 +59,22 @@ public class BackendApplication {
         Optional<InputStream> firebaseJsonConfigStreamOptional =
                 ofNullable(getClass().getClassLoader().getResourceAsStream("serviceAccountKey.json"));
 
-        if (enableFirebase && firebaseJsonConfigStreamOptional.isPresent()) {
-            FirebaseOptions options = FirebaseOptions.builder()
-                    .setCredentials(GoogleCredentials.fromStream(firebaseJsonConfigStreamOptional.get()))
-                    .build();
+        if (enableFirebase) {
+            if (firebaseJsonConfigStreamOptional.isPresent()) {
+                FirebaseOptions options = FirebaseOptions.builder()
+                        .setCredentials(GoogleCredentials.fromStream(firebaseJsonConfigStreamOptional.get()))
+                        .build();
 
-            FirebaseApp.initializeApp(options);
-            log.info("Firebase successfully initialized");
+                FirebaseApp.initializeApp(options);
+                log.info("Firebase successfully initialized");
 
-            return new FirebaseNotificationService();
+                return new FirebaseNotificationService();
+            } else {
+                log.error("Cannot find Firebase config json.");
+                throw new RuntimeException("Cannot initialize Firebase.");
+            }
         } else {
-            log.warn("Cannot find Firebase config json. Used Fake Notification Service.");
+            log.warn("Skipped Firebase. Using Fake Notification Service.");
 
             return new FakeNotificationService();
         }
@@ -84,9 +89,12 @@ public class BackendApplication {
         return args -> {
             String masterUsername = "master";
             String employeeUsername = "employee";
-            String studentUsername = "student";
             String clientUsername = "client";
+
             Employee employee = new Employee(employeeUsername, employeeUsername);
+
+            String studentUsername = "student";
+
 
             if (isEmpty(userService.findByUsername(masterUsername))) {
                 userService.create(new Master(masterUsername, masterUsername));
@@ -101,11 +109,11 @@ public class BackendApplication {
                 userService.create(Student.builder().username(studentUsername).password(studentUsername).mentor(employee).build());
             }
 
-            if (enableAnalytic) {
-                List<Item> items = itemService.loadItemsIfNotExistAndReturnAll();
-                List<Title> titles = titleService.loadTitlesIfNotExistAndReturnAll();
-                List<OrderStatus> orderStatuses = orderStatusService.loadItemsIfNotExistAndReturnAll();
+            List<Item> items = itemService.loadItemsIfNotExistAndReturnAll();
+            List<Title> titles = titleService.loadTitlesIfNotExistAndReturnAll();
+            List<OrderStatus> orderStatuses = orderStatusService.loadItemsIfNotExistAndReturnAll();
 
+            if (loadAnalyticData) {
                 String analyticClientUsername = "test-analytic";
                 String analyticEmployeeUsername = "test-employee";
                 String analyticUserPassword = "test";

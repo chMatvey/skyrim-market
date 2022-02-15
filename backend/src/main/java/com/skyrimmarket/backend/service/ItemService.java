@@ -2,14 +2,13 @@ package com.skyrimmarket.backend.service;
 
 import com.skyrimmarket.backend.model.Item;
 import com.skyrimmarket.backend.repository.ItemRepository;
+import com.skyrimmarket.backend.util.DataUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,9 +29,7 @@ public class ItemService {
         List<Item> allItems = itemRepository.findAll();
 
         if (allItems.isEmpty()) {
-            List<Item> items = Arrays.stream(new String[]{"Iron Sword", "Iron Axe", "Dragon Sword", "Elven Bow", "Ebony Dagger"})
-                    .map(Item::new)
-                    .collect(Collectors.toList());
+            List<Item> items = DataUtil.items;
             return itemRepository.saveAllAndFlush(items);
         } else {
             return allItems;
