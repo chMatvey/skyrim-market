@@ -6,10 +6,9 @@
       <button (click)="close()">Close</button>
       <button class="assign" (click)="assignToMe()">Assign to me</button>
       <button class="assign-student"  [disabled]="studentInvalid" (click)="assignToStudent()">Assign to student</button>
-      <div class="student">
+      <div class="student form-control">
         <label>Student: </label>
-        <mat-select formControlName="assigned-student"
-                    [(value)]="assignedStudent"
+        <mat-select [(value)]="assignedStudent"
                     [disabled]="loading">
           <mat-option *ngFor="let student of students" [value]="student">
             {{student.username}}

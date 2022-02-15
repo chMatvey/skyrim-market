@@ -1,6 +1,6 @@
 <div class="create-employee" [class.loading]="loading">
-  <div class="create-employee__form">
-    <div class="create-employee__select-service form-control" [class.disabled]="loading">
+  <form class="create-employee__form" [formGroup]="employeeForm" [class.loading]="loading">
+    <div class="create-employee__select-service form-control">
       <label>Select type of employee</label>
       <mat-select (valueChange)="onEmployeeTypeChange($event)"
                   [ngModel]="employeeType"
@@ -11,48 +11,46 @@
       </mat-select>
     </div>
 
-    <form class="employee-form" [formGroup]="employeeForm" [class.loading]="loading">
-      <div class="form-control">
-        <label for="username">Username</label>
+    <div class="form-control">
+      <label for="username">Username</label>
 
-        <input id="username" type="text" formControlName="username">
-      </div>
+      <input id="username" type="text" formControlName="username">
+    </div>
 
-      <div class="form-control">
-        <label for="password">Password</label>
+    <div class="form-control">
+      <label for="password">Password</label>
 
-        <input id="password" type="password" autocomplete formControlName="password">
-      </div>
+      <input id="password" type="password" autocomplete formControlName="password">
+    </div>
 
-      <div class="form-control">
-        <label for="confirmPassword">Confirm Password</label>
+    <div class="form-control">
+      <label for="confirmPassword">Confirm Password</label>
 
-        <input id="confirmPassword" type="password" autocomplete formControlName="confirmPassword">
+      <input id="confirmPassword" type="password" autocomplete formControlName="confirmPassword">
+    </div>
 
-      </div>
+    <ng-container [ngSwitch]="employeeType">
+      <ng-template ngSwitchCase="STUDENT">
+        <div class="form-control">
+          <label>Mentor</label>
+          <mat-select formControlName="mentor">
+            <mat-option *ngFor="let employee of employees" [value]="employee">
+              {{employee.username}}
+            </mat-option>
+          </mat-select>
+        </div>
+      </ng-template>
+      <ng-template ngSwitchCase="EMPLOYEE">
+      </ng-template>
+    </ng-container>
 
-        <ng-container [ngSwitch]="employeeType">
-          <ng-template ngSwitchCase="STUDENT">
-            <div class="form-control">
-              <label>Mentor</label>
-              <mat-select formControlName="mentor">
-                <mat-option *ngFor="let employee of employees" [value]="employee">
-                  {{employee.username}}
-                </mat-option>
-              </mat-select>
-            </div>
-          </ng-template>
-          <ng-template ngSwitchCase="EMPLOYEE">
-          </ng-template>
-        </ng-container>
+    <div class="create-employee__actions">
 
-      <div class="create-employee__form__footer">
+      <button class="cancel" (click)="close()">Close</button>
 
-        <button class="cancel" (click)="close()">Close</button>
-
-        <button class="create" [disabled]="mentorInvalid || usernameInvalid"
-                (click)="create()">Create</button>
-      </div>
-    </form>
-  </div>
+      <button class="create" [disabled]="employeeForm.invalid || loading"
+              (click)="create()">Create
+      </button>
+    </div>
+  </form>
 </div>

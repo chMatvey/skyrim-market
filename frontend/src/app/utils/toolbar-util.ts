@@ -59,19 +59,19 @@ export function getToolbarStateByUserRole(role: UserRole): Toolbar {
           },
           {
             name: 'Analytic',
-            ref: 'analytic'
+            ref: '/master/analytic'
           },
           {
             name: 'Employees',
-            ref: 'employees'
+            ref: '/master/employees'
           },
           {
             name: 'Students',
-            ref: 'students'
+            ref: '/master/students'
           },
           {
             name: 'Create employee',
-            ref: 'employees/create'
+            ref: '/master/employees/create'
           }
         ]
       }

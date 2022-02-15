@@ -7,7 +7,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { MatDialog } from "@angular/material/dialog";
 import { MasterEmployeeService } from "@services/employee/master-employee.service";
-import { tap, withLatestFrom } from "rxjs/operators";
+import { withLatestFrom } from "rxjs/operators";
 import { withLoading } from "@utils/loading-util";
 import { showError, showNotification } from "@utils/notification-util";
 import { toMessage } from "@utils/http-util";
@@ -15,11 +15,11 @@ import { Navigate } from "@ngxs/router-plugin";
 import { MasterState } from "@state/master/master.state";
 import { EmployeeTypeString } from "@models/employee-type-string";
 import { getEmployeeTypes } from "@utils/employee-type-util";
-import { createEmployeeCreateForm } from "@utils/employee-util";
+import { employeeCreateForm } from "@utils/employee-util";
 import { Master } from "@state/master/master.actions";
-import SetEmployeeType = Master.SetEmployeeType;
 import { StudentForm } from "@models/employee/student-form";
 import { UserRole } from "@models/user-role";
+import SetEmployeeType = Master.SetEmployeeType
 
 @Component({
   selector: 'app-create-employee',
@@ -33,7 +33,7 @@ export class CreateEmployeeComponent extends BaseComponent implements OnInit {
   employees: Employee[] = []
 
   employeeTypes: Dropdown<EmployeeTypeString>[] = getEmployeeTypes()
-  employeeType: EmployeeTypeString = null
+  employeeType: EmployeeTypeString = 'EMPLOYEE'
 
   loading: boolean
   compareEntity: any;
@@ -46,7 +46,7 @@ export class CreateEmployeeComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.employeeForm = createEmployeeCreateForm()
+    this.employeeForm = employeeCreateForm(this.employeeType)
 
     this.employeeService.getEmployees().subscribe(employees => this.employees = employees)
   }
@@ -56,9 +56,7 @@ export class CreateEmployeeComponent extends BaseComponent implements OnInit {
   }
 
   create() {
-
-    let employee;
-
+    let employee
     if (this.employeeType == "STUDENT") {
       employee = this.employeeForm.value as StudentForm
       employee.role = UserRole.STUDENT
@@ -76,31 +74,21 @@ export class CreateEmployeeComponent extends BaseComponent implements OnInit {
 
     this.employeeService.createEmployee(employee)
       .pipe(
-        withLoading(this),
-        tap(() => showNotification(this.dialogService, 'Employee successfully created!'))
+        withLoading(this)
       )
       .subscribe(
-        () => this.store.dispatch(new Navigate(['/master'])),
+        () => {
+          showNotification(this.dialogService, 'Employee successfully created!')
+          this.store.dispatch(new Navigate(['/master']))
+        },
         error => showError(this.dialogService, toMessage(error))
       )
-  }
-
-  get mentorInvalid(): boolean {
-    if (this.employeeType == "STUDENT") {
-      return this.employeeForm.get('mentor').invalid
-    } else {
-      return false
-    }
-  }
-
-  get usernameInvalid(): boolean {
-    return this.employeeForm.get('username').invalid
   }
 
   onEmployeeTypeChange(value: EmployeeTypeString) {
     this.employeeType = value
     this.store.dispatch(new SetEmployeeType(value))
       .pipe(withLatestFrom(this.store.select(MasterState.employee)))
-      .subscribe(([, employee]) => this.employeeForm = createEmployeeCreateForm())
+      .subscribe(() => this.employeeForm = employeeCreateForm(value))
   }
 }

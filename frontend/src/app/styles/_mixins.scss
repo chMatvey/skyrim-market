@@ -4,6 +4,17 @@
   background: rgba(43, 43, 43, .7);
   border-radius: 10px;
   z-index: 1;
+
+  &__form {
+    height: 100%;
+  }
+
+  &__actions {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
 }
 
 @mixin order-list {

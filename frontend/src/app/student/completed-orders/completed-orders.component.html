@@ -6,5 +6,5 @@
   <app-order-list [orders]="orders"
                   (open)="openOrder($event)"></app-order-list>
 
-  <div *ngIf="orders?.length === 0" class="available-orders__no-orders">No completed orders</div>
+  <div *ngIf="orders?.length === 0" class="completed-orders__no-orders">No completed orders</div>
 </div>

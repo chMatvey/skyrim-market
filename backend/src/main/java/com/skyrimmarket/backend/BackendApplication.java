@@ -6,10 +6,7 @@ import com.google.firebase.FirebaseOptions;
 import com.skyrimmarket.backend.model.Item;
 import com.skyrimmarket.backend.model.OrderStatus;
 import com.skyrimmarket.backend.model.Title;
-import com.skyrimmarket.backend.model.user.Client;
-import com.skyrimmarket.backend.model.user.Employee;
-import com.skyrimmarket.backend.model.user.Master;
-import com.skyrimmarket.backend.model.user.Student;
+import com.skyrimmarket.backend.model.user.*;
 import com.skyrimmarket.backend.service.ItemService;
 import com.skyrimmarket.backend.service.OrderStatusService;
 import com.skyrimmarket.backend.service.TitleService;
@@ -90,18 +87,13 @@ public class BackendApplication {
             String masterUsername = "master";
             String employeeUsername = "employee";
             String clientUsername = "client";
-
-            Employee employee = new Employee(employeeUsername, employeeUsername);
-
             String studentUsername = "student";
-
 
             if (isEmpty(userService.findByUsername(masterUsername))) {
                 userService.create(new Master(masterUsername, masterUsername));
             }
-            if (isEmpty(userService.findByUsername(employeeUsername))) {
-                userService.create(employee);
-            }
+            Employee employee = (Employee) userService.findByUsername(employeeUsername)
+                    .orElseGet(() -> userService.create(new Employee(employeeUsername, employeeUsername)));
             if (isEmpty(userService.findByUsername(clientUsername))) {
                 userService.create(new Client(clientUsername, clientUsername));
             }
