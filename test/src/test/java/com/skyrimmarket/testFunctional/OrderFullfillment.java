@@ -1,39 +1,34 @@
-package com.skyrimmarket.test;
+package com.skyrimmarket.testFunctional;
 
-import com.skyrimmarket.test.page.LoginPage;
-import com.skyrimmarket.test.page.client.ClientMainPage;
-import com.skyrimmarket.test.page.client.ClientMakeOrderPage;
-import com.skyrimmarket.test.page.client.ClientMyOrdersPage;
-import com.skyrimmarket.test.page.client.ClientPayOrderPage;
-import com.skyrimmarket.test.page.employee.EmployeeAvailableOrderPage;
-import com.skyrimmarket.test.page.employee.EmployeeMyOrderPage;
-import com.skyrimmarket.test.page.employee.EmployeeOrdersPage;
-import com.skyrimmarket.test.page.master.MasterOrderPage;
-import com.skyrimmarket.test.page.master.MasterOrdersPage;
-import net.jodah.failsafe.internal.util.Assert;
-import org.checkerframework.checker.units.qual.C;
+import com.skyrimmarket.page.LoginPage;
+import com.skyrimmarket.page.client.ClientMainPage;
+import com.skyrimmarket.page.client.ClientMakeOrderPage;
+import com.skyrimmarket.page.client.ClientMyOrdersPage;
+import com.skyrimmarket.page.client.ClientPayOrderPage;
+import com.skyrimmarket.page.employee.EmployeeAvailableOrderPage;
+import com.skyrimmarket.page.employee.EmployeeMyOrderPage;
+import com.skyrimmarket.page.employee.EmployeeOrdersPage;
+import com.skyrimmarket.page.master.MasterOrderPage;
+import com.skyrimmarket.page.master.MasterOrdersPage;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.util.concurrent.TimeUnit;
-import java.awt.*;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class OrderFullfillment {
-    ChromeDriver driver;
+    ChromeDriver driver = null;
 
     @BeforeEach
     void setUp() {
@@ -41,10 +36,15 @@ public class OrderFullfillment {
         prefs.put("profile.default_content_setting_values.notifications", 1);
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("prefs", prefs);
-        System.setProperty("webdriver.chrome.driver","C:\\chromedriver\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\chromedriver\\chromedriver.exe");
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        driver.get("https://skyrim-market.herokuapp.com");
+        driver.get("http://localhost:4200/");
+    }
+
+    @AfterEach
+    void driverDown(){
+        driver.close();
     }
 
     void login(ChromeDriver driver, String username, String password){
@@ -79,13 +79,16 @@ public class OrderFullfillment {
 
     @Test
     void createOrder() throws InterruptedException {
-        int order_type_id = 1;                                      // 1: Pickpocketing, 2: Sweep, 3: Forgery
+        int order_type_id = 3;                                      // 1: Pickpocketing, 2: Sweep, 3: Forgery
         login(driver, "client", "client");
         ClientMainPage clientMainPage = new ClientMainPage(driver);
+        TimeUnit.MILLISECONDS.sleep(500);
+        clientMainPage.closePopup.click();
+        TimeUnit.MILLISECONDS.sleep(500);
         clientMainPage.makeOrderButton.click();
         ClientMakeOrderPage clientMakeOrderPage = new ClientMakeOrderPage(driver);
         clientMakeOrderPage.selectServiceButton.click();
-        TimeUnit.MILLISECONDS.sleep(200);
+        TimeUnit.MILLISECONDS.sleep(500);
         clientMakeOrderPage.selectOrderType(order_type_id).click();
         switch (order_type_id){
             case 1:
@@ -162,6 +165,9 @@ public class OrderFullfillment {
     void clientChangeOrder() throws  InterruptedException{
         login(driver, "client", "client");
         ClientMyOrdersPage clientMyOrdersPage = new ClientMyOrdersPage(driver);
+        TimeUnit.MILLISECONDS.sleep(500);
+        ClientMyOrdersPage.closePopup.click();
+        TimeUnit.MILLISECONDS.sleep(500);
         clientMyOrdersPage.myOrdersButton.click();
         clientMyOrdersPage.chooseFilter(5);
         clientMyOrdersPage.singleOrder.click();
@@ -229,6 +235,9 @@ public class OrderFullfillment {
     void clientPayOrder() throws  InterruptedException{
         login(driver, "client", "client");
         ClientMyOrdersPage clientMyOrdersPage = new ClientMyOrdersPage(driver);
+        TimeUnit.MILLISECONDS.sleep(500);
+        ClientMyOrdersPage.closePopup.click();
+        TimeUnit.MILLISECONDS.sleep(500);
         clientMyOrdersPage.myOrdersButton.click();
         clientMyOrdersPage.chooseFilter(4);
         clientMyOrdersPage.singleOrder.click();
