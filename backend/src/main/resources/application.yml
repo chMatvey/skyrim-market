@@ -1,5 +1,5 @@
 enable-firebase: true
-load-analytic-data: true
+load-analytic-data: false
 
 spring:
   datasource:
@@ -16,7 +16,7 @@ spring:
       dialect: PostgreSQLDialect
       format_sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
 
 server:
   port: 8080
