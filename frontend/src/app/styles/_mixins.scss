@@ -21,6 +21,21 @@
   }
 }
 
+@mixin employee-list {
+  width: 1059px;
+  height: 730px;
+  padding: 46px 76px;
+
+  &__no-employees {
+    width: 100%;
+    height: 100%;
+    padding-top: 200px;
+    display: flex;
+    justify-content: center;
+    font-size: 24px;
+  }
+}
+
 @mixin header() {
   display: flex;
   justify-content: center;

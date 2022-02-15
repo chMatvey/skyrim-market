@@ -7,6 +7,8 @@ import com.skyrimmarket.backend.model.Title;
 import com.skyrimmarket.backend.model.order.OrderStatusEnum;
 import com.skyrimmarket.backend.model.order.SweepOrder;
 import com.skyrimmarket.backend.model.user.Client;
+import com.skyrimmarket.backend.model.user.Employee;
+import com.skyrimmarket.backend.model.user.Student;
 import com.skyrimmarket.backend.repository.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class JpaIntegrationTest {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    StudentRepository studentRepository;
 
     @Autowired
     TitleRepository titleRepository;
@@ -62,5 +67,25 @@ public class JpaIntegrationTest {
         SweepOrder foundOrder = (SweepOrder) orderRepository.findById(savedOrder.getId()).orElseThrow(EntityNotFoundException::new);
 
         assertEquals(savedOrder, foundOrder);
+    }
+
+    @Test
+    void saveAndFoundStudentWithMentor() {
+        Employee mentor = userRepository.save(Employee.builder().username("Conor").password("qwerty").build());
+        Student student = userRepository.save(Student.builder().username("Alexa").password("qwerty").mentor(mentor).build());
+
+        Student savedStudent = userRepository.save(student);
+        Student foundStudent = studentRepository.findAllByMentorUsername(mentor.getUsername()).get(0);
+        assertEquals(savedStudent, foundStudent);
+    }
+
+    @Test
+    void saveAndFoundStudentWithoutMentor() {
+        Student student = userRepository.save(Student.builder().username("Sigizmund").password("qwerty").build());
+
+        Student savedStudent = userRepository.save(student);
+        Student foundStudents = (Student) userRepository.findByUsername(savedStudent.getUsername()).orElseThrow(EntityNotFoundException::new);
+
+        assertEquals(savedStudent, foundStudents);
     }
 }

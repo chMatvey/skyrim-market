@@ -1,3 +1,6 @@
+enable-firebase: true
+enable-analytic: true
+
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver

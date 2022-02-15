@@ -35,6 +35,20 @@ export function getToolbarStateByUserRole(role: UserRole): Toolbar {
           }
         ]
       }
+    case UserRole.STUDENT:
+      return {
+        logoRef: '/student',
+        links: [
+          {
+            name: 'My Orders',
+            ref: 'my-orders'
+          },
+          {
+            name: 'Completed Orders',
+            ref: 'completed-orders'
+          }
+        ]
+      }
     case UserRole.MASTER:
       return {
         logoRef: '/master',
@@ -46,6 +60,18 @@ export function getToolbarStateByUserRole(role: UserRole): Toolbar {
           {
             name: 'Analytic',
             ref: 'analytic'
+          },
+          {
+            name: 'Employees',
+            ref: 'employees'
+          },
+          {
+            name: 'Students',
+            ref: 'students'
+          },
+          {
+            name: 'Create employee',
+            ref: 'employees/create'
           }
         ]
       }

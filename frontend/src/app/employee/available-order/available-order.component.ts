@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { OrderService } from '@services/order.service';
@@ -11,6 +11,8 @@ import { Store } from '@ngxs/store'
 import { Navigate } from '@ngxs/router-plugin'
 import { showError, showNotification } from '@utils/notification-util'
 import { toMessage } from '@utils/http-util'
+import { Student } from "@models/employee/student";
+import { EmployeeStudentService } from "@services/employee/employee-student.service";
 
 @Component({
   selector: 'app-available-order',
@@ -20,12 +22,16 @@ import { toMessage } from '@utils/http-util'
 export class AvailableOrderComponent implements OnInit {
   order$: Observable<Order>
   private order: Order
+  assignedStudent: Student = null
 
   loading = true
+
+  students: Student[] = []
 
   constructor(private activateRoute: ActivatedRoute,
               private store: Store,
               private orderService: OrderService,
+              private studentService: EmployeeStudentService,
               private employeeOrderService: EmployeeOrderService,
               private dialogService: MatDialog) {
   }
@@ -38,6 +44,8 @@ export class AvailableOrderComponent implements OnInit {
         switchMap(id => this.orderService.get(id).pipe(withLoading(this))),
         tap(order => this.order = order)
       )
+
+    this.studentService.getStudents().subscribe(students => this.students = students)
   }
 
   close() {
@@ -55,5 +63,22 @@ export class AvailableOrderComponent implements OnInit {
         id => this.store.dispatch(new Navigate([`/employee/my-order/${id}`])),
         error => showError(this.dialogService, toMessage(error))
       )
+  }
+
+  assignToStudent() {
+    this.employeeOrderService.assignToStudent(this.order.id, this.assignedStudent.id)
+      .pipe(
+        withLoading(this),
+        map(order => order.id),
+        tap(() => showNotification(this.dialogService, 'Order assigned to student!'))
+      )
+      .subscribe(
+        id => this.store.dispatch(new Navigate([`/employee/my-orders`])),
+        error => showError(this.dialogService, toMessage(error))
+      )
+  }
+
+  get studentInvalid(): boolean {
+    return this.assignedStudent === null
   }
 }

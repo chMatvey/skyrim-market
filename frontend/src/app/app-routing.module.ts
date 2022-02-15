@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ClientGuard } from '@guards/client.guard';
 import { MasterGuard } from '@guards/master.guard'
 import { EmployeeGuard } from '@guards/employee.guard'
+import {StudentGuard} from "@guards/student";
 
 const routes: Routes = [
   {
@@ -24,6 +25,14 @@ const routes: Routes = [
     ,
     canLoad: [EmployeeGuard],
     canActivate: [EmployeeGuard]
+  },
+  {
+    path: 'student',
+    loadChildren: () => import('./student/student.module')
+      .then(module => module.StudentModule)
+    ,
+    canLoad: [StudentGuard],
+    canActivate: [StudentGuard]
   },
   {
     path: 'master',

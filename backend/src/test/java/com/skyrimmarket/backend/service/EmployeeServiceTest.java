@@ -3,6 +3,7 @@ package com.skyrimmarket.backend.service;
 import com.skyrimmarket.backend.model.user.Employee;
 import com.skyrimmarket.backend.repository.EmployeeRepository;
 import com.skyrimmarket.backend.web.error.BadRequestException;
+import com.skyrimmarket.backend.web.error.NotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,7 +42,7 @@ class EmployeeServiceTest {
         String username = "User";
         Employee employee = new Employee();
         when(employeeRepository.findByUsername(username)).thenReturn(Optional.empty());
-        assertThrows(BadRequestException.class, () -> employeeService.findByUsername(username));
+        assertThrows(NotFoundException.class, () -> employeeService.findByUsername(username));
     }
 
 }

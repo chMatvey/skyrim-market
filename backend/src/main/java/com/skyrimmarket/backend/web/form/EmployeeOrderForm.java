@@ -1,5 +1,6 @@
 package com.skyrimmarket.backend.web.form;
 
+import com.skyrimmarket.backend.model.user.Student;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -8,4 +9,5 @@ import lombok.RequiredArgsConstructor;
 public class EmployeeOrderForm {
     private final String comment;
     private final String droppoint;
+    private final Student contractor;
 }
