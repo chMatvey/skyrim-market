@@ -1,4 +1,4 @@
-package com.skyrimmarket.test.page;
+package com.skyrimmarket.page;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;

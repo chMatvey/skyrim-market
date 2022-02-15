@@ -1,6 +1,5 @@
-package com.skyrimmarket.test.page.master;
+package com.skyrimmarket.page.master;
 
-import com.skyrimmarket.test.page.master.MasterMainPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;

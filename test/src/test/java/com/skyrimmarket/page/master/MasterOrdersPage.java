@@ -1,12 +1,9 @@
-package com.skyrimmarket.test.page.master;
+package com.skyrimmarket.page.master;
 
-        import com.fasterxml.jackson.databind.JsonSerializer;
-        import com.skyrimmarket.test.page.master.MasterMainPage;
         import org.openqa.selenium.By;
         import org.openqa.selenium.WebElement;
         import org.openqa.selenium.chrome.ChromeDriver;
         import org.openqa.selenium.support.FindBy;
-        import org.openqa.selenium.support.PageFactory;
 
 public class MasterOrdersPage extends MasterMainPage {
 
@@ -41,10 +38,10 @@ public class MasterOrdersPage extends MasterMainPage {
         int num = driver.findElements(By.xpath("//div[@class=\"order-list__order form-control ng-star-inserted\"]")).size();
         if (num >= 2) {
             return driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-master/div/app-orders-for-master/div/app-order-list/div/div["
-                    + position + "]/div/div"));
+                    + position + "]/div/span[1]"));
         }
         else{
-            return driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-master/div/app-orders-for-master/div/app-order-list/div/div/div"));
+            return driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-master/div/app-orders-for-master/div/app-order-list/div/div/div/span[1]"));
         }
     }
 
