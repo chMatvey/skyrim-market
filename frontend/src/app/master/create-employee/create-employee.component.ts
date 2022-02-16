@@ -68,7 +68,7 @@ export class CreateEmployeeComponent extends BaseComponent implements OnInit {
     }
 
     if (employee.password !== employee.confirmPassword) {
-      showNotification(this.dialogService, 'Passwords not equals')
+      showNotification(this.dialogService, 'Пароли не совпадают')
       return;
     }
 
@@ -78,7 +78,7 @@ export class CreateEmployeeComponent extends BaseComponent implements OnInit {
       )
       .subscribe(
         () => {
-          showNotification(this.dialogService, 'Employee successfully created!')
+          showNotification(this.dialogService, 'Сотрудник успешно создан')
           this.store.dispatch(new Navigate(['/master']))
         },
         error => showError(this.dialogService, toMessage(error))

@@ -3,20 +3,20 @@ import { OrderStatusEnum } from '@models/order-status-enum';
 export function orderStatusToString(status: OrderStatusEnum): string {
   switch (status) {
     case OrderStatusEnum.CREATED:
-      return 'On approval with guild master'
+      return 'На согласовании'
     case OrderStatusEnum.NEED_CHANGES:
-      return 'Changes needed'
+      return 'Нужны изменения'
     case OrderStatusEnum.APPROVED:
-      return 'Paying'
+      return 'Подтвержден'
     case OrderStatusEnum.PAYED:
-      return 'Being executed'
+      return 'Оплачен'
     case OrderStatusEnum.DECLINED:
-      return 'Declined'
+      return 'Отменен'
     case OrderStatusEnum.IN_PROGRESS:
-      return 'In Progress'
+      return 'Выполняется'
     case OrderStatusEnum.COMPLETED:
-      return 'Completed'
+      return 'Завершен'
     default:
-      throw new Error('Unsupported order status')
+      throw new Error('Неподдерживаемый статус заказа')
   }
 }

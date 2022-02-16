@@ -1,6 +1,6 @@
 <div class="create-employee" [class.loading]="loading">
   <div class="create-employee__select-service form-control">
-    <label>Select type of employee</label>
+    <label>Выберите тип сотрудника</label>
     <mat-select (valueChange)="onEmployeeTypeChange($event)"
                 [ngModel]="employeeType"
                 [disabled]="loading">
@@ -12,19 +12,19 @@
 
   <form class="create-employee__form" [formGroup]="employeeForm" [class.loading]="loading">
     <div class="form-control">
-      <label for="username">Username</label>
+      <label for="username">Имя пользователя</label>
 
       <input id="username" type="text" formControlName="username">
     </div>
 
     <div class="form-control">
-      <label for="password">Password</label>
+      <label for="password">Пароль</label>
 
       <input id="password" type="password" autocomplete formControlName="password">
     </div>
 
     <div class="form-control">
-      <label for="confirmPassword">Confirm Password</label>
+      <label for="confirmPassword">Подтвердить пароль</label>
 
       <input id="confirmPassword" type="password" autocomplete formControlName="confirmPassword">
     </div>
@@ -32,7 +32,7 @@
     <ng-container [ngSwitch]="employeeType">
       <ng-template ngSwitchCase="STUDENT">
         <div class="form-control">
-          <label>Mentor</label>
+          <label>Ментор</label>
           <mat-select formControlName="mentor">
             <mat-option *ngFor="let employee of employees" [value]="employee">
               {{employee.username}}
@@ -46,10 +46,10 @@
 
     <div class="create-employee__actions">
 
-      <button class="cancel" (click)="close()">Close</button>
+      <button class="cancel" (click)="close()">Закрыть</button>
 
       <button class="create" [disabled]="employeeForm.invalid || loading"
-              (click)="create()">Create
+              (click)="create()">Создать
       </button>
     </div>
   </form>

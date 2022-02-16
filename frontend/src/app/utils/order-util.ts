@@ -56,7 +56,7 @@ function createOrderForm(order: Order): FormGroup {
     case 'FORGERY':
       return createOrderFormForForgery(order as ForgeryOrder)
     default:
-      throw new Error('Unsupported order type')
+      throw new Error('Неподдерживаемый тип заказа')
   }
 }
 

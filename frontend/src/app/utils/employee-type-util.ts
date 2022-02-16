@@ -4,11 +4,11 @@ import { EmployeeTypeString } from "@models/employee-type-string";
 export function getEmployeeTypes(): Dropdown<EmployeeTypeString>[] {
   return [
     {
-      name: 'Student',
+      name: 'Студент',
       value: 'STUDENT'
     },
     {
-      name: 'Employee',
+      name: 'Сотрудник',
       value: 'EMPLOYEE'
     }
   ]

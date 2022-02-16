@@ -22,7 +22,7 @@ public class ForgeryOrderProfitCalculator implements ProfitCalculator {
                 .average()
                 .orElse(0d);
 
-        return new AverageProfitForOrderType("Forgery", (long) averageProfit);
+        return new AverageProfitForOrderType("FORGERY", (long) averageProfit);
     }
 
     @Override
@@ -32,6 +32,6 @@ public class ForgeryOrderProfitCalculator implements ProfitCalculator {
                 .mapToDouble(Double::doubleValue)
                 .sum();
 
-        return new FullProfitForOrderType("Forgery", (long) fullProfit);
+        return new FullProfitForOrderType("FORGERY", (long) fullProfit);
     }
 }

@@ -1,19 +1,19 @@
 <div class="form-control disabled">
-  <label>Person</label>
+  <label>Человек</label>
   <div class="order-info__value">{{order.person}}</div>
 </div>
 
 <div class="form-control disabled">
-  <label>The title of the robbed person</label>
+  <label>Титул человека</label>
   <div class="order-info__value">{{order.title.name}}</div>
 </div>
 
 <div class="form-control disabled">
-  <label>What we must steal</label>
+  <label>Что мы должны украсть</label>
   <div class="order-info__value">{{order.item.name}}</div>
 </div>
 
 <div *ngIf="order.description" class="form-control disabled">
-  <label>Description of stealing object</label>
+  <label>Описание предмета</label>
   <div class="order-info__value description">{{order.description}}</div>
 </div>

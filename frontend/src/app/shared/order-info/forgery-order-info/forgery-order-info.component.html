@@ -1,19 +1,19 @@
 <div class="form-control disabled">
-  <label>Person</label>
+  <label>Человек</label>
   <div class="order-info__value">{{order.person}}</div>
 </div>
 
 <div class="form-control disabled">
-  <label>Address</label>
+  <label>Адрес</label>
   <div class="order-info__value">{{order.address}}</div>
 </div>
 
 <div class="form-control disabled">
-  <label>What we must throw</label>
+  <label>Что мы должны подбросить</label>
   <div class="order-info__value">{{order.item.name}}</div>
 </div>
 
 <div *ngIf="order.description" class="form-control disabled">
-  <label>Description of throwing object</label>
+  <label>Описание подбрасываемого объекта</label>
   <div class="order-info__value description">{{order.description}}</div>
 </div>

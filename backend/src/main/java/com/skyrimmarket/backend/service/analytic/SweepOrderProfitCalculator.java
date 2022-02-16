@@ -22,7 +22,7 @@ public class SweepOrderProfitCalculator implements ProfitCalculator {
                 .average()
                 .orElse(0d);
 
-        return new AverageProfitForOrderType("Sweep", (long) averageProfit);
+        return new AverageProfitForOrderType("SWEEP", (long) averageProfit);
     }
 
     @Override
@@ -32,6 +32,6 @@ public class SweepOrderProfitCalculator implements ProfitCalculator {
                 .mapToDouble(Double::doubleValue)
                 .sum();
 
-        return new FullProfitForOrderType("Sweep", (long) fullProfit);
+        return new FullProfitForOrderType("SWEEP", (long) fullProfit);
     }
 }

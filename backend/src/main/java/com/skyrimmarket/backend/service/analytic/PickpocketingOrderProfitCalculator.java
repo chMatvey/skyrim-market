@@ -22,7 +22,7 @@ public class PickpocketingOrderProfitCalculator implements ProfitCalculator {
                 .average()
                 .orElse(0d);
 
-        return new AverageProfitForOrderType("Pickpocketing", (long) averageProfit);
+        return new AverageProfitForOrderType("PICKPOCKETING", (long) averageProfit);
     }
 
     @Override
@@ -32,6 +32,6 @@ public class PickpocketingOrderProfitCalculator implements ProfitCalculator {
                 .mapToDouble(Double::doubleValue)
                 .sum();
 
-        return new FullProfitForOrderType("Pickpocketing", (long) fullProfit);
+        return new FullProfitForOrderType("PICKPOCKETING", (long) fullProfit);
     }
 }

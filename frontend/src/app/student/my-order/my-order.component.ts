@@ -62,7 +62,7 @@ export class MyOrderComponent implements OnInit {
     this.employeeOrderService.decline(this.order.id, this.orderForm.value)
       .pipe(
         withLoading(this),
-        tap(() => showNotification(this.dialogService, 'Order successfully declined!'))
+        tap(() => showNotification(this.dialogService, 'Заказ успешно отменен!'))
       )
       .subscribe(() => this.store.dispatch(new Navigate(['/student/my-orders'])))
   }
@@ -71,7 +71,7 @@ export class MyOrderComponent implements OnInit {
     this.employeeOrderService.complete(this.order.id, this.orderForm.value)
       .pipe(
         withLoading(this),
-        tap(() => showNotification(this.dialogService, 'Order status successfully changed to Completed!'))
+        tap(() => showNotification(this.dialogService, 'Статус заказа успешно изменен на Завершен!'))
       )
       .subscribe(() => this.store.dispatch(new Navigate(['/student/my-orders'])))
   }

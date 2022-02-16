@@ -23,6 +23,7 @@ import APPROVED = OrderStatusEnum.APPROVED
 import NEED_CHANGES = OrderStatusEnum.NEED_CHANGES
 import DECLINED = OrderStatusEnum.DECLINED
 import RemoveOrderMessagesById = Client.RemoveOrderMessagesById
+import { orderStatusToString } from "@utils/order-status-util";
 
 @Component({
   selector: 'app-orders',
@@ -96,7 +97,7 @@ export class OrdersComponent extends BaseComponent implements OnInit {
   }
 
   orderStatus(order: Order): string {
-    return order.status.name
+    return orderStatusToString(order.status.name)
   }
 
   description(order: Order): string {

@@ -2,20 +2,20 @@
       [formGroup]="form"
       [class.loading]="loading">
   <div class="pay-form__control price">
-    <span>TOTAL:</span>{{price}}
+    <span>ИТОГО:</span>{{price}}
   </div>
 
   <div class="pay-form__control payment form-control">
-    <label>Choose way to pay</label>
+    <label>Выберите способ оплаты</label>
     <mat-select formControlName="payment">
       <mat-option *ngFor="let payment of payments" [value]="payment">
-        {{payment.name}}
+        {{paymentString(payment.name)}}
       </mat-option>
     </mat-select>
   </div>
 
   <div class="pay-form__control apply">
     <button [disabled]="form.invalid"
-            (click)="apply()">Apply</button>
+            (click)="apply()">Подтвердить</button>
   </div>
 </form>

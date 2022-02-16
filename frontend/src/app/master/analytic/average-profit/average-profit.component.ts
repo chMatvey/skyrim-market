@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { EChartsOption } from 'echarts'
 import { AnalyticService } from '@services/analytic.service'
 import { AverageProfitAnalytic } from '@models/analytic/average-profit-analytic'
+import { OrderTypePipe } from "@app/shared/order-type/order-type.pipe";
+import { orderTypeToString } from "@utils/order-type-util";
 
 @Component({
   selector: 'app-average-profit',
@@ -19,12 +21,12 @@ export class AverageProfitComponent implements OnInit {
   }
 
   private initOptions(model: AverageProfitAnalytic) {
-    const orderTypes: string[] = model.forOrderTypes.map(data => data.orderType)
+    const orderTypes: string[] = model.forOrderTypes.map(data => orderTypeToString(data.orderType))
     const averageProfits: number[] = model.forOrderTypes.map(data => data.averageProfit)
 
     this.options = {
       title: {
-        text: 'Average Profit'
+        text: 'Средняя прибыль'
       },
       tooltip: {
         trigger: "axis",
@@ -38,7 +40,7 @@ export class AverageProfitComponent implements OnInit {
       yAxis: {},
       series: [
         {
-          name: 'average profit',
+          name: 'средняя прибыль',
           type: 'bar',
           data: averageProfits
         }

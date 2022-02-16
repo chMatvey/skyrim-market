@@ -1,4 +1,4 @@
-enable-firebase: true
+enable-firebase: false
 load-analytic-data: false
 
 spring:

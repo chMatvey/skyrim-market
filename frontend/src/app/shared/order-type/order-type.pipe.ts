@@ -8,13 +8,13 @@ export class OrderTypePipe implements PipeTransform {
   transform(value: OrderTypeString): string {
     switch (value) {
       case 'PICKPOCKETING':
-        return 'Pickpocketing'
+        return 'Кража'
       case 'SWEEP':
-        return 'Sweep'
+        return 'Очистка'
       case 'FORGERY':
-        return 'Forgery'
+        return 'Подлог'
       default:
-        throw new Error('Unsupported order type')
+        throw new Error('Неподдерживаемый тип заказа')
     }
   }
 }
