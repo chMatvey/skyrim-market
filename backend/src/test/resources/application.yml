@@ -1,3 +1,6 @@
+enable-firebase: false
+load-analytic-data: false
+
 spring:
   datasource:
     driver-class-name: org.h2.Driver
