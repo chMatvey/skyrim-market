@@ -26,7 +26,7 @@ export class FullProfitComponent implements OnInit {
 
     this.options = {
       title: {
-        text: 'Вся прибыль'
+        text: 'Полная прибыль'
       },
       tooltip: {
         trigger: "axis",
@@ -40,7 +40,7 @@ export class FullProfitComponent implements OnInit {
       yAxis: {},
       series: [
         {
-          name: 'вся прибыль',
+          name: 'полная прибыль',
           type: 'bar',
           data: profits
         }

@@ -5,7 +5,7 @@
   </div>
 
   <div class="form-control" [class.disabled]="form.disabled">
-    <label appRequired>Титул обкрадываемого человека</label>
+    <label appRequired>Титул персоны</label>
     <mat-select formControlName="title" [compareWith]="compareEntity">
       <mat-option *ngFor="let title of titles" [value]="title">
         {{title.name}}

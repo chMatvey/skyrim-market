@@ -30,7 +30,7 @@ export function getToolbarStateByUserRole(role: UserRole): Toolbar {
             ref: 'available-orders'
           },
           {
-            name: 'Завершенные заказы',
+            name: 'Выполненные заказы',
             ref: 'completed-orders'
           }
         ]
@@ -44,7 +44,7 @@ export function getToolbarStateByUserRole(role: UserRole): Toolbar {
             ref: 'my-orders'
           },
           {
-            name: 'Завершенные заказы',
+            name: 'Выполненные заказы',
             ref: 'completed-orders'
           }
         ]

@@ -8,6 +8,6 @@ export function paymentTypeToString(status: string): string {
     case 'Bank':
       return 'Банк'
     default:
-      throw new Error('Неподдерживаемый статус заказа')
+      throw new Error('Тип заказа не поддерживается')
   }
 }

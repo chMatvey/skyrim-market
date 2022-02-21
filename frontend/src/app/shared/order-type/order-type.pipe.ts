@@ -14,7 +14,7 @@ export class OrderTypePipe implements PipeTransform {
       case 'FORGERY':
         return 'Подлог'
       default:
-        throw new Error('Неподдерживаемый тип заказа')
+        throw new Error('Тип заказа не поддерживается')
     }
   }
 }

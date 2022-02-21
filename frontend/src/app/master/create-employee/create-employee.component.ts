@@ -78,7 +78,7 @@ export class CreateEmployeeComponent extends BaseComponent implements OnInit {
       )
       .subscribe(
         () => {
-          showNotification(this.dialogService, 'Сотрудник успешно создан')
+          showNotification(this.dialogService, 'Сотрудник создан')
           this.store.dispatch(new Navigate(['/master']))
         },
         error => showError(this.dialogService, toMessage(error))

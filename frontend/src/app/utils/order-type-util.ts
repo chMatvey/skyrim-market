@@ -27,6 +27,6 @@ export function orderTypeToString(status: OrderTypeString): string {
     case 'FORGERY':
       return 'Подлог'
     default:
-      throw new Error('Неподдерживаемый статус заказа')
+      throw new Error('Тип заказа не поддерживается')
   }
 }

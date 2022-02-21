@@ -71,7 +71,7 @@ export class MyOrderComponent implements OnInit {
     this.employeeOrderService.complete(this.order.id, this.orderForm.value)
       .pipe(
         withLoading(this),
-        tap(() => showNotification(this.dialogService, 'Статус заказа успешно изменен на Завершен!'))
+        tap(() => showNotification(this.dialogService, 'Заказ выполнен!'))
       )
       .subscribe(() => this.store.dispatch(new Navigate(['/employee/my-orders'])))
   }

@@ -17,6 +17,6 @@ export function orderStatusToString(status: OrderStatusEnum): string {
     case OrderStatusEnum.COMPLETED:
       return 'Завершен'
     default:
-      throw new Error('Неподдерживаемый статус заказа')
+      throw new Error('Тип заказа не поддерживается')
   }
 }

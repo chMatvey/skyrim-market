@@ -62,19 +62,19 @@ export class ConfirmOrderComponent extends FormComponent implements OnInit {
 
   decline(): void {
     const request$ = this.masterOrderService.decline(this.order.id, this.orderForm.value)
-    this.sendForm(request$, 'Заказ успешно отменен!')
+    this.sendForm(request$, 'Заказ отменен!')
       .subscribe(() => this.store.dispatch(new Navigate(['/master/orders'])))
   }
 
   comment(): void {
     const request$ = this.masterOrderService.comment(this.order.id, this.orderForm.value)
-    this.sendForm(request$, 'Заказ успешно прокомментирован!')
+    this.sendForm(request$, 'Заказ прокомментирован!')
       .subscribe(({id}) => this.store.dispatch(new Navigate([`/master/orders`])))
   }
 
   approve(): void {
     const request$ = this.masterOrderService.approve(this.order.id, this.orderForm.value)
-    this.sendForm(request$, 'Заказ успешно согласован!')
+    this.sendForm(request$, 'Заказ согласован!')
       .subscribe(() => this.store.dispatch(new Navigate([`/master/orders`])))
   }
 }
