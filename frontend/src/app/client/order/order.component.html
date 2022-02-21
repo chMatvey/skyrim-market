@@ -2,7 +2,7 @@
   <div class="client-order__form">
     <div class="client-order__form__info">
       <div class="client-order__select-service form-control" [class.disabled]="formDisabled || loading">
-        <label>Select service</label>
+        <label>Тип заказа</label>
 
         <mat-select (valueChange)="onOrderTypeChange($event)"
                     [ngModel]="orderType"
@@ -13,8 +13,8 @@
         </mat-select>
       </div>
 
-      <div *ngIf="orderStatus" class="client-order__status">
-        <div class="client-order__status__header">Order status:</div>
+      <div *ngIf="orderStatusOrig" class="client-order__status">
+        <div class="client-order__status__header">Статус:</div>
         <div class="client-order__status__name">{{orderStatus}}</div>
       </div>
     </div>
@@ -41,48 +41,46 @@
       </ng-template>
     </ng-container>
 
-    <div class="client-order__form__footer" [ngSwitch]="orderStatus">
+    <div class="client-order__form__footer" [ngSwitch]="orderStatusOrig">
       <ng-template ngSwitchCase="CREATED">
-        <button class="cancel" (click)="onCancel()">Close</button>
+        <button class="cancel" (click)="onCancel()">Закрыть</button>
 
-        <button class="create" (click)="onDeclineOrder()">Decline Order</button>
+        <button class="create" (click)="onDeclineOrder()">Отменить Заказ</button>
       </ng-template>
 
       <ng-template ngSwitchCase="NEED_CHANGES">
-        <button class="cancel" (click)="onCancel()">Close</button>
+        <button class="cancel" (click)="onCancel()">Закрыть</button>
 
-        <button class="create" (click)="onDeclineOrder()">Decline Order</button>
+        <button class="create" (click)="onDeclineOrder()">Отменить заказ</button>
 
-        <button class="create" [disabled]="saveDisabled" (click)="onUpdateOrder()">Apply</button>
+        <button class="create" [disabled]="saveDisabled" (click)="onUpdateOrder()">Подтвердить</button>
       </ng-template>
 
       <ng-template ngSwitchCase="DECLINED">
-        <button class="cancel" (click)="onCancel()">Close</button>
+        <button class="cancel" (click)="onCancel()">Закрыть</button>
 
-        <button class="create" (click)="onDelete()">Delete</button>
+        <button class="create" (click)="onDelete()">Удалить</button>
       </ng-template>
 
       <ng-template ngSwitchCase="APPROVED">
-        <button class="cancel" (click)="onCancel()">Close</button>
+        <button class="cancel" (click)="onCancel()">Закрыть</button>
       </ng-template>
 
       <ng-template ngSwitchCase="PAYED">
-        <button class="cancel" (click)="onCancel()">Close</button>
+        <button class="cancel" (click)="onCancel()">Закрыть</button>
       </ng-template>
 
       <ng-template ngSwitchCase="IN_PROGRESS">
-        <button class="cancel" (click)="onCancel()">Close</button>
+        <button class="cancel" (click)="onCancel()">Закрыть</button>
       </ng-template>
 
       <ng-template ngSwitchCase="COMPLETED">
-        <button class="cancel" (click)="onCancel()">Close</button>
-
-        <button class="create" (click)="onDelete()">Delete</button>
+        <button class="cancel" (click)="onCancel()">Закрыть</button>
       </ng-template>
 
       <ng-template ngSwitchDefault>
-        <button class="cancel" (click)="onCancel()">Cancel</button>
-        <button class="create" [disabled]="saveDisabled" (click)="onCreateOrder()">Create Order</button>
+        <button class="cancel" (click)="onCancel()">Закрыть</button>
+        <button class="create" [disabled]="saveDisabled" (click)="onCreateOrder()">Создать заказ</button>
       </ng-template>
     </div>
   </div>

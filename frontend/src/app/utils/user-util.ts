@@ -12,7 +12,7 @@ export function getUrlByUserRole(role: UserRole): string {
     case UserRole.STUDENT:
       return 'student'
     default:
-      throw new Error('Unknown Role')
+      throw new Error('Неизвестная роль')
   }
 }
 

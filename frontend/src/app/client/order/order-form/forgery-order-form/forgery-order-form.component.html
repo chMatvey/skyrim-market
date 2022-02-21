@@ -1,21 +1,21 @@
 <form class="order-form" [formGroup]="form">
   <div class="form-control" [class.disabled]="form.disabled">
-    <label for="person" appRequired>Person</label>
+    <label for="person" appRequired>Человек</label>
     <input id="person" type="text" formControlName="person">
   </div>
 
   <div class="form-control" [class.disabled]="form.disabled">
-    <label for="address" appRequired>Address</label>
+    <label for="address" appRequired>Адрес</label>
     <input id="address" type="text" formControlName="address">
   </div>
 
   <div class="form-control" [class.disabled]="form.disabled">
-    <label appRequired>Item</label>
+    <label appRequired>Предмет</label>
     <app-search-select formControlName="item" [data]="items"></app-search-select>
   </div>
 
   <div class="form-control" [class.disabled]="form.disabled">
-    <label for="description">Description of stealing object</label>
+    <label for="description">Описание предмета</label>
     <textarea id="description" formControlName="description"></textarea>
   </div>
 </form>

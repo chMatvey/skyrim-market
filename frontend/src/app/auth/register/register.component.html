@@ -5,29 +5,29 @@
 
   <form class="register__form" [formGroup]="form" [class.loading]="loading">
     <div class="form-control">
-      <label for="username">Username</label>
+      <label for="username">Имя пользователя</label>
 
       <input id="username" type="text" formControlName="username">
     </div>
 
     <div class="form-control">
-      <label for="password">Password</label>
+      <label for="password">Пароль</label>
 
       <input id="password" type="password" autocomplete formControlName="password">
     </div>
 
     <div class="form-control">
-      <label for="confirmPassword">Confirm Password</label>
+      <label for="confirmPassword">Подтвердите пароль</label>
 
       <input id="confirmPassword" type="password" autocomplete formControlName="confirmPassword">
     </div>
 
     <div class="register__form__submit">
-      <button (click)="submit()">Register</button>
+      <button (click)="submit()">Регистрация</button>
 
       <div class="register__form__submit__redirect">
-        <span>Already registered</span>
-        <a routerLink="/login">Login</a>
+        <span>Есть аккаунт</span>
+        <a routerLink="/login">Вход</a>
       </div>
     </div>
   </form>

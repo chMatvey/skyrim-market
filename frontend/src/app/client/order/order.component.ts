@@ -34,6 +34,7 @@ import APPROVED = OrderStatusEnum.APPROVED
 import COMPLETED = OrderStatusEnum.COMPLETED
 import NEED_CHANGES = OrderStatusEnum.NEED_CHANGES
 import DECLINED = OrderStatusEnum.DECLINED
+import { orderStatusToString } from "@utils/order-status-util";
 
 @Component({
   selector: 'app-order',
@@ -64,6 +65,10 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
   }
 
   get orderStatus() {
+    return orderStatusToString(this.order?.status?.name)
+  }
+
+  get orderStatusOrig() {
     return this.order?.status?.name
   }
 
@@ -138,7 +143,7 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
     this.store.dispatch(new CreateOrder({...this.order, ...this.orderForm.value}))
       .pipe(
         withLoading(this),
-        tap(() => showNotification(this.dialogService, 'Order successfully created!')),
+        tap(() => showNotification(this.dialogService, 'Заказ успешно создан!')),
         withLatestFrom(this.store.select(ClientState.order))
       )
       .subscribe(
@@ -153,7 +158,7 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
     this.store.dispatch(new DeclineOrder(this.order.id))
       .pipe(
         withLoading(this),
-        tap(() => showNotification(this.dialogService,'Order successfully declined!'))
+        tap(() => showNotification(this.dialogService,'Заказ успешно отменен!'))
       )
       .subscribe(
         () => this.store.dispatch(new Navigate(['/client/orders'])),
@@ -165,7 +170,7 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
     this.store.dispatch(new UpdateOrder({...this.order, ...this.orderForm.value}))
       .pipe(withLoading(this))
       .subscribe(
-        () => showNotification(this.dialogService, 'Order successfully updated!'),
+        () => showNotification(this.dialogService, 'Заказ успешно обновлен!'),
         error => showError(this.dialogService, toMessage(error))
       )
   }
@@ -179,7 +184,7 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
     this.clientOrderService.delete(this.order.id).pipe(withLoading(this))
       .subscribe(
         () => {
-          showNotification(this.dialogService, 'Order successfully deleted!')
+          showNotification(this.dialogService, 'Заказ успешно удален!')
           this.store.dispatch(new Navigate(['/client/orders']))
         },
         error => showError(this.dialogService, toMessage(error))

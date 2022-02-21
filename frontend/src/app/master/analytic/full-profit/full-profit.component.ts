@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { EChartsOption } from 'echarts'
 import { AnalyticService } from '@services/analytic.service'
 import { FullProfitAnalytic } from '@models/analytic/full-profit-analytic'
+import { OrderTypePipe } from "@app/shared/order-type/order-type.pipe";
+import { orderTypeToString } from "@utils/order-type-util";
 
 @Component({
   selector: 'app-full-profit',
@@ -19,12 +21,12 @@ export class FullProfitComponent implements OnInit {
   }
 
   private initOptions(model: FullProfitAnalytic) {
-    const orderTypes: string[] = model.forOrderTypes.map(data => data.orderType)
+    const orderTypes: string[] = model.forOrderTypes.map(data => orderTypeToString(data.orderType))
     const profits: number[] = model.forOrderTypes.map(data => data.fullProfit)
 
     this.options = {
       title: {
-        text: 'Full Profit'
+        text: 'Полная прибыль'
       },
       tooltip: {
         trigger: "axis",
@@ -38,7 +40,7 @@ export class FullProfitComponent implements OnInit {
       yAxis: {},
       series: [
         {
-          name: 'full profit',
+          name: 'полная прибыль',
           type: 'bar',
           data: profits
         }

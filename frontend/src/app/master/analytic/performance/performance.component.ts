@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EChartsOption } from 'echarts'
 import { PerformanceAnalytic } from '@models/analytic/performance-analytic'
 import { AnalyticService } from '@services/analytic.service'
+import { orderStatusToString } from "@utils/order-status-util";
 
 @Component({
   selector: 'app-performance',
@@ -22,12 +23,12 @@ export class PerformanceComponent implements OnInit {
   initOptions(model: PerformanceAnalytic) {
     const data = model.orderStatusPercents.map(data => ({
       value: data.percent,
-      name: data.status
+      name: orderStatusToString(data.status)
     }))
 
     this.options = {
       title: {
-        text: 'Performance',
+        text: 'Производительность',
         subtext: '%',
         left: 'center'
       },
@@ -40,7 +41,7 @@ export class PerformanceComponent implements OnInit {
       },
       series: [
         {
-          name: 'Result %',
+          name: 'Результат %',
           type: 'pie',
           radius: '50%',
           data,
