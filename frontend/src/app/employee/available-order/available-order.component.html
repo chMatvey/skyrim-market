@@ -3,11 +3,11 @@
     <app-order-info [order]="order"></app-order-info>
 
     <div class="available-order__control actions">
-      <button (click)="close()">Close</button>
-      <button class="assign" (click)="assignToMe()">Assign to me</button>
-      <button class="assign-student"  [disabled]="studentInvalid" (click)="assignToStudent()">Assign to student</button>
+      <button (click)="close()">Закрыть</button>
+      <button class="assign" (click)="assignToMe()">Назначить на себя</button>
+      <button class="assign-student"  [disabled]="studentInvalid" (click)="assignToStudent()">Назначить на студента</button>
       <div class="student form-control">
-        <label>Student: </label>
+        <label>Студент: </label>
         <mat-select [(value)]="assignedStudent"
                     [disabled]="loading">
           <mat-option *ngFor="let student of students" [value]="student">

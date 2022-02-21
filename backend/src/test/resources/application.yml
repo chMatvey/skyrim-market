@@ -1,5 +1,5 @@
 enable-firebase: false
-load-analytic-data: false
+load-analytic-data: true
 
 spring:
   datasource:

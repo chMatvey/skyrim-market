@@ -5,25 +5,25 @@
 
   <form class="login__form" [formGroup]="form" [class.loading]="loading">
     <div class="form-control">
-      <label for="username">Username</label>
+      <label for="username">Имя пользователя</label>
 
       <input id="username" type="text" formControlName="username">
     </div>
 
     <div class="form-control">
-      <label for="password">Password</label>
+      <label for="password">Пароль</label>
 
       <input id="password" type="password" autocomplete formControlName="password">
 
-      <div *ngIf="error" class="error">Incorrect login or password</div>
+      <div *ngIf="error" class="error">Неверный логин или пароль</div>
     </div>
 
     <div class="login__form__submit">
-      <button (click)="submit()">Login</button>
+      <button (click)="submit()">Вход</button>
 
       <div class="login__form__submit__redirect">
-        <span>No account yet</span>
-        <a routerLink="/register">Register</a>
+        <span>Ещё нет аккаунта</span>
+        <a routerLink="/register">Регистрация</a>
       </div>
     </div>
   </form>

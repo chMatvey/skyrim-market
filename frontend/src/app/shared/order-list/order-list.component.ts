@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Order } from '@models/order/order';
+import { orderStatusToString } from "@utils/order-status-util";
 
 @Component({
   selector: 'app-order-list',
@@ -15,7 +16,7 @@ export class OrderListComponent {
   open = new EventEmitter<number>()
 
   orderStatus(order: Order): string {
-    return order.status.name
+    return orderStatusToString(order.status.name)
   }
 
   description(order: Order): string {

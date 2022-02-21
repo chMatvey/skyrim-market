@@ -8,11 +8,11 @@ export function getToolbarStateByUserRole(role: UserRole): Toolbar {
         logoRef: '/client',
         links: [
           {
-            name: 'Make Order',
+            name: 'Сделать заказ',
             ref: 'order'
           },
           {
-            name: 'My Orders',
+            name: 'Мои заказы',
             ref: 'orders'
           }
         ]
@@ -22,15 +22,15 @@ export function getToolbarStateByUserRole(role: UserRole): Toolbar {
         logoRef: '/employee',
         links: [
           {
-            name: 'My Orders',
+            name: 'Мои заказы',
             ref: 'my-orders'
           },
           {
-            name: 'Available Orders',
+            name: 'Доступные заказы',
             ref: 'available-orders'
           },
           {
-            name: 'Completed Orders',
+            name: 'Выполненные заказы',
             ref: 'completed-orders'
           }
         ]
@@ -40,11 +40,11 @@ export function getToolbarStateByUserRole(role: UserRole): Toolbar {
         logoRef: '/student',
         links: [
           {
-            name: 'My Orders',
+            name: 'Мои заказы',
             ref: 'my-orders'
           },
           {
-            name: 'Completed Orders',
+            name: 'Выполненные заказы',
             ref: 'completed-orders'
           }
         ]
@@ -54,23 +54,23 @@ export function getToolbarStateByUserRole(role: UserRole): Toolbar {
         logoRef: '/master',
         links: [
           {
-            name: 'Orders',
+            name: 'Заказы',
             ref: '/master/orders'
           },
           {
-            name: 'Analytic',
+            name: 'Аналитика',
             ref: '/master/analytic'
           },
           {
-            name: 'Employees',
+            name: 'Сотрудники',
             ref: '/master/employees'
           },
           {
-            name: 'Students',
+            name: 'Студенты',
             ref: '/master/students'
           },
           {
-            name: 'Create employee',
+            name: 'Создать сотрудника',
             ref: '/master/employees/create'
           }
         ]

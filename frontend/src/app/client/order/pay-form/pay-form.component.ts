@@ -14,6 +14,7 @@ import { BaseComponent } from '@app/shared/base/base.component'
 import { PaymentService } from '@services/payment.service'
 import { Payment } from '@models/payment'
 import PayOrder = Client.PayOrder
+import { paymentTypeToString } from "@utils/payment-type-util";
 
 @Component({
   selector: 'app-pay-form',
@@ -42,6 +43,10 @@ export class PayFormComponent extends BaseComponent implements OnInit {
     return this.order.price
   }
 
+  paymentString(payment: string): string {
+    return paymentTypeToString(payment)
+  }
+
   ngOnInit(): void {
     this.order$
       .pipe(
@@ -61,7 +66,7 @@ export class PayFormComponent extends BaseComponent implements OnInit {
     this.store.dispatch(new PayOrder(this.order.id, this.form.value.payment))
       .pipe(withLoading(this))
       .subscribe(
-        () => showNotification(this.dialogService, 'Order successfully payed'),
+        () => showNotification(this.dialogService, 'Заказ успешно оплачен'),
         error => showError(this.dialogService, toMessage(error))
       )
   }
