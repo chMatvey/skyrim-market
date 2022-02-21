@@ -1,8 +1,6 @@
-package com.skyrimmarket.test;
+package com.skyrimmarket.testFunctional;
 
-import com.skyrimmarket.test.page.LoginPage;
-import net.jodah.failsafe.internal.util.Assert;
-import org.checkerframework.checker.units.qual.C;
+import com.skyrimmarket.page.LoginPage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +8,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -20,22 +17,20 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SigningInTest {
-    ChromeDriver driver;
+    ChromeDriver driver = null;
 
     @BeforeEach
     void setUp() {
-        Map<String, Object> prefs = new HashMap<String, Object>();
-        prefs.put("profile.default_content_setting_values.notifications", 1);
-        ChromeOptions options = new ChromeOptions();
-        options.setExperimentalOption("prefs", prefs);
-        System.setProperty("webdriver.chrome.driver","C:\\chromedriver\\chromedriver.exe");
-        driver = new ChromeDriver(options);
-        driver.get("https://skyrim-market.herokuapp.com");
-    }
-
-    @AfterEach
-    void driverDown(){
-        driver.close();
+        if (driver == null) {
+            Map<String, Object> prefs = new HashMap<String, Object>();
+            prefs.put("profile.default_content_setting_values.notifications", 1);
+            ChromeOptions options = new ChromeOptions();
+            options.setExperimentalOption("prefs", prefs);
+            System.setProperty("webdriver.chrome.driver", "C:\\chromedriver\\chromedriver.exe");
+            driver = new ChromeDriver(options);
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+            driver.get("http://localhost:4200/");
+        }
     }
 
     @Test
