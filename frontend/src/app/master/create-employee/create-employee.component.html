@@ -1,6 +1,6 @@
 <div class="create-employee" [class.loading]="loading">
   <div class="create-employee__select-service form-control">
-    <label>Выберите тип сотрудника</label>
+    <label>Выберите тип сотрудника:</label>
     <mat-select (valueChange)="onEmployeeTypeChange($event)"
                 [ngModel]="employeeType"
                 [disabled]="loading">
@@ -12,9 +12,9 @@
 
   <form class="create-employee__form" [formGroup]="employeeForm" [class.loading]="loading">
     <div class="form-control">
-      <label for="username">Имя пользователя</label>
+      <label for="username-input">Имя пользователя</label>
 
-      <input id="username" type="text" formControlName="username">
+      <input id="username-input" type="text" formControlName="username">
     </div>
 
     <div class="form-control">
@@ -48,7 +48,7 @@
 
       <button class="cancel" (click)="close()">Закрыть</button>
 
-      <button class="create" [disabled]="employeeForm.invalid || loading"
+      <button class="create" id="create" [disabled]="employeeForm.invalid || loading"
               (click)="create()">Создать
       </button>
     </div>

@@ -1,4 +1,5 @@
 export interface ToolbarLink {
   name: string,
-  ref: string
+  ref: string,
+  class: string
 }

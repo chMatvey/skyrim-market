@@ -35,7 +35,7 @@ export class RegisterComponent implements OnInit {
     const user: User = this.form.value;
 
     if (user.password !== user.confirmPassword) {
-      showNotification(this.dialogService, 'Пароли не совпадают')
+      showNotification(this.dialogService, 'Пароль и подтверждение пароля не совпадают')
       return;
     }
 

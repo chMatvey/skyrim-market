@@ -4,10 +4,10 @@
 
     <div class="available-order__control actions">
       <button (click)="close()">Закрыть</button>
-      <button class="assign" (click)="assignToMe()">Назначить на себя</button>
-      <button class="assign-student"  [disabled]="studentInvalid" (click)="assignToStudent()">Назначить на студента</button>
+      <button class="assign" (click)="assignToMe()">Принять заказ</button>
+      <button class="assign-student"  [disabled]="studentInvalid" (click)="assignToStudent()">Назначить заказ ученику</button>
       <div class="student form-control">
-        <label>Студент: </label>
+        <label>Выбрать ученика: </label>
         <mat-select [(value)]="assignedStudent"
                     [disabled]="loading">
           <mat-option *ngFor="let student of students" [value]="student">

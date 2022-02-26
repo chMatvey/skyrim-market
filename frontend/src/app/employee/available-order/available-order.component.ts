@@ -57,7 +57,7 @@ export class AvailableOrderComponent implements OnInit {
       .pipe(
         withLoading(this),
         map(order => order.id),
-        tap(() => showNotification(this.dialogService, 'Заказ назначен на вас!'))
+        tap(() => showNotification(this.dialogService, 'Вы приняли заказ!'))
       )
       .subscribe(
         id => this.store.dispatch(new Navigate([`/employee/my-order/${id}`])),

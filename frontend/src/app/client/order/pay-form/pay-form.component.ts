@@ -66,7 +66,7 @@ export class PayFormComponent extends BaseComponent implements OnInit {
     this.store.dispatch(new PayOrder(this.order.id, this.form.value.payment))
       .pipe(withLoading(this))
       .subscribe(
-        () => showNotification(this.dialogService, 'Заказ успешно оплачен'),
+        () => showNotification(this.dialogService, 'Заказ оплачен'),
         error => showError(this.dialogService, toMessage(error))
       )
   }

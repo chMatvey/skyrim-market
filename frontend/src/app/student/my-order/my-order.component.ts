@@ -62,7 +62,7 @@ export class MyOrderComponent implements OnInit {
     this.employeeOrderService.decline(this.order.id, this.orderForm.value)
       .pipe(
         withLoading(this),
-        tap(() => showNotification(this.dialogService, 'Заказ успешно отменен!'))
+        tap(() => showNotification(this.dialogService, 'Заказ отменен!'))
       )
       .subscribe(() => this.store.dispatch(new Navigate(['/student/my-orders'])))
   }

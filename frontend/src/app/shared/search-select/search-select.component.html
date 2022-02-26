@@ -2,7 +2,7 @@
   <mat-option>
     <ngx-mat-select-search [formControl]="filterControl"></ngx-mat-select-search>
   </mat-option>
-  <mat-option *ngFor="let value of data$ | async" [value]="value">
+  <mat-option *ngFor="let value of data$ | async" [value]="value" [id]="value.name">
     {{value.name}}
   </mat-option>
 </mat-select>
