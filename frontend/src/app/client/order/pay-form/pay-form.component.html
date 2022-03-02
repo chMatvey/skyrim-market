@@ -6,7 +6,7 @@
   </div>
 
   <div class="pay-form__control payment form-control">
-    <label>Выберите способ оплаты</label>
+    <label>Выберите способ оплаты:</label>
     <mat-select formControlName="payment">
       <mat-option *ngFor="let payment of payments" [value]="payment">
         {{paymentString(payment.name)}}

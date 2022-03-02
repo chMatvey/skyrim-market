@@ -8,9 +8,9 @@ export class OrderTypePipe implements PipeTransform {
   transform(value: OrderTypeString): string {
     switch (value) {
       case 'PICKPOCKETING':
-        return 'Кража'
+        return 'Карманная кража'
       case 'SWEEP':
-        return 'Очистка'
+        return 'Кража со взломом'
       case 'FORGERY':
         return 'Подлог'
       default:

@@ -143,7 +143,7 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
     this.store.dispatch(new CreateOrder({...this.order, ...this.orderForm.value}))
       .pipe(
         withLoading(this),
-        tap(() => showNotification(this.dialogService, 'Заказ успешно создан!')),
+        tap(() => showNotification(this.dialogService, 'Заказ создан!')),
         withLatestFrom(this.store.select(ClientState.order))
       )
       .subscribe(
@@ -158,7 +158,7 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
     this.store.dispatch(new DeclineOrder(this.order.id))
       .pipe(
         withLoading(this),
-        tap(() => showNotification(this.dialogService,'Заказ успешно отменен!'))
+        tap(() => showNotification(this.dialogService,'Заказ отменен!'))
       )
       .subscribe(
         () => this.store.dispatch(new Navigate(['/client/orders'])),
@@ -170,7 +170,7 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
     this.store.dispatch(new UpdateOrder({...this.order, ...this.orderForm.value}))
       .pipe(withLoading(this))
       .subscribe(
-        () => showNotification(this.dialogService, 'Заказ успешно обновлен!'),
+        () => showNotification(this.dialogService, 'Заказ обновлен!'),
         error => showError(this.dialogService, toMessage(error))
       )
   }
@@ -184,7 +184,7 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
     this.clientOrderService.delete(this.order.id).pipe(withLoading(this))
       .subscribe(
         () => {
-          showNotification(this.dialogService, 'Заказ успешно удален!')
+          showNotification(this.dialogService, 'Заказ удален!')
           this.store.dispatch(new Navigate(['/client/orders']))
         },
         error => showError(this.dialogService, toMessage(error))

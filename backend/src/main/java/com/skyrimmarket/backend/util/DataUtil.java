@@ -9,21 +9,25 @@ import java.util.stream.Collectors;
 
 public class DataUtil {
     public static final List<Title> titles = Arrays.stream(new String[]{
-                    "Court magician",
-                    "Thane",
-                    "Jarl",
-                    "Trader",
-                    "None"
+                    "Придворный маг",
+                    "Тан",
+                    "Ярл",
+                    "Торговец",
+                    "Простолюдин",
+                    "Маг",
+                    "Король",
+                    "Нет в списке (укажите в комментарии)"
             })
             .map(Title::new)
             .collect(Collectors.toList());
 
     public static final List<Item> items = Arrays.stream(new String[]{
-                    "Iron Sword",
-                    "Iron Axe",
-                    "Dragon Sword",
-                    "Elven Bow",
-                    "Ebony Dagger"
+                    "Железный меч",
+                    "Железный топор",
+                    "Меч из чешуи дракона",
+                    "Эльфийский лук",
+                    "Эбонитовый кинжал",
+                    "Топор владения Вайтран"
             })
             .map(Item::new)
             .collect(Collectors.toList());

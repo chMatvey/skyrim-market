@@ -1,19 +1,24 @@
 <div class="form-control disabled">
-  <label>Адрес</label>
+  <label>Адрес:</label>
   <div class="order-info__value">{{order.address}}</div>
 </div>
 
 <div class="form-control disabled">
-  <label>Титул персоны</label>
+  <label>Титул хозяина дома:</label>
   <div class="order-info__value">{{order.title.name}}</div>
 </div>
 
 <div class="form-control disabled">
-  <label>Что мы должны украсть</label>
+  <label>Что мы должны украсть?</label>
   <div class="order-info__value">{{order.item.name}}</div>
 </div>
 
 <div *ngIf="order.description" class="form-control disabled">
-  <label>Описание предмета</label>
+  <label>Описание предмета:</label>
   <div class="order-info__value description">{{order.description}}</div>
+</div>
+
+<div *ngIf="order.status.name === 'PAYED' || order.status.name === 'COMPLETED' || order.status.name === 'IN_PROGRESS'" class="form-control disabled">
+  <label>Награда за выполнение заказа:</label>
+  <div class="order-info__value">{{order.price * 0.8}} септимов</div>
 </div>

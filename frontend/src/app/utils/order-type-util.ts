@@ -4,11 +4,11 @@ import { OrderTypeString } from '@models/order-type-string'
 export function getOrderTypes(): Dropdown<OrderTypeString>[] {
   return [
     {
-      name: 'Кража',
+      name: 'Карманная кража',
       value: 'PICKPOCKETING'
     },
     {
-      name: 'Очистка',
+      name: 'Кража со взломом',
       value: 'SWEEP'
     },
     {
@@ -21,9 +21,9 @@ export function getOrderTypes(): Dropdown<OrderTypeString>[] {
 export function orderTypeToString(status: OrderTypeString): string {
   switch (status) {
     case 'PICKPOCKETING':
-      return 'Кража'
+      return 'Карманная кража'
     case 'SWEEP':
-      return 'Очистка'
+      return 'Кража со взломом'
     case 'FORGERY':
       return 'Подлог'
     default:

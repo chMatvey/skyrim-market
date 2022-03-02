@@ -3,12 +3,12 @@
     <app-order-info [order]="order"></app-order-info>
 
     <div class="form-control">
-      <label for="comment">Комментарий</label>
+      <label for="comment">Комментарий:</label>
       <textarea class="comment" type="text" id="comment" formControlName="comment"></textarea>
     </div>
 
     <div class="form-control">
-      <label>Исполнитель</label>
+      <label>Назначить исполнителя:</label>
       <mat-select formControlName="contractor" [compareWith]="compareEntity">
         <mat-option *ngFor="let contractor of contractors" [value]="contractor">
           {{contractor.username}}
@@ -20,7 +20,7 @@
       <button (click)="close()">Закрыть</button>
 
       <div class="price">
-        <label for="price" appRequired>Цена</label>
+        <label for="price" appRequired>Цена:</label>
         <input type="number" id="price" formControlName="price">
       </div>
 
@@ -28,7 +28,7 @@
               (click)="decline()">Отменить</button>
 
       <button [disabled]="orderForm.disabled || commentInvalid"
-              (click)="comment()">Комментировать</button>
+              (click)="comment()">Запрос изменений</button>
 
       <button [disabled]="orderForm.disabled || approveInvalid"
               (click)="approve()">Согласовать</button>

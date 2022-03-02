@@ -6,21 +6,21 @@
       </a>
 
       <div class="toolbar__links">
-        <a *ngFor="let link of toolbar?.links" [routerLink]="link.ref">
+        <a *ngFor="let link of toolbar?.links" [routerLink]="link.ref" [id]="link.class">
           {{link.name}}
         </a>
       </div>
     </div>
 
     <div class="right">
-      <div class="toolbar__username" [matMenuTriggerFor]="menu">
+      <div class="toolbar__username" id="username" [matMenuTriggerFor]="menu">
         {{(user$ | async).username | username}}
       </div>
 
       <div class="toolbar__icon"></div>
 
       <mat-menu #menu>
-        <button mat-menu-item (click)="onLogout()">Выйти</button>
+        <button mat-menu-item (click)="onLogout()" id="logout">Выйти</button>
       </mat-menu>
     </div>
   </ng-container>
