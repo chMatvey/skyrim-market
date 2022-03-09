@@ -9,7 +9,7 @@ public class EmployeeMainPage {
 
     protected ChromeDriver driver;
 
-    @FindBy(xpath = "/html/body/div/div[2]/div/mat-dialog-container/app-notification-popup/div/app-close-popup/div/img")
+    @FindBy(xpath = "//*[@id=\"close-popup\"]")
     public WebElement exitNotification;
 
     @FindBy(xpath = "/html/body/app-root/div/div[2]/app-employee/app-toolbar/div/div[1]/div/a[1]")
@@ -21,10 +21,10 @@ public class EmployeeMainPage {
     @FindBy(xpath = "/html/body/app-root/div/div[2]/app-employee/app-toolbar/div/div[1]/div/a[3]")
     public  WebElement completedOrdersButton;
 
-    @FindBy(xpath = "/html/body/app-root/div/div[2]/app-employee/app-toolbar/div/div[2]/div[1]")
+    @FindBy(xpath = "//*[@id=\"username\"]")
     public  WebElement usernameButton;
 
-    @FindBy(xpath = "/html/body/div/div[2]/div/div/div/button")
+    @FindBy(xpath = "//*[@id=\"logout\"]")
     public  WebElement logoutButton;
 
     public EmployeeMainPage(ChromeDriver driver){

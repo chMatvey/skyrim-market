@@ -6,9 +6,6 @@ import org.openqa.selenium.support.FindBy;
 
 public class ClientPayOrderPage extends ClientMainPage{
 
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div/mat-dialog-container/app-notification-popup/div/app-close-popup/div/img")
-    public WebElement exitNotification;
-
     @FindBy(xpath = "/html/body/app-root/div/div[2]/app-client/div/app-order/div/div[2]/app-pay-form/form/div[2]/mat-select/div/div[2]")
     public WebElement payWayComboBox;
 

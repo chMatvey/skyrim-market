@@ -1,4 +1,4 @@
-package com.skyrimmarket.testFunctional;
+package com.skyrimmarket.testBuisness;
 
 import com.skyrimmarket.page.LoginPage;
 import com.skyrimmarket.page.client.ClientMainPage;
@@ -8,6 +8,8 @@ import com.skyrimmarket.page.client.ClientPayOrderPage;
 import com.skyrimmarket.page.employee.EmployeeAvailableOrderPage;
 import com.skyrimmarket.page.employee.EmployeeMyOrderPage;
 import com.skyrimmarket.page.employee.EmployeeOrdersPage;
+import com.skyrimmarket.page.master.MasterCreateEmployeePage;
+import com.skyrimmarket.page.master.MasterMainPage;
 import com.skyrimmarket.page.master.MasterOrderPage;
 import com.skyrimmarket.page.master.MasterOrdersPage;
 import org.junit.jupiter.api.*;
@@ -25,7 +27,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class OrderFullfillment {
+public class BusinessCycleTest {
     ChromeDriver driver = null;
 
     @BeforeEach
@@ -52,32 +54,8 @@ public class OrderFullfillment {
         loginPage.loginButton.click();
     }
 
-    void openClientOrder(int orderId) {
-        login(driver, "client", "client");
-        ClientMainPage clientMainPage = new ClientMainPage(driver);
-        clientMainPage.myOrdersButton.click();
-        ClientMyOrdersPage clientMyOrdersPage = new ClientMyOrdersPage(driver);
-        int orderNumber = -1;
-        int num = clientMyOrdersPage.getOrdersCount();
-        if (num >= 2) {
-            for (int i = 0; i < num; ++i) {
-                WebElement el = clientMyOrdersPage.getOrder(i + 1);
-                String text = el.getText();
-                int orId = Integer.valueOf(el.getText().split(" ")[1]);
-                if (orId == orderId) {
-                    orderNumber = i + 1;
-                }
-            }
-            clientMyOrdersPage.getOrder(orderNumber).click();
-        } else {
-            clientMyOrdersPage.singleOrder.click();
-        }
-    }
-
     @Test
-    void createOrder() throws InterruptedException {
-        Random rand = new Random();
-        int order_type_id = 3;//rand.nextInt(3) + 1;                                      // 1: Pickpocketing, 2: Sweep, 3: Forgery
+    void completeOrderCycle() throws InterruptedException {
         login(driver, "client", "client");
         ClientMainPage clientMainPage = new ClientMainPage(driver);
         TimeUnit.MILLISECONDS.sleep(500);
@@ -87,62 +65,24 @@ public class OrderFullfillment {
         ClientMakeOrderPage clientMakeOrderPage = new ClientMakeOrderPage(driver);
         clientMakeOrderPage.selectServiceButton.click();
         TimeUnit.MILLISECONDS.sleep(500);
-        clientMakeOrderPage.selectOrderType(order_type_id).click();
-        switch (order_type_id) {
-            case 1:
-                clientMakeOrderPage.personEdit.sendKeys("Балгурф");
-                clientMakeOrderPage.robbedPickpoketingTitleEdit.click();
-                TimeUnit.MILLISECONDS.sleep(200);
-                clientMakeOrderPage.getRobbedTitle(2).click();
-                clientMakeOrderPage.itemPickpoketingEdit.click();
-                TimeUnit.MILLISECONDS.sleep(200);
-                clientMakeOrderPage.getItem(4).click();
-                clientMakeOrderPage.descriptionPickpoketingTextEdit.sendKeys("В сундуке рядом с кроватью");
-                clientMakeOrderPage.createOrderButton.click();
-                TimeUnit.MILLISECONDS.sleep(1000);
-                clientMakeOrderPage.exitNotification.click();
-                TimeUnit.MILLISECONDS.sleep(200);
-                clientMakeOrderPage.usernameButton.click();
-                TimeUnit.MILLISECONDS.sleep(200);
-                clientMakeOrderPage.logoutButton.click();
-                break;
-            case 2:
-                clientMakeOrderPage.addressEdit.sendKeys("Вайтран, комната придворного мага");
-                clientMakeOrderPage.robbedSweepTitleEdit.click();
-                TimeUnit.MILLISECONDS.sleep(200);
-                clientMakeOrderPage.getRobbedTitle(2).click();
-                clientMakeOrderPage.itemSweepEdit.click();
-                TimeUnit.MILLISECONDS.sleep(200);
-                clientMakeOrderPage.getItem(4).click();
-                clientMakeOrderPage.descriptionSweepTextEdit.sendKeys("В сундуке рядом с кроватью");
-                clientMakeOrderPage.createOrderButton.click();
-                TimeUnit.MILLISECONDS.sleep(1000);
-                clientMakeOrderPage.exitNotification.click();
-                TimeUnit.MILLISECONDS.sleep(200);
-                clientMakeOrderPage.usernameButton.click();
-                TimeUnit.MILLISECONDS.sleep(200);
-                clientMakeOrderPage.logoutButton.click();
-                break;
-            case 3:
-                clientMakeOrderPage.personEdit.sendKeys("Балгурф");
-                clientMakeOrderPage.addressEdit.sendKeys("Вайтран, комната придворного мага");
-                clientMakeOrderPage.itemForgeryEdit.click();
-                TimeUnit.MILLISECONDS.sleep(200);
-                clientMakeOrderPage.getItem(4).click();
-                clientMakeOrderPage.descriptionForgeryTextEdit.sendKeys("В сундуке рядом с кроватью");
-                clientMakeOrderPage.createOrderButton.click();
-                TimeUnit.MILLISECONDS.sleep(1000);
-                clientMakeOrderPage.exitNotification.click();
-                TimeUnit.MILLISECONDS.sleep(200);
-                clientMakeOrderPage.usernameButton.click();
-                TimeUnit.MILLISECONDS.sleep(200);
-                clientMakeOrderPage.logoutButton.click();
-                break;
-        }
-    }
+        clientMakeOrderPage.selectOrderType(1).click();
+        clientMakeOrderPage.personEdit.sendKeys("Балгурф");
+        clientMakeOrderPage.robbedPickpoketingTitleEdit.click();
+        TimeUnit.MILLISECONDS.sleep(200);
+        clientMakeOrderPage.getRobbedTitle(2).click();
+        clientMakeOrderPage.itemPickpoketingEdit.click();
+        TimeUnit.MILLISECONDS.sleep(200);
+        clientMakeOrderPage.getItem(4).click();
+        clientMakeOrderPage.descriptionPickpoketingTextEdit.sendKeys("В сундуке рядом с кроватью");
+        clientMakeOrderPage.createOrderButton.click();
+        TimeUnit.MILLISECONDS.sleep(1000);
+        clientMakeOrderPage.exitNotification.click();
+        TimeUnit.MILLISECONDS.sleep(200);
+        clientMakeOrderPage.usernameButton.click();
+        TimeUnit.MILLISECONDS.sleep(200);
+        clientMakeOrderPage.logoutButton.click();
 
-    @Test
-    void masterCommentOrder() throws InterruptedException {
+        TimeUnit.MILLISECONDS.sleep(200);
         login(driver, "master", "master");
         MasterOrdersPage masterOrdersPage = new MasterOrdersPage(driver);
         masterOrdersPage.ordersButton.click();
@@ -157,10 +97,8 @@ public class OrderFullfillment {
         masterOrderPage.usernameButton.click();
         TimeUnit.MILLISECONDS.sleep(200);
         masterOrderPage.logoutButton.click();
-    }
 
-    @Test
-    void clientChangeOrder() throws InterruptedException {
+        TimeUnit.MILLISECONDS.sleep(200);
         login(driver, "client", "client");
         ClientMyOrdersPage clientMyOrdersPage = new ClientMyOrdersPage(driver);
         TimeUnit.MILLISECONDS.sleep(500);
@@ -169,9 +107,8 @@ public class OrderFullfillment {
         clientMyOrdersPage.myOrdersButton.click();
         clientMyOrdersPage.chooseFilter(5);
         clientMyOrdersPage.singleOrder.click();
-        ClientMakeOrderPage clientMakeOrderPage = new ClientMakeOrderPage(driver);
         String orderType = clientMakeOrderPage.orderType.getText();
-        String needOrderType = "Forgery";
+        String needOrderType = "Кража со взломом";
         if (!orderType.equals(needOrderType)) {
             System.out.println(clientMakeOrderPage.orderType.getText());
             clientMakeOrderPage.robbedSweepTitleEdit.click();
@@ -185,15 +122,10 @@ public class OrderFullfillment {
         clientMakeOrderPage.usernameButton.click();
         TimeUnit.MILLISECONDS.sleep(200);
         clientMakeOrderPage.logoutButton.click();
-    }
 
-    @Test
-    void masterAcceptOrder() throws InterruptedException {
         login(driver, "master", "master");
-        MasterOrdersPage masterOrdersPage = new MasterOrdersPage(driver);
         masterOrdersPage.ordersButton.click();
         masterOrdersPage.getOrder(1).click();
-        MasterOrderPage masterOrderPage = new MasterOrderPage(driver);
         TimeUnit.MILLISECONDS.sleep(100);
         masterOrderPage.priceEdit.sendKeys(Keys.LEFT_CONTROL + "A");
         masterOrderPage.priceEdit.sendKeys("500");
@@ -205,34 +137,8 @@ public class OrderFullfillment {
         masterOrderPage.usernameButton.click();
         TimeUnit.MILLISECONDS.sleep(200);
         masterOrderPage.logoutButton.click();
-    }
 
-    @Test
-    void masterAcceptOrderWithEmployee() throws InterruptedException {
-        login(driver, "master", "master");
-        MasterOrdersPage masterOrdersPage = new MasterOrdersPage(driver);
-        masterOrdersPage.ordersButton.click();
-        masterOrdersPage.getOrder(1).click();
-        MasterOrderPage masterOrderPage = new MasterOrderPage(driver);
-        TimeUnit.MILLISECONDS.sleep(100);
-        masterOrderPage.chooseContractor(1);
-        TimeUnit.MILLISECONDS.sleep(100);
-        masterOrderPage.priceEdit.sendKeys(Keys.LEFT_CONTROL + "A");
-        masterOrderPage.priceEdit.sendKeys("500");
-        TimeUnit.MILLISECONDS.sleep(100);
-        masterOrderPage.approveButton.click();
-        TimeUnit.MILLISECONDS.sleep(1000);
-        masterOrderPage.notificationExit.click();
-        TimeUnit.MILLISECONDS.sleep(100);
-        masterOrderPage.usernameButton.click();
-        TimeUnit.MILLISECONDS.sleep(200);
-        masterOrderPage.logoutButton.click();
-    }
-
-    @Test
-    void clientPayOrder() throws InterruptedException {
         login(driver, "client", "client");
-        ClientMyOrdersPage clientMyOrdersPage = new ClientMyOrdersPage(driver);
         TimeUnit.MILLISECONDS.sleep(500);
         ClientMyOrdersPage.closePopup.click();
         TimeUnit.MILLISECONDS.sleep(500);
@@ -251,10 +157,8 @@ public class OrderFullfillment {
         clientPayOrderPage.usernameButton.click();
         TimeUnit.MILLISECONDS.sleep(200);
         clientPayOrderPage.logoutButton.click();
-    }
 
-    @Test
-    void employeeAssignOrder() throws InterruptedException {
+
         login(driver, "employee", "employee");
         EmployeeOrdersPage employeeOrdersPage = new EmployeeOrdersPage(driver);
         employeeOrdersPage.availableOrdersButton.click();
@@ -269,12 +173,9 @@ public class OrderFullfillment {
         employeeAvailableOrderPage.usernameButton.click();
         TimeUnit.MILLISECONDS.sleep(200);
         employeeAvailableOrderPage.logoutButton.click();
-    }
 
-    @Test
-    void employeeCompleteOrder() throws InterruptedException {
+
         login(driver, "employee", "employee");
-        EmployeeOrdersPage employeeOrdersPage = new EmployeeOrdersPage(driver);
         employeeOrdersPage.myOrdersButton.click();
         TimeUnit.MILLISECONDS.sleep(100);
         employeeOrdersPage.getOrder(1, 1).click();
@@ -292,6 +193,47 @@ public class OrderFullfillment {
         employeeMyOrderPage.usernameButton.click();
         TimeUnit.MILLISECONDS.sleep(200);
         employeeMyOrderPage.logoutButton.click();
+
     }
+
+    @Test
+    void createEmployeeAndLogin() throws InterruptedException{
+        login(driver, "master", "master");
+        TimeUnit.MILLISECONDS.sleep(200);
+        MasterMainPage masterMainPage = new MasterMainPage(driver);
+        TimeUnit.MILLISECONDS.sleep(200);
+        masterMainPage.createEmployeeButton.click();
+        TimeUnit.MILLISECONDS.sleep(200);
+        MasterCreateEmployeePage masterCreateEmployeePage = new MasterCreateEmployeePage(driver);
+        TimeUnit.MILLISECONDS.sleep(200);
+        masterCreateEmployeePage.usernameInput.sendKeys("employee");
+        masterCreateEmployeePage.passwordInput.sendKeys("test");
+        masterCreateEmployeePage.confirmPasswordInput.sendKeys("test");
+        masterCreateEmployeePage.createButton.click();
+        TimeUnit.MILLISECONDS.sleep(200);
+
+        masterCreateEmployeePage.notificationExit.click();
+        masterCreateEmployeePage.usernameInput.sendKeys(Keys.LEFT_CONTROL + "A");
+        masterCreateEmployeePage.usernameInput.sendKeys("testEmployee");
+        masterCreateEmployeePage.createButton.click();
+        TimeUnit.MILLISECONDS.sleep(200);
+        masterCreateEmployeePage.notificationExit.click();
+        TimeUnit.MILLISECONDS.sleep(200);
+        masterCreateEmployeePage.usernameButton.click();
+        TimeUnit.MILLISECONDS.sleep(200);
+        masterCreateEmployeePage.logoutButton.click();
+        TimeUnit.MILLISECONDS.sleep(200);
+
+        login(driver, "testEmployee", "test");
+        TimeUnit.MILLISECONDS.sleep(200);
+        masterCreateEmployeePage.usernameButton.click();
+        TimeUnit.MILLISECONDS.sleep(200);
+        masterCreateEmployeePage.logoutButton.click();
+        TimeUnit.MILLISECONDS.sleep(200);
+
+
+
+    }
+
 
 }

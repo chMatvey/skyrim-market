@@ -9,19 +9,22 @@ public class ClientMainPage {
 
     ChromeDriver driver;
 
-    @FindBy(xpath = "//*[@id=\"mat-dialog-0\"]/app-error-popup/div/app-close-popup/div")
+    @FindBy(xpath = "//*[@id=\"close-popup\"]")
     public static WebElement closePopup;
 
-    @FindBy(xpath = "/html/body/app-root/div/div[2]/app-client/app-toolbar/div/div[1]/div/a[1]")
+    @FindBy(xpath = "//*[@id=\"close-popup\"]")
+    public WebElement exitNotification;
+
+    @FindBy(xpath = "//*[@id=\"create_order\"]")
     public  WebElement makeOrderButton;
 
-    @FindBy(xpath = "/html/body/app-root/div/div[2]/app-client/app-toolbar/div/div[1]/div/a[2]")
+    @FindBy(xpath = "//*[@id=\"my_orders\"]")
     public  WebElement myOrdersButton;
 
-    @FindBy(xpath = "/html/body/app-root/div/div[2]/app-client/app-toolbar/div/div[2]/div[1]")
+    @FindBy(xpath = "//*[@id=\"username\"]")
     public  WebElement usernameButton;
 
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div/div/div/button")
+    @FindBy(xpath = "//*[@id=\"logout\"]")
     public  WebElement logoutButton;
 
     public ClientMainPage(ChromeDriver driver){
