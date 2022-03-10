@@ -12,25 +12,28 @@ public class MasterMainPage {
     @FindBy(xpath = "/html/body/app-root/div/div[2]/app-master/app-toolbar/div/div[1]/a")
     public WebElement logoButton;
 
-    @FindBy(xpath = "/html/body/app-root/div/div[2]/app-master/app-toolbar/div/div[1]/div/a[1]")
+    @FindBy(xpath = "//*[@id=\"orders\"]")
     public  WebElement ordersButton;
 
-    @FindBy(xpath = "/html/body/app-root/div/div[2]/app-master/app-toolbar/div/div[1]/div/a[2]")
+    @FindBy(xpath = "//*[@id=\"analytic\"]")
     public  WebElement analyticsButton;
 
-    @FindBy(xpath = "/html/body/app-root/div/div[2]/app-master/app-toolbar/div/div[1]/div/a[3]")
+    @FindBy(xpath = "//*[@id=\"employees\"]")
     public  WebElement employeesButton;
 
-    @FindBy(xpath = "/html/body/app-root/div/div[2]/app-master/app-toolbar/div/div[1]/div/a[4]")
+    @FindBy(xpath = "//*[@id=\"students\"]")
     public  WebElement studentsButton;
 
-    @FindBy(xpath = "/html/body/app-root/div/div[2]/app-master/app-toolbar/div/div[1]/div/a[5]")
+    @FindBy(xpath = "//*[@id=\"create_employee\"]")
     public  WebElement createEmployeeButton;
 
-    @FindBy(xpath = "/html/body/app-root/div/div[2]/app-master/app-toolbar/div/div[2]/div[1]")
+    @FindBy(xpath = "//*[@id=\"username\"]")
     public  WebElement usernameButton;
 
-    @FindBy(xpath = "/html/body/div[2]/div[2]/div/div/div/button")
+    @FindBy(xpath = "//*[@id=\"close-popup\"]")
+    public WebElement notificationExit;
+
+    @FindBy(xpath = "//*[@id=\"logout\"]")
     public  WebElement logoutButton;
 
     public MasterMainPage(ChromeDriver driver){

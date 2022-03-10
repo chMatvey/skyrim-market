@@ -1,18 +1,14 @@
 package com.skyrimmarket.testUI;
 
-import com.fasterxml.jackson.databind.JsonSerializer;
 import com.skyrimmarket.page.LoginPage;
 import com.skyrimmarket.page.RegisterPage;
 import com.skyrimmarket.page.client.ClientMainPage;
-import com.skyrimmarket.page.client.ClientMakeOrderPage;
 import com.skyrimmarket.page.client.ClientMyOrdersPage;
 import com.skyrimmarket.page.employee.EmployeeMainPage;
 import com.skyrimmarket.page.master.MasterAnalyticPage;
 import com.skyrimmarket.page.master.MasterMainPage;
 import com.skyrimmarket.page.master.MasterOrdersPage;
-import net.jodah.failsafe.internal.util.Assert;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -86,10 +82,12 @@ public class UserInterfaceTests {
         assertEquals("http://localhost:4200/client/orders", myOrdersUrl);
 
         ClientMyOrdersPage clientMyOrdersPage = new ClientMyOrdersPage(driver);
-        int id = clientMyOrdersPage.getOrderId(1);
-        clientMyOrdersPage.getOrder(1).click();
-        String myOrderUrl = driver.getCurrentUrl();
-        assertEquals("http://localhost:4200/client/order/" + id, myOrderUrl);
+        if (clientMyOrdersPage.getOrdersCount() > 0) {
+            int id = clientMyOrdersPage.getOrderId(1);
+            clientMyOrdersPage.getOrder(1).click();
+            String myOrderUrl = driver.getCurrentUrl();
+            assertEquals("http://localhost:4200/client/order/" + id, myOrderUrl);
+        }
 
         clientMainPage.usernameButton.click();
         TimeUnit.MILLISECONDS.sleep(200);
@@ -130,10 +128,13 @@ public class UserInterfaceTests {
         assertEquals("http://localhost:4200/master/orders", driver.getCurrentUrl());
 
         MasterOrdersPage masterOrdersPage = new MasterOrdersPage(driver);
-        String id = masterOrdersPage.getOrder(1).getText().split(" ")[1];
-        masterOrdersPage.getOrder(1).click();
-        TimeUnit.MILLISECONDS.sleep(200);
-        assertEquals("http://localhost:4200/master/order/" + id, driver.getCurrentUrl());
+
+        if (masterOrdersPage.getOrdersCount() > 0) {
+            String id = masterOrdersPage.getOrder(1).getText().split(" ")[1];
+            masterOrdersPage.getOrder(1).click();
+            TimeUnit.MILLISECONDS.sleep(200);
+            assertEquals("http://localhost:4200/master/order/" + id, driver.getCurrentUrl());
+        }
 
         masterOrdersPage.usernameButton.click();
         masterOrdersPage.logoutButton.click();

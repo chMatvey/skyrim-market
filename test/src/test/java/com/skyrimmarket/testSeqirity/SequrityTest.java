@@ -47,24 +47,36 @@ public class SequrityTest {
     }
 
     @Test
-    void wrongPasswords() throws InterruptedException {
+    void wrongClientPassword() throws InterruptedException{
         LoginPage loginPage = new LoginPage(driver);
         login(driver, "client", "lol");
         TimeUnit.MILLISECONDS.sleep(500);
         assertEquals("Bad credentials", loginPage.errorPopup.getText());
         loginPage.closeErrorPopup.click();
+    }
 
+    @Test
+    void wrongStudentPassword() throws InterruptedException{
+        LoginPage loginPage = new LoginPage(driver);
+        login(driver, "student", "lol");
+        TimeUnit.MILLISECONDS.sleep(500);
+        assertEquals("Bad credentials", loginPage.errorPopup.getText());
+        loginPage.closeErrorPopup.click();
+    }
+
+    @Test
+    void wrongMasterPassword() throws InterruptedException{
+        LoginPage loginPage = new LoginPage(driver);
         login(driver, "master", "lol");
         TimeUnit.MILLISECONDS.sleep(500);
         assertEquals("Bad credentials", loginPage.errorPopup.getText());
         loginPage.closeErrorPopup.click();
+    }
 
+    @Test
+    void wrongEmployeePassword() throws InterruptedException{
+        LoginPage loginPage = new LoginPage(driver);
         login(driver, "employee", "lol");
-        TimeUnit.MILLISECONDS.sleep(500);
-        assertEquals("Bad credentials", loginPage.errorPopup.getText());
-        loginPage.closeErrorPopup.click();
-
-        login(driver, "student", "lol");
         TimeUnit.MILLISECONDS.sleep(500);
         assertEquals("Bad credentials", loginPage.errorPopup.getText());
         loginPage.closeErrorPopup.click();
@@ -103,91 +115,150 @@ public class SequrityTest {
     }
 
     @Test
-    void fromClientToOthers() throws InterruptedException{
+    void fromClientToMaster() throws InterruptedException {
         login(driver, "client", "client");
         TimeUnit.MILLISECONDS.sleep(500);
-
-        driver.get("http://localhost:4200/employee");
-        TimeUnit.MILLISECONDS.sleep(200);
-        assertEquals("http://localhost:4200/login", driver.getCurrentUrl());
-
         driver.get("http://localhost:4200/master");
         TimeUnit.MILLISECONDS.sleep(200);
         assertEquals("http://localhost:4200/login", driver.getCurrentUrl());
+    }
 
+    @Test
+    void fromClientToEmployee() throws InterruptedException {
+        login(driver, "client", "client");
+        TimeUnit.MILLISECONDS.sleep(500);
+        driver.get("http://localhost:4200/employee");
+        TimeUnit.MILLISECONDS.sleep(200);
+        assertEquals("http://localhost:4200/login", driver.getCurrentUrl());
+    }
+
+    @Test
+    void fromClientToStudent() throws InterruptedException {
+        login(driver, "client", "client");
+        TimeUnit.MILLISECONDS.sleep(500);
         driver.get("http://localhost:4200/student");
         TimeUnit.MILLISECONDS.sleep(200);
         assertEquals("http://localhost:4200/login", driver.getCurrentUrl());
+    }
 
+    @Test
+    void fromClientToClient() throws InterruptedException {
+        login(driver, "client", "client");
+        TimeUnit.MILLISECONDS.sleep(500);
         driver.get("http://localhost:4200/client");
         TimeUnit.MILLISECONDS.sleep(200);
         assertEquals("http://localhost:4200/client", driver.getCurrentUrl());
     }
 
     @Test
-    void fromMasterToOthers() throws InterruptedException{
+    void fromMasterToMaster() throws InterruptedException {
         login(driver, "master", "master");
         TimeUnit.MILLISECONDS.sleep(500);
-
-        driver.get("http://localhost:4200/employee");
-        TimeUnit.MILLISECONDS.sleep(200);
-        assertEquals("http://localhost:4200/login", driver.getCurrentUrl());
-
         driver.get("http://localhost:4200/master");
         TimeUnit.MILLISECONDS.sleep(200);
         assertEquals("http://localhost:4200/master", driver.getCurrentUrl());
+    }
 
+    @Test
+    void fromMasterToEmployee() throws InterruptedException {
+        login(driver, "master", "master");
+        TimeUnit.MILLISECONDS.sleep(500);
+        driver.get("http://localhost:4200/employee");
+        TimeUnit.MILLISECONDS.sleep(200);
+        assertEquals("http://localhost:4200/login", driver.getCurrentUrl());
+    }
+
+    @Test
+    void fromMasterToStudent() throws InterruptedException {
+        login(driver, "master", "master");
+        TimeUnit.MILLISECONDS.sleep(500);
         driver.get("http://localhost:4200/student");
         TimeUnit.MILLISECONDS.sleep(200);
         assertEquals("http://localhost:4200/login", driver.getCurrentUrl());
+    }
 
+    @Test
+    void fromMasterToClient() throws InterruptedException {
+        login(driver, "master", "master");
+        TimeUnit.MILLISECONDS.sleep(500);
         driver.get("http://localhost:4200/client");
         TimeUnit.MILLISECONDS.sleep(200);
         assertEquals("http://localhost:4200/login", driver.getCurrentUrl());
     }
 
     @Test
-    void fromEmployeeToOthers() throws InterruptedException{
+    void fromEmployeeToMaster() throws InterruptedException {
         login(driver, "employee", "employee");
         TimeUnit.MILLISECONDS.sleep(500);
+        driver.get("http://localhost:4200/master");
+        TimeUnit.MILLISECONDS.sleep(200);
+        assertEquals("http://localhost:4200/login", driver.getCurrentUrl());
+    }
 
+    @Test
+    void fromEmployeeToEmployee() throws InterruptedException {
+        login(driver, "employee", "employee");
+        TimeUnit.MILLISECONDS.sleep(500);
         driver.get("http://localhost:4200/employee");
         TimeUnit.MILLISECONDS.sleep(200);
         assertEquals("http://localhost:4200/employee", driver.getCurrentUrl());
+    }
 
-        driver.get("http://localhost:4200/master");
-        TimeUnit.MILLISECONDS.sleep(200);
-        assertEquals("http://localhost:4200/login", driver.getCurrentUrl());
-
+    @Test
+    void fromEmployeeToStudent() throws InterruptedException {
+        login(driver, "employee", "employee");
+        TimeUnit.MILLISECONDS.sleep(500);
         driver.get("http://localhost:4200/student");
         TimeUnit.MILLISECONDS.sleep(200);
         assertEquals("http://localhost:4200/login", driver.getCurrentUrl());
+    }
 
+    @Test
+    void fromEmployeeToClient() throws InterruptedException {
+        login(driver, "employee", "employee");
+        TimeUnit.MILLISECONDS.sleep(500);
         driver.get("http://localhost:4200/client");
         TimeUnit.MILLISECONDS.sleep(200);
         assertEquals("http://localhost:4200/login", driver.getCurrentUrl());
     }
 
     @Test
-    void fromStudentToOthers() throws InterruptedException{
+    void fromStudentToMaster() throws InterruptedException {
         login(driver, "student", "student");
         TimeUnit.MILLISECONDS.sleep(500);
-
-        driver.get("http://localhost:4200/employee");
-        TimeUnit.MILLISECONDS.sleep(200);
-        assertEquals("http://localhost:4200/login", driver.getCurrentUrl());
-
         driver.get("http://localhost:4200/master");
         TimeUnit.MILLISECONDS.sleep(200);
         assertEquals("http://localhost:4200/login", driver.getCurrentUrl());
+    }
 
+    @Test
+    void fromStudentToEmployee() throws InterruptedException {
+        login(driver, "student", "student");
+        TimeUnit.MILLISECONDS.sleep(500);
+        driver.get("http://localhost:4200/employee");
+        TimeUnit.MILLISECONDS.sleep(200);
+        assertEquals("http://localhost:4200/login", driver.getCurrentUrl());
+    }
+
+    @Test
+    void fromStudentToStudent() throws InterruptedException {
+        login(driver, "student", "student");
+        TimeUnit.MILLISECONDS.sleep(500);
         driver.get("http://localhost:4200/student");
         TimeUnit.MILLISECONDS.sleep(200);
         assertEquals("http://localhost:4200/student", driver.getCurrentUrl());
+    }
 
+    @Test
+    void fromStudentToClient() throws InterruptedException {
+        login(driver, "student", "student");
+        TimeUnit.MILLISECONDS.sleep(500);
         driver.get("http://localhost:4200/client");
         TimeUnit.MILLISECONDS.sleep(200);
         assertEquals("http://localhost:4200/login", driver.getCurrentUrl());
     }
+
+
+
 
 }

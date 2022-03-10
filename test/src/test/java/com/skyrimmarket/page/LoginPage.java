@@ -21,7 +21,7 @@ public class LoginPage {
     @FindBy(xpath = "/html/body/div/div[2]/div/mat-dialog-container/app-error-popup/div/p")
     public WebElement errorPopup;
 
-    @FindBy(xpath = "/html/body/div/div[2]/div/mat-dialog-container/app-error-popup/div/app-close-popup/div/img")
+    @FindBy(xpath = "//*[@id=\"close-popup\"]")
     public WebElement closeErrorPopup;
 
     public LoginPage(ChromeDriver driver){

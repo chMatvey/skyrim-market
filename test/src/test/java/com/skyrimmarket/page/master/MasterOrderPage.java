@@ -26,9 +26,6 @@ public class MasterOrderPage extends MasterMainPage {
     @FindBy(xpath = "/html/body/app-root/div/div[2]/app-master/div/app-confirm-order/div/form/div[3]/button[4]")
     public WebElement approveButton;
 
-    @FindBy(xpath = "/html/body/div[2]/div[2]/div/mat-dialog-container/app-notification-popup/div/app-close-popup/div/img")
-    public WebElement notificationExit;
-
     @FindBy(xpath = "/html/body/app-root/div/div[2]/app-master/div/app-confirm-order/div/form/div[2]/mat-select/div/div[1]")
     public WebElement contractorChoosingButton;
 
