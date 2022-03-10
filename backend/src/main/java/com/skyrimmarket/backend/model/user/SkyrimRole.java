@@ -12,6 +12,7 @@ import java.util.Arrays;
 public enum SkyrimRole implements GrantedAuthority {
     CLIENT("ROLE_CLIENT"),
     EMPLOYEE("ROLE_EMPLOYEE"),
+    STUDENT("ROLE_STUDENT"),
     MASTER("ROLE_MASTER");
 
     private final String name;

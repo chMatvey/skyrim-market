@@ -1,0 +1,9 @@
+<div *ngIf="students?.length" class="student-list">
+  <div *ngFor="let student of students" class="student-list__student form-control">
+    <div class="student-description">
+      <span class="student-description__id">ID Ученика: {{student.id}}</span>
+      <span class="student-description__name">Логин: {{student.username ?? ''}}</span>
+      <span class="student-description__mentor">Учитель: {{student.mentor.username ?? ''}}</span>
+    </div>
+  </div>
+</div>

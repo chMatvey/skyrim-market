@@ -23,6 +23,7 @@ import { Title } from '@models/title'
 import { Item } from '@models/Item'
 import { OrderService } from '@services/order.service'
 import { getOrderTypes } from '@utils/order-type-util'
+import { ClientOrderService } from '@services/order/client-order.service'
 import Reset = Client.Reset
 import SetOrderType = Client.SetOrderType
 import DeclineOrder = Client.DeclineOrder
@@ -33,6 +34,7 @@ import APPROVED = OrderStatusEnum.APPROVED
 import COMPLETED = OrderStatusEnum.COMPLETED
 import NEED_CHANGES = OrderStatusEnum.NEED_CHANGES
 import DECLINED = OrderStatusEnum.DECLINED
+import { orderStatusToString } from "@utils/order-status-util";
 
 @Component({
   selector: 'app-order',
@@ -57,11 +59,16 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
               private dialogService: MatDialog,
               private orderService: OrderService,
               private titleService: TitleService,
-              private itemService: ItemService) {
+              private itemService: ItemService,
+              private clientOrderService: ClientOrderService) {
     super()
   }
 
   get orderStatus() {
+    return orderStatusToString(this.order?.status?.name)
+  }
+
+  get orderStatusOrig() {
     return this.order?.status?.name
   }
 
@@ -136,7 +143,7 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
     this.store.dispatch(new CreateOrder({...this.order, ...this.orderForm.value}))
       .pipe(
         withLoading(this),
-        tap(() => showNotification(this.dialogService, 'Order successfully created!')),
+        tap(() => showNotification(this.dialogService, 'Заказ создан!')),
         withLatestFrom(this.store.select(ClientState.order))
       )
       .subscribe(
@@ -151,7 +158,7 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
     this.store.dispatch(new DeclineOrder(this.order.id))
       .pipe(
         withLoading(this),
-        tap(() => showNotification(this.dialogService,'Order successfully declined!'))
+        tap(() => showNotification(this.dialogService,'Заказ отменен!'))
       )
       .subscribe(
         () => this.store.dispatch(new Navigate(['/client/orders'])),
@@ -163,15 +170,24 @@ export class OrderComponent extends BaseComponent implements OnInit, AfterViewIn
     this.store.dispatch(new UpdateOrder({...this.order, ...this.orderForm.value}))
       .pipe(withLoading(this))
       .subscribe(
-        () => showNotification(this.dialogService, 'Order successfully updated!'),
+        () => showNotification(this.dialogService, 'Заказ обновлен!'),
         error => showError(this.dialogService, toMessage(error))
       )
   }
 
   onCancel() {
     this.store.dispatch(new Reset())
-    if (this.orderStatus) {
-      this.store.dispatch(new Navigate(['/client/orders']))
-    }
+    this.store.dispatch(new Navigate(['/client/orders']))
+  }
+
+  onDelete() {
+    this.clientOrderService.delete(this.order.id).pipe(withLoading(this))
+      .subscribe(
+        () => {
+          showNotification(this.dialogService, 'Заказ удален!')
+          this.store.dispatch(new Navigate(['/client/orders']))
+        },
+        error => showError(this.dialogService, toMessage(error))
+      )
   }
 }

@@ -1,0 +1,23 @@
+<div class="my-order" [class.loading]="loading">
+  <form *ngIf="(order$ | async) as order" class="my-order__form" [formGroup]="orderForm">
+    <app-order-info [order]="order"></app-order-info>
+
+    <div class="form-control">
+      <label for="droppoint">Где спрятано украденное?</label>
+      <input type="text" id="droppoint" formControlName="droppoint">
+    </div>
+
+    <div class="form-control">
+      <label for="comment">Комментарий</label>
+      <input type="text" id="comment" formControlName="comment">
+    </div>
+
+    <div class="my-order__actions">
+      <button (click)="close()">Закрыть</button>
+
+      <button [disabled]="declineDisabled" (click)="decline()">Отменить</button>
+
+      <button [disabled]="completeDisabled" (click)="complete()">Завершить</button>
+    </div>
+  </form>
+</div>

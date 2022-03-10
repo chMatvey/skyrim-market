@@ -1,0 +1,36 @@
+.student-list {
+  height: 600px;
+  overflow-y: auto;
+
+  &__student {
+    background: rgba(43, 43, 43, .7);
+    border-radius: 10px;
+    width: 880px;
+    height: 80px;
+    margin-bottom: 20px;
+
+    .student-description {
+      font-size: 14px;
+      padding: 20px 10px 10px 20px;
+
+      * {
+        position: relative;
+      }
+
+      &__id {
+        left: 5px;
+        width: 120px;
+      }
+
+      &__name {
+        left: 140px;
+        width: 165px;
+      }
+
+      &__mentor {
+        left: 280px;
+        width: 165px;
+      }
+    }
+  }
+}

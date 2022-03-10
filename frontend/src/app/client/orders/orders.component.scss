@@ -3,5 +3,59 @@
 .client-orders {
   @include card();
   @include order-list();
+
+  &__panel {
+    display: flex;
+    margin-bottom: 24px;
+  }
+
+  &__order-list {
+    height: 600px;
+    overflow-y: auto;
+
+    &__order {
+      background: rgba(43, 43, 43, .7);
+      border-radius: 10px;
+      width: 880px;
+      height: 80px;
+      margin-bottom: 20px;
+
+      .order-description {
+        font-size: 14px;
+        padding: 20px 10px 10px 20px;
+        cursor: pointer;
+
+        * {
+          position: relative;
+        }
+
+        &__name {
+          left: 5px;
+          width: 120px;
+        }
+
+        &__date {
+          left: 140px;
+          width: 165px;
+        }
+
+        &__status {
+          left: 320px;
+          top: 11px;
+          width: 180px;
+        }
+
+        &__text {
+          left: 18px;
+          top: 8px;
+          width: 500px;
+        }
+      }
+
+      .mat-badge-content {
+        top: 25px;
+      }
+    }
+  }
 }
 

@@ -3,7 +3,7 @@
 .my-order {
   @include card();
   width: 1059px;
-  height: 730px;
+  height: 800px;
   padding: 46px 76px;
 
   &__form {
@@ -14,10 +14,6 @@
   }
 
   &__actions {
-    margin-top: 110px;
-    display: flex;
-    justify-content: space-between;
-
     button {
       width: 100px;
       height: 35px;

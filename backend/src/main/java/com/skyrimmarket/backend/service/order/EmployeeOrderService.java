@@ -1,14 +1,15 @@
 package com.skyrimmarket.backend.service.order;
 
+
 import com.skyrimmarket.backend.model.order.Order;
+import com.skyrimmarket.backend.model.user.Student;
 import com.skyrimmarket.backend.model.order.OrderStatusEnum;
 import com.skyrimmarket.backend.model.user.Employee;
 import com.skyrimmarket.backend.repository.OrderRepository;
-import com.skyrimmarket.backend.service.AuthorizationService;
 import com.skyrimmarket.backend.service.OrderService;
+import com.skyrimmarket.backend.service.StudentService;
 import com.skyrimmarket.backend.service.OrderStatusService;
 import com.skyrimmarket.backend.web.error.BadRequestException;
-import com.skyrimmarket.backend.web.form.EmployeeOrderForm;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
 import org.springframework.stereotype.Service;
@@ -36,9 +37,13 @@ public class EmployeeOrderService implements OrderService {
         return orderRepository.findAllByStatusName(PAYED.getName());
     }
 
+    private Order findOrderByIdAndValidate(Long id) {
+        return orderRepository.findById(id).orElseThrow(() -> notFoundException(id));
+    }
+
     @Transactional
     public Order assignToMe(Long orderId, Employee employee) {
-        Order order = orderService.get(orderId).orElseThrow(() -> notFoundException(orderId));
+        Order order = orderService.findById(orderId).orElseThrow(() -> notFoundException(orderId));
         if (order.getContractor() != null) {
             throw new BadRequestException("Order already taken to work by other contractor");
         }
@@ -49,8 +54,19 @@ public class EmployeeOrderService implements OrderService {
     }
 
     @Transactional
+    public Order assignToStudent(Long id, Student student) {
+        Order order = findOrderByIdAndValidate(id);
+        if (order.getContractor() != null) {
+            throw new BadRequestException("Order already taken to work by other contractor");
+        }
+        order.setContractor(student);
+        order.setStatus(orderStatusService.get(IN_PROGRESS));
+        return orderRepository.save(order);
+    }
+
+    @Transactional
     public Order decline(Long orderId, String comment) {
-        Order order = orderService.get(orderId).orElseThrow(() -> notFoundException(orderId));
+        Order order = orderService.findById(orderId).orElseThrow(() -> notFoundException(orderId));
         order.setComment(comment);
         order.setStatus(orderStatusService.get(DECLINED));
 
@@ -59,10 +75,14 @@ public class EmployeeOrderService implements OrderService {
 
     @Transactional
     public Order complete(Long orderId, String droppoint) {
-        Order order = orderService.get(orderId).orElseThrow(() -> notFoundException(orderId));
+        Order order = orderService.findById(orderId).orElseThrow(() -> notFoundException(orderId));
         order.setDroppoint(droppoint);
         order.setStatus(orderStatusService.get(COMPLETED));
 
         return orderRepository.save(order);
+    }
+
+    public List<Order> getCompletedOrders(Long employeeId) {
+        return orderRepository.findAllByContractorIdAndStatusName(employeeId, COMPLETED.getName());
     }
 }

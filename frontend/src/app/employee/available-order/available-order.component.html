@@ -3,8 +3,18 @@
     <app-order-info [order]="order"></app-order-info>
 
     <div class="available-order__control actions">
-      <button (click)="close()">Close</button>
-      <button class="assign" (click)="assignToMe()">Assign to me</button>
+      <button (click)="close()">Закрыть</button>
+      <button class="assign" (click)="assignToMe()">Принять заказ</button>
+      <button class="assign-student"  [disabled]="studentInvalid" (click)="assignToStudent()">Назначить заказ ученику</button>
+      <div class="student form-control">
+        <label>Выбрать ученика: </label>
+        <mat-select [(value)]="assignedStudent"
+                    [disabled]="loading">
+          <mat-option *ngFor="let student of students" [value]="student">
+            {{student.username}}
+          </mat-option>
+        </mat-select>
+      </div>
     </div>
   </ng-container>
 </div>

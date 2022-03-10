@@ -31,3 +31,13 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Firebase config ###
+/src/main/resources/serviceAccountKey.json
+
+### Docker env file ###
+env-file
+
+### Static resources ###
+/src/main/resources/static/*
+/src/main/resources/templates/*

@@ -19,8 +19,16 @@ export class EmployeeOrderService {
     return this.httpClient.get<Order[]>(`${apiUrl}/order/contractor/payed`)
   }
 
+  completed(): Observable<Order[]> {
+    return this.httpClient.get<Order[]>(`${apiUrl}/order/contractor/completed`)
+  }
+
   assignToMe(orderId: number): Observable<Order> {
     return this.httpClient.get<Order>(`${apiUrl}/order/contractor/assign-to-me/${orderId}`)
+  }
+
+  assignToStudent(orderId: number, studentId: number): Observable<Order> {
+    return this.httpClient.patch<Order>(`${apiUrl}/order/contractor/assign-to-student/${orderId}`, studentId)
   }
 
   decline(orderId: number, order: Order): Observable<Order> {

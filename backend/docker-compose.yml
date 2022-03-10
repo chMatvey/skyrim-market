@@ -1,0 +1,38 @@
+services:
+  skyrim-db:
+    container_name: skyrim-db
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    volumes:
+      - skyrim-postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - skyrim-db
+    restart: unless-stopped
+
+  skyrim-pgadmin:
+    container_name: skyrim-pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - skyrim-pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - skyrim-db
+    restart: unless-stopped
+
+networks:
+  skyrim-db:
+    driver: bridge
+
+volumes:
+  skyrim-postgres:
+  skyrim-pgadmin:

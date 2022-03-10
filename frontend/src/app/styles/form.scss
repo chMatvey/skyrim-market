@@ -1,5 +1,6 @@
 @import "variables";
 
+// Form-group
 .form-control {
   display: flex;
   flex-direction: column;
@@ -12,7 +13,11 @@
     color: #cccccc
   }
 
-  input, .mat-select, textarea {
+  .value {
+    margin-top: 8px;
+  }
+
+  input, .mat-select, textarea, .value {
     font-size: 16px;
     height: 30px;
     line-height: 14px;

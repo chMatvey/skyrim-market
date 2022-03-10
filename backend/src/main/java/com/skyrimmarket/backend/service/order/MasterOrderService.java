@@ -3,14 +3,12 @@ package com.skyrimmarket.backend.service.order;
 import com.google.common.collect.Lists;
 import com.skyrimmarket.backend.model.OrderStatus;
 import com.skyrimmarket.backend.model.order.Order;
-import com.skyrimmarket.backend.model.order.OrderStatusEnum;
 import com.skyrimmarket.backend.model.user.Employee;
 import com.skyrimmarket.backend.repository.OrderRepository;
 import com.skyrimmarket.backend.service.ItemPriceService;
 import com.skyrimmarket.backend.service.OrderService;
 import com.skyrimmarket.backend.service.OrderStatusService;
 import com.skyrimmarket.backend.web.error.BadRequestException;
-import com.skyrimmarket.backend.web.form.MasterOrderForm;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
@@ -21,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.skyrimmarket.backend.model.order.OrderStatusEnum.*;
-import static com.skyrimmarket.backend.model.order.OrderStatusEnum.PAYED;
 import static com.skyrimmarket.backend.util.OrderUtil.notFoundException;
 
 @Service

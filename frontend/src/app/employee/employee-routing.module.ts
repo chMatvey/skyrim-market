@@ -6,6 +6,8 @@ import { MyOrdersComponent } from "@app/employee/my-orders/my-orders.component";
 import { MyOrderComponent } from "@app/employee/my-order/my-order.component";
 import { AvailableOrderComponent } from "@app/employee/available-order/available-order.component";
 import { WelcomeComponent } from '@app/shared/welcome/welcome.component';
+import { CompletedOrdersComponent } from '@app/employee/completed-orders/completed-orders.component'
+import { CompletedOrderComponent } from '@app/employee/completed-order/completed-order.component'
 
 const routes: Routes = [
   {
@@ -31,6 +33,14 @@ const routes: Routes = [
       {
         path: 'available-order/:id',
         component: AvailableOrderComponent
+      },
+      {
+        path: 'completed-orders',
+        component: CompletedOrdersComponent
+      },
+      {
+        path: 'completed-order/:id',
+        component: CompletedOrderComponent
       }
     ]
   }

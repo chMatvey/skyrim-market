@@ -8,12 +8,14 @@ export function getToolbarStateByUserRole(role: UserRole): Toolbar {
         logoRef: '/client',
         links: [
           {
-            name: 'Make Order',
-            ref: 'order'
+            name: 'Создать заказ',
+            ref: 'order',
+            class: 'create_order'
           },
           {
-            name: 'My Orders',
-            ref: 'orders'
+            name: 'Мои заказы',
+            ref: 'orders',
+            class: 'my_orders'
           }
         ]
       }
@@ -22,12 +24,35 @@ export function getToolbarStateByUserRole(role: UserRole): Toolbar {
         logoRef: '/employee',
         links: [
           {
-            name: 'My Orders',
-            ref: 'my-orders'
+            name: 'Мои заказы',
+            ref: 'my-orders',
+            class: 'my_orders'
           },
           {
-            name: 'Available Orders',
-            ref: 'available-orders'
+            name: 'Доступные заказы',
+            ref: 'available-orders',
+            class: 'available_orders'
+          },
+          {
+            name: 'Выполненные заказы',
+            ref: 'completed-orders',
+            class: 'completed_orders'
+          }
+        ]
+      }
+    case UserRole.STUDENT:
+      return {
+        logoRef: '/student',
+        links: [
+          {
+            name: 'Мои заказы',
+            ref: 'my-orders',
+            class: 'my_orders'
+          },
+          {
+            name: 'Выполненные заказы',
+            ref: 'completed-orders',
+            class: 'completed_orders'
           }
         ]
       }
@@ -36,8 +61,29 @@ export function getToolbarStateByUserRole(role: UserRole): Toolbar {
         logoRef: '/master',
         links: [
           {
-            name: 'Orders',
-            ref: 'orders'
+            name: 'Заказы',
+            ref: '/master/orders',
+            class: 'orders'
+          },
+          {
+            name: 'Аналитика',
+            ref: '/master/analytic',
+            class: 'analytic'
+          },
+          {
+            name: 'Сотрудники',
+            ref: '/master/employees',
+            class: 'employees'
+          },
+          {
+            name: 'Студенты',
+            ref: '/master/students',
+            class: 'students'
+          },
+          {
+            name: 'Создать сотрудника',
+            ref: '/master/employees/create',
+            class: 'create_employee'
           }
         ]
       }

@@ -1,12 +1,12 @@
 <form class="order-form" [formGroup]="form">
   <div class="form-control" [class.disabled]="form.disabled">
-    <label for="person" appRequired>Person</label>
+    <label for="person" appRequired>Имя ограбляемого</label>
     <input id="person" type="text" formControlName="person">
   </div>
 
   <div class="form-control" [class.disabled]="form.disabled">
-    <label appRequired>The title of the robbed person</label>
-    <mat-select formControlName="title" [compareWith]="compareEntity">
+    <label appRequired>Титул</label>
+    <mat-select formControlName="title" id="title"  [compareWith]="compareEntity">
       <mat-option *ngFor="let title of titles" [value]="title">
         {{title.name}}
       </mat-option>
@@ -14,12 +14,12 @@
   </div>
 
   <div class="form-control" [class.disabled]="form.disabled">
-    <label appRequired>Item</label>
-    <app-search-select formControlName="item" [data]="items"></app-search-select>
+    <label appRequired>Предмет</label>
+    <app-search-select formControlName="item" id="item" [data]="items"></app-search-select>
   </div>
 
   <div class="form-control" [class.disabled]="form.disabled">
-    <label for="description">Description of stealing object</label>
+    <label for="description">Описание предмета</label>
     <textarea id="description" formControlName="description"></textarea>
   </div>
 </form>

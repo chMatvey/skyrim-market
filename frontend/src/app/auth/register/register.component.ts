@@ -35,14 +35,14 @@ export class RegisterComponent implements OnInit {
     const user: User = this.form.value;
 
     if (user.password !== user.confirmPassword) {
-      showNotification(this.dialogService, 'Passwords not equals')
+      showNotification(this.dialogService, 'Пароль и подтверждение пароля не совпадают')
       return;
     }
 
     this.authService.register(user)
       .pipe(
         withLoading(this),
-        tap(() => showNotification(this.dialogService, 'Account successfully created!'))
+        tap(() => showNotification(this.dialogService, 'Аккаунт успешно создан!'))
       )
       .subscribe(
         () => this.store.dispatch(new Navigate(['/login'])),

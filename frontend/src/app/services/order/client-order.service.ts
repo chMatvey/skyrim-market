@@ -12,6 +12,14 @@ export class ClientOrderService {
 
   constructor(private http: HttpClient) {}
 
+  create(order: Order): Observable<Order> {
+    return this.http.post<Order>(`${apiUrl}/order/client`, order)
+  }
+
+  update(order: Order): Observable<Order> {
+    return this.http.put<Order>(`${apiUrl}/order/client`, order)
+  }
+
   all(id: number): Observable<Order[]> {
     return this.http.get<Order[]>(`${apiUrl}/order/client/${id}`)
   }
@@ -22,5 +30,9 @@ export class ClientOrderService {
 
   pay(id: number, payment: Payment): Observable<Order> {
     return this.http.patch(`${apiUrl}/order/client/pay/${id}`, payment)
+  }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${apiUrl}/order/client/${id}`)
   }
 }

@@ -15,6 +15,10 @@
     align-items: center;
   }
 
+  .left{
+    min-width: 913px;
+  }
+
   &__logo {
     font-size: 18px;
     line-height: 21px;
@@ -24,6 +28,7 @@
   }
 
   &__links {
+    min-width: 715px;
     a {
       font-size: 18px;
       color: #fff;

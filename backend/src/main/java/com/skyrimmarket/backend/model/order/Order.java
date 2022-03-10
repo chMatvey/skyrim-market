@@ -1,8 +1,5 @@
 package com.skyrimmarket.backend.model.order;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.skyrimmarket.backend.model.Feedback;
 import com.skyrimmarket.backend.model.OrderStatus;
 import com.skyrimmarket.backend.model.Payment;
@@ -16,7 +13,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.InheritanceType.JOINED;
 

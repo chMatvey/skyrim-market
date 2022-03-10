@@ -1,10 +1,12 @@
 package com.skyrimmarket.backend.model.order;
 
-import com.skyrimmarket.backend.model.Item;
-import com.skyrimmarket.backend.model.Title;
+import com.skyrimmarket.backend.model.*;
+import com.skyrimmarket.backend.model.user.Client;
+import com.skyrimmarket.backend.model.user.Employee;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 import static com.skyrimmarket.backend.model.order.OrderType.PICKPOCKETING;
 
@@ -31,4 +33,13 @@ public class PickpocketingOrder extends ItemOrder {
 
     @Transient
     private final String type = PICKPOCKETING.getName();
+
+    @Builder
+    public PickpocketingOrder(Long id, Double price, String droppoint, String comment, LocalDate startDate, LocalDate endDate, OrderStatus status, Client client, Employee contractor, Payment payment, Feedback feedback, String person, Title title, Item item, String description) {
+        super(id, price, droppoint, comment, startDate, endDate, status, client, contractor, payment, feedback);
+        this.person = person;
+        this.title = title;
+        this.item = item;
+        this.description = description;
+    }
 }
